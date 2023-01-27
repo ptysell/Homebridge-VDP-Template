@@ -28,7 +28,7 @@ class vdpPlatform {
         const exampleDevices = [
             {
                 exampleUniqueId: 'ABCD',
-                exampleDisplayName: 'Bedroom',
+                exampleDisplayName: 'Test Accessory 01',
             },
         ];
         // loop over the discovered devices and register each one if it has not already been registered

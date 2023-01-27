@@ -34,7 +34,7 @@ export class vdpPlatform implements DynamicPlatformPlugin {
     const exampleDevices = [
       {
         exampleUniqueId: 'ABCD',
-        exampleDisplayName: 'Bedroom',
+        exampleDisplayName: 'Test Accessory 01',
       },
     ];
 
