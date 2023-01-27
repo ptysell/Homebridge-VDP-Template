@@ -1,16 +1,16 @@
 {
   "private": true,
-  "displayName": "VDP AccessoryKit",
-  "name": "homebridge-vdp-accessorykit",
+  "displayName": "VDP Template",
+  "name": "homebridge-vdp-template",
   "version": "1.0.0",
-  "description": "Virtural Device Plugin - AccessoryKit",
+  "description": "Virtural Device Plugin - Template",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ptysell/Homebridge-VDP-AccessoryKit.git"
+    "url": "https://github.com/ptysell/Homebridge-VDP-Template.git"
   },
   "bugs": {
-    "url": "https://github.com/ptysell/Homebridge-VDP-AccessoryKit/issues"
+    "url": "https://github.com/ptysell/Homebridge-VDP-Template/issues"
   },
   "engines": {
     "node": ">=14.18.1",
