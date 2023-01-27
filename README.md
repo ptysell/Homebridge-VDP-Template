@@ -1,1 +1,1 @@
-# Homebridge Virtural Device Platform AccessoryKit
+# Homebridge Virtural Device Platform Template
