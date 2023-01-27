@@ -1,5 +1,5 @@
 {
-  "pluginAlias": "ExampleHomebridgePlugin",
+  "pluginAlias": "VDP AccessoryKit",
   "pluginType": "platform",
   "singular": true,
   "schema": {
