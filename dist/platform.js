@@ -28,12 +28,13 @@ class vdpPlatform {
         this.log.info('Loading accessory from cache:', accessory.displayName);
         this.accessories.push(accessory);
     }
-    refreshConfiguratioon() {
+    getDeviceConfiguration() {
         this.log.error('Refreshing Configuration.....');
+        const config2 = JSON.parse(fs_1.default.readFileSync(settings_1.HOMEBRIDGE_CONFIGURATION_PATH, 'utf-8'));
+        return config2.platforms;
     }
     async discoverDevices() {
-        const config2 = JSON.parse(fs_1.default.readFileSync(settings_1.HOMEBRIDGE_CONFIGURATION_PATH, 'utf-8'));
-        this.log.error(config2);
+        this.log.error(this.getDeviceConfiguration());
         this.deviceCount = this.config.devices.length;
         this.log.error('Device Count:', this.deviceCount);
         // EXAMPLE ONLY
