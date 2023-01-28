@@ -46,6 +46,7 @@ class vdpPlatform {
         return config2.platforms;
     }
     async discoverDevices() {
+        const testconfig = this.getDeviceConfiguration();
         this.deviceCount = this.config.devices.length;
         this.log.error('Device Count:', this.deviceCount);
         // EXAMPLE ONLY
