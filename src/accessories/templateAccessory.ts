@@ -1,13 +1,8 @@
 import { Service, PlatformAccessory, CharacteristicValue } from 'homebridge';
-
 import { vdpPlatform } from '../platform';
+import { MANUFACTURER_NAME, PLATFORM_NAME } from '../settings';
 
-/**
- * Platform Accessory
- * An instance of this class is created for each accessory your platform registers
- * Each accessory may expose multiple services of different service types.
- */
-export class vdpAccessory {
+export class vdpTemplateAccessory {
   private service: Service;
 
   private exampleStates = {
@@ -21,8 +16,8 @@ export class vdpAccessory {
 
     // set accessory information
     this.accessory.getService(this.platform.Service.AccessoryInformation)!
-      .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Virtural Device Platform')
-      .setCharacteristic(this.platform.Characteristic.Model, 'AccessoryKit')
+      .setCharacteristic(this.platform.Characteristic.Manufacturer, MANUFACTURER_NAME)
+      .setCharacteristic(this.platform.Characteristic.Model, PLATFORM_NAME)
       .setCharacteristic(this.platform.Characteristic.SerialNumber, 'Default-Serial');
 
     // get the LightBulb service if it exists, otherwise create a new LightBulb service

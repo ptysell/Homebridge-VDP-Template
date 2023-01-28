@@ -1,0 +1,1 @@
+export { vdpTemplateAccessory } from './accessories/templateAccessory';

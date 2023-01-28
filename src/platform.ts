@@ -1,8 +1,7 @@
 import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, Service, Characteristic } from 'homebridge';
 
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
-import { vdpAccessory } from './platformAccessory';
-import { hkDiscovery } from './platformAccessory';
+import { vdpTemplateAccessory } from './platformAccessories';
 
 export class vdpPlatform implements DynamicPlatformPlugin {
   public readonly Service: typeof Service = this.api.hap.Service;
@@ -61,8 +60,7 @@ export class vdpPlatform implements DynamicPlatformPlugin {
 
         // create the accessory handler for the restored accessory
         // this is imported from `platformAccessory.ts`
-        new vdpAccessory(this, existingAccessory);
-        new hkDiscovery(this, existingAccessory);
+        new vdpTemplateAccessory(this, existingAccessory);
 
 
         // it is possible to remove platform accessories at any time using `api.unregisterPlatformAccessories`, eg.:
@@ -82,8 +80,7 @@ export class vdpPlatform implements DynamicPlatformPlugin {
 
         // create the accessory handler for the newly create accessory
         // this is imported from `platformAccessory.ts`
-        new vdpAccessory(this, accessory);
-        new hkDiscovery(this, accessory);
+        new vdpTemplateAccessory(this, accessory);
 
 
         // link the accessory to your platform

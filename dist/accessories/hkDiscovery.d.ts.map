@@ -1,1 +1,0 @@
-{"version":3,"file":"hkDiscovery.d.ts","sourceRoot":"","sources":["../../src/accessories/hkDiscovery.ts"],"names":[],"mappings":"AAAA,OAAO,EAAW,iBAAiB,EAAuB,MAAM,YAAY,CAAC;AAC7E,OAAO,EAAE,WAAW,EAAE,MAAM,aAAa,CAAC;AAoB1C,qBAAa,WAAW;IAIpB,OAAO,CAAC,QAAQ,CAAC,QAAQ;IACzB,OAAO,CAAC,QAAQ,CAAC,SAAS;gBADT,QAAQ,EAAE,WAAW,EACrB,SAAS,EAAE,iBAAiB;CA4BhD"}

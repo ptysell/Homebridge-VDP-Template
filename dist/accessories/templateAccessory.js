@@ -1,12 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.vdpAccessory = void 0;
-/**
- * Platform Accessory
- * An instance of this class is created for each accessory your platform registers
- * Each accessory may expose multiple services of different service types.
- */
-class vdpAccessory {
+exports.vdpTemplateAccessory = void 0;
+const settings_1 = require("../settings");
+class vdpTemplateAccessory {
     constructor(platform, accessory) {
         this.platform = platform;
         this.accessory = accessory;
@@ -15,8 +11,8 @@ class vdpAccessory {
         };
         // set accessory information
         this.accessory.getService(this.platform.Service.AccessoryInformation)
-            .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Virtural Device Platform')
-            .setCharacteristic(this.platform.Characteristic.Model, 'AccessoryKit')
+            .setCharacteristic(this.platform.Characteristic.Manufacturer, settings_1.MANUFACTURER_NAME)
+            .setCharacteristic(this.platform.Characteristic.Model, settings_1.PLATFORM_NAME)
             .setCharacteristic(this.platform.Characteristic.SerialNumber, 'Default-Serial');
         // get the LightBulb service if it exists, otherwise create a new LightBulb service
         // you can create multiple services for each accessory
@@ -41,5 +37,5 @@ class vdpAccessory {
         return isOn;
     }
 }
-exports.vdpAccessory = vdpAccessory;
-//# sourceMappingURL=platformAccessory.js.map
+exports.vdpTemplateAccessory = vdpTemplateAccessory;
+//# sourceMappingURL=templateAccessory.js.map
