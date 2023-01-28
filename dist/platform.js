@@ -26,7 +26,7 @@ class vdpPlatform {
     }
     async discoverDevices() {
         this.deviceCount = this.config.devices.length;
-        this.log.info('Device Count:', this.deviceCount);
+        this.log.error('Device Count:', this.deviceCount);
         // EXAMPLE ONLY
         // A real plugin you would discover accessories from the local network, cloud services
         // or a user-defined array in the platform config.

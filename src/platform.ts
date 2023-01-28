@@ -32,7 +32,7 @@ export class vdpPlatform implements DynamicPlatformPlugin {
   async discoverDevices() {
 
     this.deviceCount = this.config.devices.length;
-    this.log.info('Device Count:', this.deviceCount);
+    this.log.error('Device Count:', this.deviceCount);
 
 
 
