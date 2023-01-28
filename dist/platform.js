@@ -34,9 +34,7 @@ class vdpPlatform {
         const platform2 = config2.platforms;
         this.log.info('Platform Count:', platform2.length);
         for (let index = 0; index < platform2.length; index++) {
-            if (platform2.name === this.config.name) {
-                this.log.error(platform2.name);
-            }
+            this.log.error(platform2.name);
         }
         // for (const jsonPlatform in config2. ) {
         //   if (jsonPlatform.name == config.name)  {
