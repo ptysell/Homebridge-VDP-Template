@@ -1,8 +1,12 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.vdpPlatform = void 0;
 const settings_1 = require("./settings");
 const platformAccessories_1 = require("./platformAccessories");
+const fs_1 = __importDefault(require("fs"));
 class vdpPlatform {
     constructor(log, config, api) {
         this.log = log;
@@ -24,7 +28,12 @@ class vdpPlatform {
         this.log.info('Loading accessory from cache:', accessory.displayName);
         this.accessories.push(accessory);
     }
+    refreshConfiguratioon() {
+        this.log.error('Refreshing Configuration.....');
+    }
     async discoverDevices() {
+        const config2 = JSON.parse(fs_1.default.readFileSync('../../../config.json', 'utf-8'));
+        this.log.error(config2);
         this.deviceCount = this.config.devices.length;
         this.log.error('Device Count:', this.deviceCount);
         // EXAMPLE ONLY

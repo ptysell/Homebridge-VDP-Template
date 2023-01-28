@@ -2,6 +2,8 @@ import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, 
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
 import { vdpTemplateAccessory } from './platformAccessories';
 
+import fs from 'fs';
+
 export class vdpPlatform implements DynamicPlatformPlugin {
   public readonly Service: typeof Service = this.api.hap.Service;
   public readonly Characteristic: typeof Characteristic = this.api.hap.Characteristic;
@@ -11,9 +13,11 @@ export class vdpPlatform implements DynamicPlatformPlugin {
   private periodicDiscovery: NodeJS.Timeout | null = null;
 
 
+
   constructor(
     public readonly log: Logger,
-    public config: PlatformConfig,
+    public readonly config: PlatformConfig,
+
     public readonly api: API,
   ) {
     this.log.debug('Finished initializing platform:', this.config.name);
@@ -29,11 +33,21 @@ export class vdpPlatform implements DynamicPlatformPlugin {
     this.accessories.push(accessory);
   }
 
+  refreshConfiguratioon(){
+    this.log.error('Refreshing Configuration.....');
+
+
+
+  }
+
   async discoverDevices() {
+
+
+    const config2 = JSON.parse(fs.readFileSync('../../../config.json', 'utf-8'));
+    this.log.error(config2);
 
     this.deviceCount = this.config.devices.length;
     this.log.error('Device Count:', this.deviceCount);
-
 
 
 
