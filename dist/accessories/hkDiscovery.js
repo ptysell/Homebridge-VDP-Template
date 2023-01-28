@@ -10,17 +10,22 @@ const pairingData = {
     iOSDeviceLTSK: '...',
     iOSDeviceLTPK: '...',
 };
+const characteristics = {
+    '1.10': true,
+};
 class hkDiscovery {
     constructor(platform, accessory) {
         this.platform = platform;
         this.accessory = accessory;
         discovery.on('serviceUp', async (service) => {
             this.platform.log.debug(`Found device: ${service.name}`);
-            const client = new hap_controller_1.HttpClient(service.id, service.address, service.port);
+            const client = new hap_controller_1.HttpClient(service.id, service.address, service.port, pairingData, {
+                usePersistentConnections: true,
+            });
             try {
-                await client.identify();
-                client.close(); // Not needed if only identify was called, else needed
-                this.platform.log.debug(`${service.name}: Done!`);
+                await client.setCharacteristics(characteristics);
+                client.close();
+                this.platform.log.debug(`${service.name}: done!`);
             }
             catch (e) {
                 this.platform.log.error(`${service.name}:`, e);
