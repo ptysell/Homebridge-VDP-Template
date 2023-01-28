@@ -32,7 +32,7 @@ class vdpPlatform {
         this.log.error('Refreshing Configuration.....');
         const config2 = JSON.parse(fs_1.default.readFileSync(settings_1.HOMEBRIDGE_CONFIGURATION_PATH, 'utf-8'));
         const platform2 = config2.platforms;
-        this.log.info(platform2.length);
+        this.log.info('Platform Count:', platform2.length);
         for (let index = 0; index < platform2.length; index++) {
             if (platform2.name === this.config.name) {
                 this.log.error(platform2.name);
