@@ -1,5 +1,7 @@
 import { Service, PlatformAccessory, CharacteristicValue } from 'homebridge';
 import { vdpPlatform } from '../platform';
+import {IPDiscovery} from 'hap-controller';
+
 
 
 /**
@@ -32,6 +34,8 @@ discovery.start();
 export class vdpAccessory {
   private service: Service;
 
+  private discovery = new IPDiscovery();
+
   private exampleStates = {
     On: false,
   };
@@ -62,6 +66,14 @@ export class vdpAccessory {
     this.service.getCharacteristic(this.platform.Characteristic.On)
       .onSet(this.setOn.bind(this))                // SET - bind to the `setOn` method below
       .onGet(this.getOn.bind(this));               // GET - bind to the `getOn` method below
+
+    this.discovery.on('serviceUp', (service) => {
+      this.platform.log.debug('Found device:', service);
+    });
+
+    this.discovery.start();
+
+
 
   }
 

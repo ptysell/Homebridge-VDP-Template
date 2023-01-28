@@ -62,6 +62,7 @@ export class vdpPlatform implements DynamicPlatformPlugin {
         // this is imported from `platformAccessory.ts`
         new vdpAccessory(this, existingAccessory);
 
+
         // it is possible to remove platform accessories at any time using `api.unregisterPlatformAccessories`, eg.:
         // remove platform accessories when no longer present
         // this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [existingAccessory]);
