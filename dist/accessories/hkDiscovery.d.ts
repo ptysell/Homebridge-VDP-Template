@@ -27,7 +27,7 @@ discovery.start();
  *
  *
  */
-export declare class vdpAccessory {
+export declare class hkDiscovery {
     private readonly platform;
     private readonly accessory;
     private service;
@@ -37,4 +37,4 @@ export declare class vdpAccessory {
     setOn(value: CharacteristicValue): Promise<void>;
     getOn(): Promise<CharacteristicValue>;
 }
-//# sourceMappingURL=khDiscovery.d.ts.map
+//# sourceMappingURL=hkDiscovery.d.ts.map

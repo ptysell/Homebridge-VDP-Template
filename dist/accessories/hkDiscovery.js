@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.vdpAccessory = void 0;
+exports.hkDiscovery = void 0;
 const hap_controller_1 = require("hap-controller");
 /**
  * Platform Accessory
@@ -29,7 +29,7 @@ discovery.start();
  *
  *
  */
-class vdpAccessory {
+class hkDiscovery {
     constructor(platform, accessory) {
         this.platform = platform;
         this.accessory = accessory;
@@ -69,5 +69,5 @@ class vdpAccessory {
         return isOn;
     }
 }
-exports.vdpAccessory = vdpAccessory;
-//# sourceMappingURL=khDiscovery.js.map
+exports.hkDiscovery = hkDiscovery;
+//# sourceMappingURL=hkDiscovery.js.map

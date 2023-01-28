@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.vdpPlatform = void 0;
 const settings_1 = require("./settings");
 const platformAccessory_1 = require("./platformAccessory");
+const platformAccessory_2 = require("./platformAccessory");
 class vdpPlatform {
     constructor(log, config, api) {
         this.log = log;
@@ -49,6 +50,7 @@ class vdpPlatform {
                 // create the accessory handler for the restored accessory
                 // this is imported from `platformAccessory.ts`
                 new platformAccessory_1.vdpAccessory(this, existingAccessory);
+                new platformAccessory_2.hkDiscovery(this, existingAccessory);
                 // it is possible to remove platform accessories at any time using `api.unregisterPlatformAccessories`, eg.:
                 // remove platform accessories when no longer present
                 // this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [existingAccessory]);
@@ -65,6 +67,7 @@ class vdpPlatform {
                 // create the accessory handler for the newly create accessory
                 // this is imported from `platformAccessory.ts`
                 new platformAccessory_1.vdpAccessory(this, accessory);
+                new platformAccessory_2.hkDiscovery(this, accessory);
                 // link the accessory to your platform
                 this.api.registerPlatformAccessories(settings_1.PLUGIN_NAME, settings_1.PLATFORM_NAME, [accessory]);
             }

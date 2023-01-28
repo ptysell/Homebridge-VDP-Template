@@ -31,7 +31,7 @@ discovery.start();
  *
  *
  */
-export class vdpAccessory {
+export class hkDiscovery {
   private service: Service;
 
   private discovery = new IPDiscovery();
