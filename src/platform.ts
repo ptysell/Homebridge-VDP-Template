@@ -1,5 +1,5 @@
 import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, Service, Characteristic } from 'homebridge';
-import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
+import { PLATFORM_NAME, PLUGIN_NAME, HOMEBRIDGE_CONFIGURATION_PATH } from './settings';
 import { vdpTemplateAccessory } from './platformAccessories';
 
 import fs from 'fs';
@@ -25,7 +25,7 @@ export class vdpPlatform implements DynamicPlatformPlugin {
       log.debug('Executed didFinishLaunching callback');
       this.discoverDevices();
     });
-    this.periodicDiscovery = setInterval(() => this.discoverDevices(), 1000);
+    this.periodicDiscovery = setInterval(() => this.discoverDevices(), 5000);
   }
 
   configureAccessory(accessory: PlatformAccessory) {
@@ -43,7 +43,7 @@ export class vdpPlatform implements DynamicPlatformPlugin {
   async discoverDevices() {
 
 
-    const config2 = JSON.parse(fs.readFileSync('../../../config.json', 'utf-8'));
+    const config2 = JSON.parse(fs.readFileSync(HOMEBRIDGE_CONFIGURATION_PATH, 'utf-8'));
     this.log.error(config2);
 
     this.deviceCount = this.config.devices.length;

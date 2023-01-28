@@ -22,7 +22,7 @@ class vdpPlatform {
             log.debug('Executed didFinishLaunching callback');
             this.discoverDevices();
         });
-        this.periodicDiscovery = setInterval(() => this.discoverDevices(), 1000);
+        this.periodicDiscovery = setInterval(() => this.discoverDevices(), 5000);
     }
     configureAccessory(accessory) {
         this.log.info('Loading accessory from cache:', accessory.displayName);
@@ -32,7 +32,7 @@ class vdpPlatform {
         this.log.error('Refreshing Configuration.....');
     }
     async discoverDevices() {
-        const config2 = JSON.parse(fs_1.default.readFileSync('../../../config.json', 'utf-8'));
+        const config2 = JSON.parse(fs_1.default.readFileSync(settings_1.HOMEBRIDGE_CONFIGURATION_PATH, 'utf-8'));
         this.log.error(config2);
         this.deviceCount = this.config.devices.length;
         this.log.error('Device Count:', this.deviceCount);
