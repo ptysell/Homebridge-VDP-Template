@@ -29,8 +29,8 @@ export class vdpPlatform implements DynamicPlatformPlugin {
 
 
     const deviceList = [];
-    const deviceCount = this.config.name;
-    this.log.info('Test ', deviceCount);
+    const deviceCount = this.config.devices.length;
+    this.log.info('Device Count:', deviceCount);
 
 
 
