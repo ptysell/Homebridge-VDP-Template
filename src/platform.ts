@@ -33,32 +33,24 @@ export class vdpPlatform implements DynamicPlatformPlugin {
     this.accessories.push(accessory);
   }
 
-  async getDeviceConfiguration(){
-    this.log.error('Refreshing Configuration.....');
-
-    const config2 = JSON.parse(fs.readFileSync(HOMEBRIDGE_CONFIGURATION_PATH, 'utf-8'));
-    this.log.info('Platform Count:', config2.platforms.length);
-
-    for (let index=0; index < config2.platforms.length; index++){
-      this.log.info('Platform Name:', config2.platforms[index].name);
-
-      if(config2.platforms[index].name === this.config.name){
-        this.log.info('Device Count:', config2.platforms[index].devices.length);
-
-        for (let index2 =0; index2 < config2.platforms[index].devices.length; index2++){
-          this.log.info('Device Name:', config2.platforms[index].devices[index2].name);
+  async refreshDeviceConfiguration(){
+    this.log.info('Refreshing Configuration File');
+    const configFile = JSON.parse(fs.readFileSync(HOMEBRIDGE_CONFIGURATION_PATH, 'utf-8'));
+    for (let index=0; index < configFile.platforms.length; index++){
+      if(configFile.platforms[index].name === this.config.name){
+        this.log.debug('Platform Name:', configFile.platforms[index].name);
+        this.log.info('Device Count:', configFile.platforms[index].devices.length);
+        for (let index2 =0; index2 < configFile.platforms[index].devices.length; index2++){
+          this.log.debug('Device Name:', configFile.platforms[index].devices[index2].name);
+          this.log.debug('Device UUID:', this.api.hap.uuid.generate('123'));
         }
-
       }
-
     }
-
-    return config2.platforms;
   }
 
   async discoverDevices() {
 
-    const testconfig = this.getDeviceConfiguration();
+    this.refreshDeviceConfiguration();
 
     this.deviceCount = this.config.devices.length;
     this.log.error('Device Count:', this.deviceCount);

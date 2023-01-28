@@ -10,7 +10,7 @@ export declare class vdpPlatform implements DynamicPlatformPlugin {
     private periodicDiscovery;
     constructor(log: Logger, config: PlatformConfig, api: API);
     configureAccessory(accessory: PlatformAccessory): void;
-    getDeviceConfiguration(): Promise<any>;
+    refreshDeviceConfiguration(): Promise<void>;
     discoverDevices(): Promise<void>;
 }
 //# sourceMappingURL=platform.d.ts.map
