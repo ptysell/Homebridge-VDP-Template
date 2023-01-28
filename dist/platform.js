@@ -33,7 +33,7 @@ class vdpPlatform {
         const config2 = JSON.parse(fs_1.default.readFileSync(settings_1.HOMEBRIDGE_CONFIGURATION_PATH, 'utf-8'));
         this.log.info('Platform Count:', config2.platforms.length);
         for (let index = 0; index < config2.platforms.length; index++) {
-            this.log.error(config2.platforms.name);
+            this.log.error(config2.platforms[index].name);
         }
         // for (const jsonPlatform in config2. ) {
         //   if (jsonPlatform.name == config.name)  {

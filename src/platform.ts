@@ -41,7 +41,7 @@ export class vdpPlatform implements DynamicPlatformPlugin {
 
     for (let index=0; index < config2.platforms.length; index++){
 
-      this.log.error(config2.platforms.name);
+      this.log.error(config2.platforms[index].name);
 
     }
 
