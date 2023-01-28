@@ -1,54 +1,45 @@
 import { Service, PlatformAccessory, CharacteristicValue } from 'homebridge';
 import { vdpPlatform } from '../platform';
-import {IPDiscovery} from 'hap-controller';
+import { HttpClient, IPDiscovery} from 'hap-controller';
 
 
-
-/**
- * Platform Accessory
- * An instance of this class is created for each accessory your platform registers
- * Each accessory may expose multiple services of different service types.
- *
- *
- *
- *
-
-const { IPDiscovery } = require('hap-controller');
 
 const discovery = new IPDiscovery();
 
-discovery.on('serviceUp', (service) => {
-    console.log('Found device:', service);
-});
-
-discovery.start();
-
-*
- *
- *
- *
- *
- *
- *
- */
-
-const discovery = new IPDiscovery();
+const pairingData = {
+  AccessoryPairingID: '...',
+  AccessoryLTPK: '...',
+  iOSDevicePairingID: '...',
+  iOSDeviceLTSK: '...',
+  iOSDeviceLTPK: '...',
+};
 
 
 export class hkDiscovery {
-  // private service: Service;
 
-
-  private exampleStates = {
-    On: false,
-  };
 
   constructor(
     private readonly platform: vdpPlatform,
     private readonly accessory: PlatformAccessory,
   ) {
 
+    discovery.on('serviceUp', async (service) => {
+      this.platform.log.debug(`Found device: ${service.name}`);
 
+      const client = new HttpClient(service.id, service.address, service.port, pairingData, {
+        usePersistentConnections: true,
+      });
+
+      try {
+        const acc = await client.getAccessories();
+        this.platform.log.debug(JSON.stringify(acc, null, 2));
+      } catch (e) {
+        this.platform.log.error(`${service.name}:`, e);
+      }
+      client.close();
+    });
+
+    discovery.start();
 
     discovery.on('serviceUp', (service) => {
       this.platform.log.debug('Found device:', service);
