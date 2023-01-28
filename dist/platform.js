@@ -18,7 +18,7 @@ class vdpPlatform {
             log.debug('Executed didFinishLaunching callback');
             this.discoverDevices();
         });
-        this.periodicDiscovery = setInterval(() => this.discoverDevices(), 0);
+        this.periodicDiscovery = setInterval(() => this.discoverDevices(), 1000);
     }
     configureAccessory(accessory) {
         this.log.info('Loading accessory from cache:', accessory.displayName);

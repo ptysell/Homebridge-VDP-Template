@@ -1,7 +1,7 @@
 import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, Service, Characteristic } from 'homebridge';
 export declare class vdpPlatform implements DynamicPlatformPlugin {
     readonly log: Logger;
-    readonly config: PlatformConfig;
+    config: PlatformConfig;
     readonly api: API;
     readonly Service: typeof Service;
     readonly Characteristic: typeof Characteristic;

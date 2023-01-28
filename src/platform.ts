@@ -13,7 +13,7 @@ export class vdpPlatform implements DynamicPlatformPlugin {
 
   constructor(
     public readonly log: Logger,
-    public readonly config: PlatformConfig,
+    public config: PlatformConfig,
     public readonly api: API,
   ) {
     this.log.debug('Finished initializing platform:', this.config.name);
@@ -21,7 +21,7 @@ export class vdpPlatform implements DynamicPlatformPlugin {
       log.debug('Executed didFinishLaunching callback');
       this.discoverDevices();
     });
-    this.periodicDiscovery = setInterval(() => this.discoverDevices(), 0);
+    this.periodicDiscovery = setInterval(() => this.discoverDevices(), 1000);
   }
 
   configureAccessory(accessory: PlatformAccessory) {
