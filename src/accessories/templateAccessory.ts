@@ -5,8 +5,9 @@ import { MANUFACTURER_NAME, PLATFORM_NAME } from '../settings';
 export class vdpTemplateAccessory {
   private service: Service;
 
-  private exampleStates = {
-    On: false,
+  private accessorySettings = {
+    Name: 'Template Accessory',
+    Status: false,
   };
 
   constructor(
@@ -14,11 +15,13 @@ export class vdpTemplateAccessory {
     private readonly accessory: PlatformAccessory,
   ) {
 
+    this.accessorySettings.Name = 'ABCD';
+
     // set accessory information
     this.accessory.getService(this.platform.Service.AccessoryInformation)!
       .setCharacteristic(this.platform.Characteristic.Manufacturer, MANUFACTURER_NAME)
       .setCharacteristic(this.platform.Characteristic.Model, PLATFORM_NAME)
-      .setCharacteristic(this.platform.Characteristic.SerialNumber, 'Default-Serial');
+      .setCharacteristic(this.platform.Characteristic.SerialNumber, this.accessorySettings.Name);
 
     // get the LightBulb service if it exists, otherwise create a new LightBulb service
     // you can create multiple services for each accessory
@@ -40,12 +43,12 @@ export class vdpTemplateAccessory {
 
 
   async setOn(value: CharacteristicValue) {
-    this.exampleStates.On = value as boolean;
+    this.accessorySettings.Status = value as boolean;
     this.platform.log.debug('Set Characteristic On ->', value);
   }
 
   async getOn(): Promise<CharacteristicValue> {
-    const isOn = this.exampleStates.On;
+    const isOn = this.accessorySettings.Status;
     this.platform.log.debug('Get Characteristic On ->', isOn);
     return isOn;
   }
