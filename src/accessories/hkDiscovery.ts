@@ -26,25 +26,16 @@ export class hkDiscovery {
     discovery.on('serviceUp', async (service) => {
       this.platform.log.debug(`Found device: ${service.name}`);
 
-      const client = new HttpClient(service.id, service.address, service.port, pairingData, {
-        usePersistentConnections: true,
-      });
+      const client = new HttpClient(service.id, service.address, service.port);
 
       try {
-        const acc = await client.getAccessories();
-        this.platform.log.debug(JSON.stringify(acc, null, 2));
+        await client.identify();
+        client.close(); // Not needed if only identify was called, else needed
+        this.platform.log.debug(`${service.name}: Done!`);
       } catch (e) {
         this.platform.log.error(`${service.name}:`, e);
       }
-      client.close();
     });
-
-    discovery.start();
-
-    discovery.on('serviceUp', (service) => {
-      this.platform.log.debug('Found device:', service);
-    });
-
     discovery.start();
 
 
