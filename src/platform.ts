@@ -7,6 +7,9 @@ export class vdpPlatform implements DynamicPlatformPlugin {
   public readonly Characteristic: typeof Characteristic = this.api.hap.Characteristic;
 
   public readonly accessories: PlatformAccessory[] = [];
+  public deviceCount = 0;
+  private periodicDiscovery: NodeJS.Timeout | null = null;
+
 
   constructor(
     public readonly log: Logger,
@@ -18,6 +21,7 @@ export class vdpPlatform implements DynamicPlatformPlugin {
       log.debug('Executed didFinishLaunching callback');
       this.discoverDevices();
     });
+    this.periodicDiscovery = setInterval(() => this.discoverDevices(), 0);
   }
 
   configureAccessory(accessory: PlatformAccessory) {
@@ -27,10 +31,9 @@ export class vdpPlatform implements DynamicPlatformPlugin {
 
   async discoverDevices() {
 
+    this.deviceCount = this.config.devices.length;
+    this.log.info('Device Count:', this.deviceCount);
 
-    const deviceList = [];
-    const deviceCount = this.config.devices.length;
-    this.log.info('Device Count:', deviceCount);
 
 
 

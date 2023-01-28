@@ -6,6 +6,8 @@ export declare class vdpPlatform implements DynamicPlatformPlugin {
     readonly Service: typeof Service;
     readonly Characteristic: typeof Characteristic;
     readonly accessories: PlatformAccessory[];
+    deviceCount: number;
+    private periodicDiscovery;
     constructor(log: Logger, config: PlatformConfig, api: API);
     configureAccessory(accessory: PlatformAccessory): void;
     discoverDevices(): Promise<void>;

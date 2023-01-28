@@ -11,20 +11,22 @@ class vdpPlatform {
         this.Service = this.api.hap.Service;
         this.Characteristic = this.api.hap.Characteristic;
         this.accessories = [];
+        this.deviceCount = 0;
+        this.periodicDiscovery = null;
         this.log.debug('Finished initializing platform:', this.config.name);
         this.api.on('didFinishLaunching', () => {
             log.debug('Executed didFinishLaunching callback');
             this.discoverDevices();
         });
+        this.periodicDiscovery = setInterval(() => this.discoverDevices(), 0);
     }
     configureAccessory(accessory) {
         this.log.info('Loading accessory from cache:', accessory.displayName);
         this.accessories.push(accessory);
     }
     async discoverDevices() {
-        const deviceList = [];
-        const deviceCount = this.config.devices.length;
-        this.log.info('Device Count:', deviceCount);
+        this.deviceCount = this.config.devices.length;
+        this.log.info('Device Count:', this.deviceCount);
         // EXAMPLE ONLY
         // A real plugin you would discover accessories from the local network, cloud services
         // or a user-defined array in the platform config.
