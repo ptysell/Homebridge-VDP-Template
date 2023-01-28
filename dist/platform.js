@@ -21,18 +21,21 @@ class vdpPlatform {
         this.log.info('Loading accessory from cache:', accessory.displayName);
         this.accessories.push(accessory);
     }
-    discoverDevices() {
+    async discoverDevices() {
+        const deviceList = [];
+        const deviceCount = this.config.name;
+        this.log.info('Test ', deviceCount);
         // EXAMPLE ONLY
         // A real plugin you would discover accessories from the local network, cloud services
         // or a user-defined array in the platform config.
-        const deviceList = [
+        const deviceList2 = [
             {
                 exampleUniqueId: 'ABCD',
                 exampleDisplayName: 'Test Accessory 01',
             },
         ];
         // loop over the discovered devices and register each one if it has not already been registered
-        for (const device of deviceList) {
+        for (const device of deviceList2) {
             // generate a unique id for the accessory this should be generated from
             // something globally unique, but constant, for example, the device serial
             // number or MAC address

@@ -8,6 +8,6 @@ export declare class vdpPlatform implements DynamicPlatformPlugin {
     readonly accessories: PlatformAccessory[];
     constructor(log: Logger, config: PlatformConfig, api: API);
     configureAccessory(accessory: PlatformAccessory): void;
-    discoverDevices(): void;
+    discoverDevices(): Promise<void>;
 }
 //# sourceMappingURL=platform.d.ts.map
