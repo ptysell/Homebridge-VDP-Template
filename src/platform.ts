@@ -37,6 +37,8 @@ export class vdpPlatform implements DynamicPlatformPlugin {
       },
     ];
 
+
+
     // loop over the discovered devices and register each one if it has not already been registered
     for (const device of deviceList) {
 

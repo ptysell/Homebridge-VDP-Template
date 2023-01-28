@@ -1,0 +1,32 @@
+{
+    "pluginAlias": "VDP Template",
+    "pluginType": "platform",
+    "singular": false,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string",
+          "required": true,
+          "default": "VDP Template Dynamic Platform"
+        }, 
+        "devices": {
+            "type": "array",
+            "items": {
+                "title": "Accessory",
+                "type": "object",
+                "properties": {
+                    "name" : {
+                      "title" : "Name",
+                      "type" : "string",
+                      "required" : true
+                    }
+                }
+            }
+        }
+      }
+    }
+  }
+
+  
