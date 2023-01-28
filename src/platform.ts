@@ -37,12 +37,11 @@ export class vdpPlatform implements DynamicPlatformPlugin {
     this.log.error('Refreshing Configuration.....');
 
     const config2 = JSON.parse(fs.readFileSync(HOMEBRIDGE_CONFIGURATION_PATH, 'utf-8'));
-    const platform2 = config2.platforms;
-    this.log.info('Platform Count:', platform2.length);
+    this.log.info('Platform Count:', config2.platforms.length);
 
-    for (let index=0; index < platform2.length; index++){
+    for (let index=0; index < config2.platforms.length; index++){
 
-      this.log.error(platform2.name);
+      this.log.error(config2.platforms.name);
 
     }
 

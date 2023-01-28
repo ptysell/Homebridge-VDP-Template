@@ -31,10 +31,9 @@ class vdpPlatform {
     async getDeviceConfiguration() {
         this.log.error('Refreshing Configuration.....');
         const config2 = JSON.parse(fs_1.default.readFileSync(settings_1.HOMEBRIDGE_CONFIGURATION_PATH, 'utf-8'));
-        const platform2 = config2.platforms;
-        this.log.info('Platform Count:', platform2.length);
-        for (let index = 0; index < platform2.length; index++) {
-            this.log.error(platform2.name);
+        this.log.info('Platform Count:', config2.platforms.length);
+        for (let index = 0; index < config2.platforms.length; index++) {
+            this.log.error(config2.platforms.name);
         }
         // for (const jsonPlatform in config2. ) {
         //   if (jsonPlatform.name == config.name)  {
