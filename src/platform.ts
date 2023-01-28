@@ -40,17 +40,19 @@ export class vdpPlatform implements DynamicPlatformPlugin {
     this.log.info('Platform Count:', config2.platforms.length);
 
     for (let index=0; index < config2.platforms.length; index++){
+      this.log.info('Platform Name:', config2.platforms[index].name);
 
-      this.log.error(config2.platforms[index].name);
+      if(config2.platforms[index].name === this.config.name){
+        this.log.info('Device Count:', config2.platforms[index].devices.length);
+
+        for (let index2 =0; index2 < config2.platforms[index].devices.length; index2++){
+          this.log.info('Device Name:', config2.platforms[index].devices[index2].name);
+        }
+
+      }
 
     }
 
-
-    // for (const jsonPlatform in config2. ) {
-    //   if (jsonPlatform.name == config.name)  {
-    //     this.log.error('')
-    //   }
-    // }
     return config2.platforms;
   }
 
