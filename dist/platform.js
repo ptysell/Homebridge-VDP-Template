@@ -41,9 +41,12 @@ class vdpPlatform {
         this.log.error('DeviceList Name0:', deviceList[0].uuid);
         // loop over the discovered devices and register each one if it has not already been registered
         for (let index = 0; index < deviceList.length; index++) {
+            const uuid = deviceList[index].uuid;
             this.log.info('Device UUID-----', deviceList[index].uuid);
-            const existingAccessory = this.accessories.find(accessory => accessory.UUID === deviceList[index].uuid);
-            this.log.info('Existing UUID-----', existingAccessory === null || existingAccessory === void 0 ? void 0 : existingAccessory.UUID);
+            const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid);
+            for (let index2 = 0; index2 < this.accessories.length; index2++) {
+                this.log.error('Existing Device UUID:', this.accessories[index2].UUID);
+            }
             if (existingAccessory) {
                 this.log.info('Restoring platformAccessory from cache:', existingAccessory.displayName);
                 new platformAccessory_1.platformAccessory(this, existingAccessory);

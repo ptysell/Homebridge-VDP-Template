@@ -66,11 +66,16 @@ export class vdpPlatform implements DynamicPlatformPlugin {
     // loop over the discovered devices and register each one if it has not already been registered
     for (let index=0; index < deviceList.length; index++) {
 
+      const uuid = deviceList[index].uuid;
+
+
       this.log.info('Device UUID-----', deviceList[index].uuid);
 
-      const existingAccessory = this.accessories.find(accessory => accessory.UUID === deviceList[index].uuid);
+      const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid);
 
-      this.log.info('Existing UUID-----', existingAccessory?.UUID);
+      for (let index2=0; index2 < this.accessories.length; index2++) {
+        this.log.error('Existing Device UUID:', this.accessories[index2].UUID);
+      }
 
 
       if (existingAccessory) {
