@@ -77,7 +77,9 @@ export class vdpPlatform implements DynamicPlatformPlugin {
       // generate a unique id for the accessory this should be generated from
       // something globally unique, but constant, for example, the device serial
       // number or MAC address
-      const uuid = this.api.hap.uuid.generate(deviceList2[index].uuid);
+      //const uuid = this.api.hap.uuid.generate(deviceList2[index].uuid);
+
+      const uuid = deviceList2[index].uuid;
 
 
       const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid);
