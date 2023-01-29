@@ -37,7 +37,8 @@ export class vdpPlatform implements DynamicPlatformPlugin {
   public refreshDeviceConfiguration(): AccessoryType[] {
     this.log.info('Refreshing Configuration File');
 
-    const deviceList: AccessoryType[] = [];
+    // eslint-disable-next-line prefer-const
+    let deviceList: AccessoryType[] = [];
 
     const configFile = JSON.parse(fs.readFileSync(HOMEBRIDGE_CONFIGURATION_PATH, 'utf-8'));
     for (let index=0; index < configFile.platforms.length; index++){
@@ -91,11 +92,17 @@ export class vdpPlatform implements DynamicPlatformPlugin {
 
         this.log.info('Adding new accessory:', deviceList2[index].name);
         const accessory = new this.api.platformAccessory(deviceList2[index].name, uuid);
+        this.log.info('Adding accessory context:', deviceList2[index].name);
+
         accessory.context.device = deviceList2[index];
 
         // create the accessory handler for the newly create accessory
         // this is imported from `platformAccessory.ts`
+        this.log.info('Adding new vdpTemplateAccessory:', deviceList2[index].name);
+
         new vdpTemplateAccessory(this, accessory);
+
+        this.log.info('Registering platform accessory:', deviceList2[index].name);
 
         this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
       }

@@ -30,7 +30,8 @@ class vdpPlatform {
     }
     refreshDeviceConfiguration() {
         this.log.info('Refreshing Configuration File');
-        const deviceList = [];
+        // eslint-disable-next-line prefer-const
+        let deviceList = [];
         const configFile = JSON.parse(fs_1.default.readFileSync(settings_1.HOMEBRIDGE_CONFIGURATION_PATH, 'utf-8'));
         for (let index = 0; index < configFile.platforms.length; index++) {
             if (configFile.platforms[index].name === this.config.name) {
@@ -67,10 +68,13 @@ class vdpPlatform {
             else {
                 this.log.info('Adding new accessory:', deviceList2[index].name);
                 const accessory = new this.api.platformAccessory(deviceList2[index].name, uuid);
+                this.log.info('Adding accessory context:', deviceList2[index].name);
                 accessory.context.device = deviceList2[index];
                 // create the accessory handler for the newly create accessory
                 // this is imported from `platformAccessory.ts`
+                this.log.info('Adding new vdpTemplateAccessory:', deviceList2[index].name);
                 new platformAccessories_1.vdpTemplateAccessory(this, accessory);
+                this.log.info('Registering platform accessory:', deviceList2[index].name);
                 this.api.registerPlatformAccessories(settings_1.PLUGIN_NAME, settings_1.PLATFORM_NAME, [accessory]);
             }
         }
