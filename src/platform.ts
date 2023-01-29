@@ -34,7 +34,7 @@ export class vdpPlatform implements DynamicPlatformPlugin {
     this.accessories.push(accessory);
   }
 
-  async refreshDeviceConfiguration(): Promise<AccessoryType[]> {
+  public refreshDeviceConfiguration(): AccessoryType[] {
     this.log.info('Refreshing Configuration File');
 
     const deviceList: AccessoryType[] = [];
@@ -67,7 +67,7 @@ export class vdpPlatform implements DynamicPlatformPlugin {
     this.log.error('Index Name:', deviceList2[0].name);
 
     // loop over the discovered devices and register each one if it has not already been registered
-    for (const device of await deviceList2) {
+    for (const device of deviceList2) {
 
       // generate a unique id for the accessory this should be generated from
       // something globally unique, but constant, for example, the device serial
