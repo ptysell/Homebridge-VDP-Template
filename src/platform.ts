@@ -80,6 +80,21 @@ export class vdpPlatform implements DynamicPlatformPlugin {
 
       } else{
 
+        const accessory = new this.api.platformAccessory(device.displayName, device.uuid);
+        accessory.context.device = device;
+        this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+
+        this.log.error('---------------------------------');
+        this.log.error('Registering New Accessory');
+        this.log.warn('Accessory Display Name:', accessory.displayName);
+        this.log.warn('Accessory UUID:', accessory.UUID);
+        this.log.error('-');
+        this.log.warn('Context Name:', accessory.context.device.name);
+        this.log.warn('Context UUID:', accessory.context.device.uuid);
+        this.log.warn('Context Display Name:', accessory.context.device.displayName);
+        this.log.error('---------------------------------');
+
+
       }
 
 

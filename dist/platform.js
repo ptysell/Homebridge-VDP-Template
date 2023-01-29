@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.vdpPlatform = void 0;
+const platformSettings_1 = require("./platformSettings");
 const platformDiscovery_1 = require("./platformDiscovery");
 class vdpPlatform {
     constructor(log, config, api) {
@@ -55,6 +56,18 @@ class vdpPlatform {
             if (existingAccessory) {
             }
             else {
+                const accessory = new this.api.platformAccessory(device.displayName, device.uuid);
+                accessory.context.device = device;
+                this.api.registerPlatformAccessories(platformSettings_1.PLUGIN_NAME, platformSettings_1.PLATFORM_NAME, [accessory]);
+                this.log.error('---------------------------------');
+                this.log.error('Registering New Accessory');
+                this.log.warn('Accessory Display Name:', accessory.displayName);
+                this.log.warn('Accessory UUID:', accessory.UUID);
+                this.log.error('-');
+                this.log.warn('Context Name:', accessory.context.device.name);
+                this.log.warn('Context UUID:', accessory.context.device.uuid);
+                this.log.warn('Context Display Name:', accessory.context.device.displayName);
+                this.log.error('---------------------------------');
             }
         }
         // for (let index=0; index < deviceList.length; index++) {
