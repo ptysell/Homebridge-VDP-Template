@@ -84,6 +84,7 @@ export class vdpPlatform implements DynamicPlatformPlugin {
         this.log.error('Registering New Platform Accessory');
         const accessory = new this.api.platformAccessory(device.displayName, uuid);
         accessory.context.device = device;
+        new vdpAccessory(this, accessory);
         this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
         this.log.error('Updating New Platform Accessory');
         this.api.updatePlatformAccessories([accessory]);

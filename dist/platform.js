@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.vdpPlatform = void 0;
 const platformSettings_1 = require("./platformSettings");
+const platformAccessory_1 = require("./platformAccessory");
 const platformDiscovery_1 = require("./platformDiscovery");
 class vdpPlatform {
     constructor(log, config, api) {
@@ -61,6 +62,7 @@ class vdpPlatform {
                 this.log.error('Registering New Platform Accessory');
                 const accessory = new this.api.platformAccessory(device.displayName, uuid);
                 accessory.context.device = device;
+                new platformAccessory_1.vdpAccessory(this, accessory);
                 this.api.registerPlatformAccessories(platformSettings_1.PLUGIN_NAME, platformSettings_1.PLATFORM_NAME, [accessory]);
                 this.log.error('Updating New Platform Accessory');
                 this.api.updatePlatformAccessories([accessory]);
