@@ -50,6 +50,7 @@ class vdpPlatform {
     async discoverDevices() {
         const deviceList2 = this.refreshDeviceConfiguration();
         this.log.debug('DeviceList Count:', deviceList2.length);
+        this.log.debug('DeviceList Name0:', deviceList2[0].name);
         // loop over the discovered devices and register each one if it has not already been registered
         for (let index = 0; index < deviceList2.length; index++) {
             // generate a unique id for the accessory this should be generated from

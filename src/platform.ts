@@ -65,6 +65,8 @@ export class vdpPlatform implements DynamicPlatformPlugin {
     const deviceList2: AccessoryType[] = this.refreshDeviceConfiguration();
 
     this.log.debug('DeviceList Count:', deviceList2.length);
+    this.log.debug('DeviceList Name0:', deviceList2[0].name);
+
 
 
     // loop over the discovered devices and register each one if it has not already been registered
