@@ -21,9 +21,49 @@ class vdpPlatform {
             this.periodicDiscovery = setInterval(() => this.discoverDevices(), 5000);
         });
     }
+    configureAccessories(accessory) {
+        this.log.info('Method: configureAccessories');
+    }
     configureAccessory(accessory) {
         this.log.info('Loading accessory from cache:', accessory.displayName);
         this.accessories.push(accessory);
+    }
+    addAccessories(accessory) {
+        this.log.info('Method: registerAccessories');
+    }
+    addAccessory(accessory) {
+        this.log.info('Method: registerAccessory');
+    }
+    updateAccessories(accessory) {
+        this.log.info('Method: updateAccessories');
+    }
+    updateAccessory(accessory) {
+        this.log.info('Method: updateAccessory');
+    }
+    unregisterAccessories(accessory) {
+        this.log.info('Method: unregisterAccessories');
+    }
+    removeAccessory(accessory) {
+        this.log.info('Unregistering Platform Accessory:', accessory.displayName);
+        this.api.unregisterPlatformAccessories(platformSettings_1.PLUGIN_NAME, platformSettings_1.PLATFORM_NAME, [accessory]);
+        let index = 0;
+        for (const device of this.accessories) {
+            if (device.UUID === accessory.UUID) {
+                this.log.info('Removing Platform Accessory:', accessory.displayName);
+                this.accessories.splice(index, 1);
+            }
+            index++;
+        }
+    }
+    async pruneAccessories(deviceList) {
+        let index = 0;
+        for (const device of this.accessories) {
+            const existingAccessory = deviceList.find(accessory => accessory.uuid === device.UUID);
+            if (!existingAccessory) {
+                this.log.info('Pruning Platform Accessory:', device.displayName, 'at index', index);
+            }
+            index++;
+        }
     }
     async discoverDevices() {
         const pendingUpdate = new Set();
@@ -34,6 +74,7 @@ class vdpPlatform {
         const scans = 0;
         const platformDiscoverer = new platformDiscovery_1.platformDiscovery(this.log, this.config, this.api);
         const deviceList = await platformDiscoverer.scan(2000);
+        this.pruneAccessories(deviceList);
         this.log.error('Config Accessory Count:', deviceList.length);
         this.log.error('Platform Accessory Count:', this.accessories.length);
         for (const device of deviceList) {
@@ -64,26 +105,10 @@ class vdpPlatform {
                 accessory.context.device = device;
                 new platformAccessory_1.vdpAccessory(this, accessory);
                 this.api.registerPlatformAccessories(platformSettings_1.PLUGIN_NAME, platformSettings_1.PLATFORM_NAME, [accessory]);
-                this.log.error('Updating New Platform Accessory');
-                this.api.updatePlatformAccessories([accessory]);
                 this.log.error('Push New Platform Accessory');
                 this.accessories.push(accessory);
             }
         }
-        // for (let index=0; index < deviceList.length; index++) {
-        //   const uuid = deviceList[index].uuid;
-        //   const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid);
-        //   if (existingAccessory) {
-        //     this.log.info('Restoring platformAccessory from cache:', existingAccessory);
-        //     new vdpAccessory(this, existingAccessory);
-        //   } else {
-        //     const accessory = new this.api.platformAccessory(deviceList[index].name, deviceList[index].uuid);
-        //     this.log.warn('New platformAccessory Name:', accessory.displayName);
-        //     this.log.warn('New platformAccessory UUID:', accessory.UUID);
-        //     new vdpAccessory(this, accessory);
-        //     this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
-        //   }
-        // }
     }
 }
 exports.vdpPlatform = vdpPlatform;
