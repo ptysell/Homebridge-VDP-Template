@@ -1,8 +1,8 @@
 import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, Service, Characteristic } from 'homebridge';
 import { PLATFORM_NAME, PLUGIN_NAME } from './platformSettings';
-import { platformAccessory } from './platformAccessory';
+import { vdpAccessory } from './platformAccessory';
 import { platformDiscovery } from './platformDiscovery';
-import type { AccessoryType } from './types';
+import type { AccessoryType, platformDeviceType } from './types';
 
 import fs from 'fs';
 
@@ -72,23 +72,20 @@ export class vdpPlatform implements DynamicPlatformPlugin {
 
 
       if (existingAccessory) {
-        this.log.info('Restoring platformAccessory from cache:', existingAccessory.displayName);
+        this.log.info('Restoring platformAccessory from cache:', existingAccessory);
 
-        new platformAccessory(this, existingAccessory);
+        new vdpAccessory(this, existingAccessory);
 
       } else {
 
         const accessory = new this.api.platformAccessory(deviceList[index].name, deviceList[index].uuid);
 
-        accessory.context.device.displayName.set(deviceList[index].name);
-        accessory.context.device.uuid.set(deviceList[index].uuid);
-
-        this.log.warn('New platformAccessory Name:', accessory.context.device.displayName);
-        this.log.warn('New platformAccessory UUID:', accessory.context.device.uuid);
+        this.log.warn('New platformAccessory Name:', accessory.displayName);
+        this.log.warn('New platformAccessory UUID:', accessory.UUID);
 
         this.log.info('Adding new platformAccessory:', deviceList[index].name, deviceList[index].uuid);
 
-        new platformAccessory(this, accessory);
+        new vdpAccessory(this, accessory);
 
         this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
       }

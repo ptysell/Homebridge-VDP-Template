@@ -46,17 +46,15 @@ class vdpPlatform {
             const uuid = deviceList[index].uuid;
             const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid);
             if (existingAccessory) {
-                this.log.info('Restoring platformAccessory from cache:', existingAccessory.displayName);
-                new platformAccessory_1.platformAccessory(this, existingAccessory);
+                this.log.info('Restoring platformAccessory from cache:', existingAccessory);
+                new platformAccessory_1.vdpAccessory(this, existingAccessory);
             }
             else {
                 const accessory = new this.api.platformAccessory(deviceList[index].name, deviceList[index].uuid);
-                accessory.context.device.displayName.set(deviceList[index].name);
-                accessory.context.device.uuid.set(deviceList[index].uuid);
-                this.log.warn('New platformAccessory Name:', accessory.context.device.displayName);
-                this.log.warn('New platformAccessory UUID:', accessory.context.device.uuid);
+                this.log.warn('New platformAccessory Name:', accessory.displayName);
+                this.log.warn('New platformAccessory UUID:', accessory.UUID);
                 this.log.info('Adding new platformAccessory:', deviceList[index].name, deviceList[index].uuid);
-                new platformAccessory_1.platformAccessory(this, accessory);
+                new platformAccessory_1.vdpAccessory(this, accessory);
                 this.api.registerPlatformAccessories(platformSettings_1.PLUGIN_NAME, platformSettings_1.PLATFORM_NAME, [accessory]);
             }
         }

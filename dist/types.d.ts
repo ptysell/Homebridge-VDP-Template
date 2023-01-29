@@ -1,3 +1,7 @@
+export declare type platformDeviceType = {
+    name: string;
+    uuid: string;
+};
 export declare type AccessoryType = {
     name: string;
     uuid: string;

@@ -1,6 +1,6 @@
 import { PlatformAccessory, CharacteristicValue } from 'homebridge';
 import { vdpPlatform } from './platform';
-export declare class platformAccessory {
+export declare class vdpAccessory {
     private readonly platform;
     private readonly accessory;
     private service;

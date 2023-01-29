@@ -2,7 +2,7 @@ import { Service, PlatformAccessory, CharacteristicValue } from 'homebridge';
 
 import { vdpPlatform } from './platform';
 
-export class platformAccessory {
+export class vdpAccessory {
   private service: Service;
 
   private exampleStates = {
