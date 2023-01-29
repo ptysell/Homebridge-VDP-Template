@@ -78,7 +78,8 @@ export class vdpPlatform implements DynamicPlatformPlugin {
       const existingAccessory = deviceList.find(accessory => accessory.uuid === device.UUID);
       if(!existingAccessory){
         this.log.info('Pruning Platform Accessory:', device.displayName, 'at index', index);
-        //this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, existingAccessory);
+        const tmpAccessory = new this.api.platformAccessory(device.displayName, device.UUID);
+        this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [tmpAccessory]);
         this.accessories.splice(index, 1);
       }
       index++;
