@@ -37,7 +37,8 @@ class vdpPlatform {
         this.log.error('Platform Accessory Count:', this.accessories.length);
         for (const device of deviceList) {
             const name = device.name;
-            const uuid = device.uuid;
+            //const uuid = device.uuid;
+            const uuid = this.api.hap.uuid.generate(device.displayName);
             const displayName = device.displayName;
             let isExisting = '';
             const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid);
@@ -54,20 +55,13 @@ class vdpPlatform {
             this.log.warn('Existing Accessory:', isExisting);
             this.log.error('---------------------------------');
             if (existingAccessory) {
+                this.log.error('Found Existing Accessory');
             }
             else {
-                const accessory = new this.api.platformAccessory(device.displayName, device.uuid);
+                this.log.error('Registering New Accessory');
+                const accessory = new this.api.platformAccessory(device.displayName, uuid);
                 accessory.context.device = device;
                 this.api.registerPlatformAccessories(platformSettings_1.PLUGIN_NAME, platformSettings_1.PLATFORM_NAME, [accessory]);
-                this.log.error('---------------------------------');
-                this.log.error('Registering New Accessory');
-                this.log.warn('Accessory Display Name:', accessory.displayName);
-                this.log.warn('Accessory UUID:', accessory.UUID);
-                this.log.error('-');
-                this.log.warn('Context Name:', accessory.context.device.name);
-                this.log.warn('Context UUID:', accessory.context.device.uuid);
-                this.log.warn('Context Display Name:', accessory.context.device.displayName);
-                this.log.error('---------------------------------');
             }
         }
         // for (let index=0; index < deviceList.length; index++) {
