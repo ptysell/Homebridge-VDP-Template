@@ -45,17 +45,13 @@ class vdpPlatform {
                 }
             }
         }
-        this.log.debug('Push 0 Device Name:', deviceList[0].name);
-        this.log.debug('Push 0 Device UUID:', deviceList[0].uuid);
-        this.log.debug('Push 1 Device Name:', deviceList[1].name);
-        this.log.debug('Push 1 Device UUID:', deviceList[1].uuid);
         return deviceList;
     }
     async discoverDevices() {
         const deviceList2 = this.refreshDeviceConfiguration();
         this.log.debug('DeviceList Count:', deviceList2.length);
         // loop over the discovered devices and register each one if it has not already been registered
-        for (let index = 1; index < deviceList2.length; index++) {
+        for (let index = 0; index < deviceList2.length; index++) {
             // generate a unique id for the accessory this should be generated from
             // something globally unique, but constant, for example, the device serial
             // number or MAC address
