@@ -38,11 +38,24 @@ class vdpPlatform {
             const name = device.name;
             const uuid = device.uuid;
             const displayName = device.displayName;
+            let isExisting = '';
+            const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid);
+            if (existingAccessory) {
+                isExisting = 'Yes';
+            }
+            else {
+                isExisting = 'No';
+            }
             this.log.error('---------------------------------');
             this.log.warn('Device Name:', name);
             this.log.warn('Device UUID:', uuid);
             this.log.warn('Device Display Name:', displayName);
+            this.log.warn('Existing Accessory:', isExisting);
             this.log.error('---------------------------------');
+            if (existingAccessory) {
+            }
+            else {
+            }
         }
         // for (let index=0; index < deviceList.length; index++) {
         //   const uuid = deviceList[index].uuid;
