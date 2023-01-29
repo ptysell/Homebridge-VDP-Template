@@ -51,7 +51,8 @@ class vdpPlatform {
             }
             else {
                 const accessory = new this.api.platformAccessory(deviceList[index].name, deviceList[index].uuid);
-                accessory.context.device = deviceList[index];
+                accessory.context.device.name = deviceList[index].name;
+                accessory.context.device.uuid = deviceList[index].uuid;
                 this.log.info('Adding new platformAccessory:', deviceList[index].name, deviceList[index].uuid);
                 new platformAccessory_1.platformAccessory(this, accessory);
                 this.api.registerPlatformAccessories(platformSettings_1.PLUGIN_NAME, platformSettings_1.PLATFORM_NAME, [accessory]);
