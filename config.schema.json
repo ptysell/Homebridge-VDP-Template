@@ -24,10 +24,7 @@
                   },
                   "uuid" : {
                     "title" : "UUID",
-                    "type" : "string",
-                    "condition": {
-                        "functionBody": "return false;"
-                    }
+                    "type" : "string"
                   }
               }
           }

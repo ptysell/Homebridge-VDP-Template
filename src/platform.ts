@@ -56,26 +56,19 @@ export class vdpPlatform implements DynamicPlatformPlugin {
     // eslint-disable-next-line prefer-const
     //let deviceList2: AccessoryType[] = this.refreshDeviceConfiguration();
 
-    this.log.error('DeviceList Count:', deviceList.length);
-    this.log.error('DeviceList Name0:', deviceList[0].name);
-    this.log.error('DeviceList Name0:', deviceList[0].uuid);
+    this.log.error('Config Accessory Count:', deviceList.length);
+    this.log.error('Platform Accessory Count:', this.accessories.length);
 
-
-
+    for (let index2=0; index2 < this.accessories.length; index2++) {
+      this.log.error('Existing Device UUID:', this.accessories[index2].UUID);
+    }
 
     // loop over the discovered devices and register each one if it has not already been registered
     for (let index=0; index < deviceList.length; index++) {
 
       const uuid = deviceList[index].uuid;
 
-
-      this.log.info('Device UUID-----', deviceList[index].uuid);
-
       const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid);
-
-      for (let index2=0; index2 < this.accessories.length; index2++) {
-        this.log.error('Existing Device UUID:', this.accessories[index2].UUID);
-      }
 
 
       if (existingAccessory) {
@@ -91,8 +84,6 @@ export class vdpPlatform implements DynamicPlatformPlugin {
         this.log.info('Adding new platformAccessory:', deviceList[index].name, deviceList[index].uuid);
 
         new platformAccessory(this, accessory);
-
-        this.log.info('Registering platformAccessory:', deviceList[index].name, deviceList[index].uuid);
 
         this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
       }

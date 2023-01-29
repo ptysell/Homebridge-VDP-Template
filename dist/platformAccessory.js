@@ -14,18 +14,18 @@ class platformAccessory {
             .setCharacteristic(this.platform.Characteristic.Model, 'Default-Model')
             .setCharacteristic(this.platform.Characteristic.SerialNumber, 'Default-Serial');
         this.service = this.accessory.getService(this.platform.Service.Lightbulb) || this.accessory.addService(this.platform.Service.Lightbulb);
-        this.service.setCharacteristic(this.platform.Characteristic.Name, accessory.context.device.exampleDisplayName);
+        this.service.setCharacteristic(this.platform.Characteristic.Name, accessory.context.device.name);
         this.service.getCharacteristic(this.platform.Characteristic.On)
             .onSet(this.setOn.bind(this)) // SET - bind to the `setOn` method below
             .onGet(this.getOn.bind(this)); // GET - bind to the `getOn` method below
     }
     async setOn(value) {
         this.exampleStates.On = value;
-        this.platform.log.debug('Set Characteristic On ->', value);
+        // this.platform.log.debug('Set Characteristic On ->', value);
     }
     async getOn() {
         const isOn = this.exampleStates.On;
-        this.platform.log.debug('Get Characteristic On ->', isOn);
+        //this.platform.log.debug('Get Characteristic On ->', isOn);
         return isOn;
     }
 }
