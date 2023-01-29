@@ -14,7 +14,7 @@ class vdpAccessory {
             .setCharacteristic(this.platform.Characteristic.Model, 'Default-Model')
             .setCharacteristic(this.platform.Characteristic.SerialNumber, 'Default-Serial');
         this.service = this.accessory.getService(this.platform.Service.Lightbulb) || this.accessory.addService(this.platform.Service.Lightbulb);
-        this.service.setCharacteristic(this.platform.Characteristic.Name, accessory.context.device.name);
+        this.service.setCharacteristic(this.platform.Characteristic.Name, accessory.displayName);
         this.service.getCharacteristic(this.platform.Characteristic.On)
             .onSet(this.setOn.bind(this)) // SET - bind to the `setOn` method below
             .onGet(this.getOn.bind(this)); // GET - bind to the `getOn` method below
