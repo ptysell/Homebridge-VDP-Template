@@ -1,5 +1,6 @@
 # MacOS
 .DS_Store
+misc
 
 # Ignore compiled code
 #  dist

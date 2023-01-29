@@ -1,6 +1,7 @@
-import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, Service, Characteristic, uuid, Access } from 'homebridge';
-import { PLATFORM_NAME, PLUGIN_NAME, HOMEBRIDGE_CONFIGURATION_PATH } from './settings';
-import { vdpTemplateAccessory } from './platformAccessories';
+import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, Service, Characteristic } from 'homebridge';
+import { PLATFORM_NAME, PLUGIN_NAME } from './platformSettings';
+import { platformAccessory } from './platformAccessory';
+import { platformDiscovery } from './platformDiscovery';
 import type { AccessoryType } from './types';
 
 import fs from 'fs';
@@ -18,15 +19,15 @@ export class vdpPlatform implements DynamicPlatformPlugin {
   constructor(
     public readonly log: Logger,
     public readonly config: PlatformConfig,
-
     public readonly api: API,
   ) {
-    this.log.debug('Finished initializing platform:', this.config.name);
+    this.log.info('Finished initializing platform:', this.config.name);
     this.api.on('didFinishLaunching', () => {
       log.debug('Executed didFinishLaunching callback');
       this.discoverDevices();
+      this.periodicDiscovery = setInterval(() => this.discoverDevices(), 5000);
+
     });
-    this.periodicDiscovery = setInterval(() => this.discoverDevices(), 5000);
   }
 
   configureAccessory(accessory: PlatformAccessory) {
@@ -34,45 +35,34 @@ export class vdpPlatform implements DynamicPlatformPlugin {
     this.accessories.push(accessory);
   }
 
-  public refreshDeviceConfiguration(): AccessoryType[] {
-    this.log.info('Refreshing Configuration File');
-
-    // eslint-disable-next-line prefer-const
-    let deviceList: AccessoryType[] = [];
-
-    const configFile = JSON.parse(fs.readFileSync(HOMEBRIDGE_CONFIGURATION_PATH, 'utf-8'));
-    for (let index=0; index < configFile.platforms.length; index++){
-      if(configFile.platforms[index].name === this.config.name){
-        this.log.debug('Platform Name:', configFile.platforms[index].name);
-        this.log.debug('Device Count:', configFile.platforms[index].devices.length);
-        for (let index2 =0; index2 < configFile.platforms[index].devices.length; index2++){
-          const deviceName = configFile.platforms[index].devices[index2].name;
-          const deviceUUID = this.api.hap.uuid.generate(configFile.platforms[index].devices[index2].name);
-
-          this.log.debug('Device Name:', deviceName);
-          this.log.debug('Device UUID:', deviceUUID);
-
-          deviceList.push({name: deviceName, uuid: deviceUUID});
-        }
-      }
-    }
-
-    return deviceList;
-
-  }
-
   async discoverDevices() {
 
-    // eslint-disable-next-line prefer-const
-    let deviceList2: AccessoryType[] = this.refreshDeviceConfiguration();
+    const pendingUpdate = new Set();
+    const recentlyRegisteredDevices = new Set();
 
-    this.log.debug('DeviceList Count:', deviceList2.length);
-    this.log.debug('DeviceList Name0:', deviceList2[0].name);
+    const registeredDevices = 0;
+    const newDevices = 0;
+    const unseenDevices = 0;
+    const scans = 0;
+
+    const platformDiscoverer = new platformDiscovery(this.log, this.config, this.api);
+
+    const deviceList: AccessoryType[] = await platformDiscoverer.scan(2000);
+
+
+
+
+
+    // eslint-disable-next-line prefer-const
+    //let deviceList2: AccessoryType[] = this.refreshDeviceConfiguration();
+
+    this.log.debug('DeviceList Count:', deviceList.length);
+    this.log.debug('DeviceList Name0:', deviceList[0].name);
 
 
 
     // loop over the discovered devices and register each one if it has not already been registered
-    for (let index=0; index < deviceList2.length; index++) {
+    for (let index=0; index < deviceList.length; index++) {
 
       // generate a unique id for the accessory this should be generated from
       // something globally unique, but constant, for example, the device serial
@@ -80,9 +70,9 @@ export class vdpPlatform implements DynamicPlatformPlugin {
       //const uuid = this.api.hap.uuid.generate(deviceList2[index].uuid);
 
 
-      this.log.info('Device UUID-----', deviceList2[index].uuid);
+      this.log.info('Device UUID-----', deviceList[index].uuid);
 
-      const uuid = deviceList2[index].uuid;
+      const uuid = deviceList[index].uuid;
 
 
       const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid);
@@ -94,26 +84,35 @@ export class vdpPlatform implements DynamicPlatformPlugin {
         this.log.info('Restoring existing accessory from cache:', existingAccessory.displayName);
 
         // this is imported from `platformAccessory.ts`
-        new vdpTemplateAccessory(this, existingAccessory);
+        new platformAccessory(this, existingAccessory);
 
       } else {
 
-        this.log.info('Adding new accessory:', deviceList2[index].name);
-        const accessory = new this.api.platformAccessory(deviceList2[index].name, uuid);
-        this.log.info('Adding accessory context:', deviceList2[index].name);
+        this.log.info('Adding new accessory:', deviceList[index].name);
+        const accessory = new this.api.platformAccessory(deviceList[index].name, uuid);
+        this.log.info('Adding accessory context:', deviceList[index].name);
 
-        accessory.context.device = deviceList2[index];
+        accessory.context.device = deviceList[index];
 
         // create the accessory handler for the newly create accessory
         // this is imported from `platformAccessory.ts`
-        this.log.info('Adding new vdpTemplateAccessory:', deviceList2[index].name);
+        this.log.info('Adding new vdpTemplateAccessory:', deviceList[index].name);
 
-        new vdpTemplateAccessory(this, accessory);
+        new platformAccessory(this, accessory);
 
-        this.log.info('Registering platform accessory:', deviceList2[index].name);
+        this.log.info('Registering platform accessory:', deviceList[index].name);
 
         this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
       }
     }
   }
+
+  async createNewAccessory () {
+
+  }
+
+  registerExistingAccessory () {
+
+  }
+
 }

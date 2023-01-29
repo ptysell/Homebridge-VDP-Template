@@ -21,6 +21,13 @@
                     "title" : "Name",
                     "type" : "string",
                     "required" : true
+                  },
+                  "uuid" : {
+                    "title" : "UUID",
+                    "type" : "string",
+                    "condition": {
+                        "functionBody": "return false;"
+                    }
                   }
               }
           }

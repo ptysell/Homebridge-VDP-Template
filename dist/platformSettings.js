@@ -5,4 +5,4 @@ exports.MANUFACTURER_NAME = 'Virtural Device Platform';
 exports.PLATFORM_NAME = 'VDP Template';
 exports.PLUGIN_NAME = 'homebridge-vdp-template';
 exports.HOMEBRIDGE_CONFIGURATION_PATH = '/var/lib/homebridge/config.json';
-//# sourceMappingURL=settings.js.map
+//# sourceMappingURL=platformSettings.js.map

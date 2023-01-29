@@ -1,6 +1,6 @@
 import { Service, PlatformAccessory, CharacteristicValue } from 'homebridge';
 import { vdpPlatform } from '../platform';
-import { MANUFACTURER_NAME, PLATFORM_NAME } from '../settings';
+import { MANUFACTURER_NAME, PLATFORM_NAME } from '../platformSettings';
 
 export class vdpTemplateAccessory {
   private service: Service;

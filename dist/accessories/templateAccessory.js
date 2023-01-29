@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.vdpTemplateAccessory = void 0;
-const settings_1 = require("../settings");
+const platformSettings_1 = require("../platformSettings");
 class vdpTemplateAccessory {
     constructor(platform, accessory) {
         this.platform = platform;
@@ -11,8 +11,8 @@ class vdpTemplateAccessory {
             Status: false,
         };
         this.accessory.getService(this.platform.Service.AccessoryInformation)
-            .setCharacteristic(this.platform.Characteristic.Manufacturer, settings_1.MANUFACTURER_NAME)
-            .setCharacteristic(this.platform.Characteristic.Model, settings_1.PLATFORM_NAME)
+            .setCharacteristic(this.platform.Characteristic.Manufacturer, platformSettings_1.MANUFACTURER_NAME)
+            .setCharacteristic(this.platform.Characteristic.Model, platformSettings_1.PLATFORM_NAME)
             .setCharacteristic(this.platform.Characteristic.SerialNumber, this.accessorySettings.Name);
         this.service = this.accessory.getService(this.platform.Service.Lightbulb) || this.accessory.addService(this.platform.Service.Lightbulb);
         this.service.setCharacteristic(this.platform.Characteristic.Name, accessory.context.device.name);
