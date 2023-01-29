@@ -17,7 +17,7 @@ class vdpPlatform {
         this.api.on('didFinishLaunching', () => {
             log.debug('Executed didFinishLaunching callback');
             this.discoverDevices();
-            // this.periodicDiscovery = setInterval(() => this.discoverDevices(), 5000);
+            this.periodicDiscovery = setInterval(() => this.discoverDevices(), 5000);
         });
     }
     configureAccessory(accessory) {
@@ -55,13 +55,17 @@ class vdpPlatform {
             this.log.warn('Existing Accessory:', isExisting);
             this.log.error('---------------------------------');
             if (existingAccessory) {
-                this.log.error('Found Existing Accessory');
+                this.log.error('Found Existing Platform Accessory');
             }
             else {
-                this.log.error('Registering New Accessory');
+                this.log.error('Registering New Platform Accessory');
                 const accessory = new this.api.platformAccessory(device.displayName, uuid);
                 accessory.context.device = device;
                 this.api.registerPlatformAccessories(platformSettings_1.PLUGIN_NAME, platformSettings_1.PLATFORM_NAME, [accessory]);
+                this.log.error('Updating New Platform Accessory');
+                this.api.updatePlatformAccessories([accessory]);
+                this.log.error('Push New Platform Accessory');
+                this.accessories.push(accessory);
             }
         }
         // for (let index=0; index < deviceList.length; index++) {

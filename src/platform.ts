@@ -2,7 +2,7 @@ import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, 
 import { PLATFORM_NAME, PLUGIN_NAME } from './platformSettings';
 import { vdpAccessory } from './platformAccessory';
 import { platformDiscovery } from './platformDiscovery';
-import type { AccessoryType, platformDevice } from './types';
+import type { platformDevice } from './types';
 
 import fs from 'fs';
 
@@ -25,7 +25,7 @@ export class vdpPlatform implements DynamicPlatformPlugin {
     this.api.on('didFinishLaunching', () => {
       log.debug('Executed didFinishLaunching callback');
       this.discoverDevices();
-      // this.periodicDiscovery = setInterval(() => this.discoverDevices(), 5000);
+      this.periodicDiscovery = setInterval(() => this.discoverDevices(), 5000);
 
     });
   }
@@ -78,13 +78,18 @@ export class vdpPlatform implements DynamicPlatformPlugin {
       this.log.error('---------------------------------');
 
       if(existingAccessory){
-        this.log.error('Found Existing Accessory');
+        this.log.error('Found Existing Platform Accessory');
       } else{
 
-        this.log.error('Registering New Accessory');
+        this.log.error('Registering New Platform Accessory');
         const accessory = new this.api.platformAccessory(device.displayName, uuid);
         accessory.context.device = device;
         this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+        this.log.error('Updating New Platform Accessory');
+        this.api.updatePlatformAccessories([accessory]);
+        this.log.error('Push New Platform Accessory');
+        this.accessories.push(accessory);
+
 
       }
 
