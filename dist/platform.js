@@ -59,8 +59,10 @@ class vdpPlatform {
             // something globally unique, but constant, for example, the device serial
             // number or MAC address
             //const uuid = this.api.hap.uuid.generate(deviceList2[index].uuid);
+            this.log.info('Device UUID-----', deviceList2[index].uuid);
             const uuid = deviceList2[index].uuid;
             const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid);
+            this.log.info('Existing UUID-----', existingAccessory === null || existingAccessory === void 0 ? void 0 : existingAccessory.UUID);
             if (existingAccessory) {
                 this.log.info('Restoring existing accessory from cache:', existingAccessory.displayName);
                 // this is imported from `platformAccessory.ts`
