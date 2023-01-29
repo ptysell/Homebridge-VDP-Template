@@ -23,7 +23,7 @@ class platformDiscovery {
                         for (let index2 = 0; index2 < configFile.platforms[index].devices.length; index2++) {
                             const deviceName = configFile.platforms[index].devices[index2].name;
                             const deviceUUID = this.api.hap.uuid.generate(configFile.platforms[index].devices[index2].name);
-                            deviceList.push({ name: deviceName, uuid: deviceUUID });
+                            deviceList.push({ name: deviceName, uuid: deviceUUID, displayName: deviceName });
                         }
                     }
                 }

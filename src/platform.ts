@@ -2,7 +2,7 @@ import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, 
 import { PLATFORM_NAME, PLUGIN_NAME } from './platformSettings';
 import { vdpAccessory } from './platformAccessory';
 import { platformDiscovery } from './platformDiscovery';
-import type { AccessoryType, platformDeviceType } from './types';
+import type { AccessoryType, platformDevice } from './types';
 
 import fs from 'fs';
 
@@ -47,57 +47,57 @@ export class vdpPlatform implements DynamicPlatformPlugin {
 
     const platformDiscoverer = new platformDiscovery(this.log, this.config, this.api);
 
-    const deviceList: AccessoryType[] = await platformDiscoverer.scan(2000);
+    const deviceList: platformDevice[] = await platformDiscoverer.scan(2000);
 
-
-
-
-
-    // eslint-disable-next-line prefer-const
-    //let deviceList2: AccessoryType[] = this.refreshDeviceConfiguration();
 
     this.log.error('Config Accessory Count:', deviceList.length);
     this.log.error('Platform Accessory Count:', this.accessories.length);
 
-    for (let index2=0; index2 < this.accessories.length; index2++) {
-      this.log.error('Existing Device UUID:', this.accessories[index2].UUID);
+    for (const device of deviceList) {
+      const name = device.name;
+      const uuid = device.uuid;
+      const displayName = device.displayName;
+
+      this.log.error('---------------------------------');
+      this.log.warn('Device Name:', name);
+      this.log.warn('Device UUID:', uuid);
+      this.log.warn('Device Display Name:', displayName);
+      this.log.error('---------------------------------');
+
+
+
+
+
+
     }
 
-    // loop over the discovered devices and register each one if it has not already been registered
-    for (let index=0; index < deviceList.length; index++) {
-
-      const uuid = deviceList[index].uuid;
-
-      const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid);
 
 
-      if (existingAccessory) {
-        this.log.info('Restoring platformAccessory from cache:', existingAccessory);
+    // for (let index=0; index < deviceList.length; index++) {
 
-        new vdpAccessory(this, existingAccessory);
+    //   const uuid = deviceList[index].uuid;
 
-      } else {
+    //   const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid);
 
-        const accessory = new this.api.platformAccessory(deviceList[index].name, deviceList[index].uuid);
 
-        this.log.warn('New platformAccessory Name:', accessory.displayName);
-        this.log.warn('New platformAccessory UUID:', accessory.UUID);
+    //   if (existingAccessory) {
+    //     this.log.info('Restoring platformAccessory from cache:', existingAccessory);
 
-        this.log.info('Adding new platformAccessory:', deviceList[index].name, deviceList[index].uuid);
+    //     new vdpAccessory(this, existingAccessory);
 
-        new vdpAccessory(this, accessory);
+    //   } else {
 
-        this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
-      }
-    }
-  }
+    //     const accessory = new this.api.platformAccessory(deviceList[index].name, deviceList[index].uuid);
 
-  async createNewAccessory () {
+    //     this.log.warn('New platformAccessory Name:', accessory.displayName);
+    //     this.log.warn('New platformAccessory UUID:', accessory.UUID);
+
+    //     new vdpAccessory(this, accessory);
+
+    //     this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+    //   }
+    // }
+
 
   }
-
-  registerExistingAccessory () {
-
-  }
-
 }
