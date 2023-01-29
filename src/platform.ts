@@ -68,7 +68,7 @@ export class vdpPlatform implements DynamicPlatformPlugin {
 
   async discoverDevices() {
 
-    const deviceList2 = this.refreshDeviceConfiguration();
+    const deviceList2: AccessoryType[] = this.refreshDeviceConfiguration();
 
     this.log.debug('DeviceList Count:', deviceList2.length);
 
