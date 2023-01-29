@@ -1,6 +1,7 @@
-import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, Service, Characteristic } from 'homebridge';
+import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, Service, Characteristic, uuid, Access } from 'homebridge';
 import { PLATFORM_NAME, PLUGIN_NAME, HOMEBRIDGE_CONFIGURATION_PATH } from './settings';
 import { vdpTemplateAccessory } from './platformAccessories';
+import type { AccessoryType } from './types';
 
 import fs from 'fs';
 
@@ -35,47 +36,41 @@ export class vdpPlatform implements DynamicPlatformPlugin {
 
   async refreshDeviceConfiguration(){
     this.log.info('Refreshing Configuration File');
+
+    const deviceList: AccessoryType = [];
+
     const configFile = JSON.parse(fs.readFileSync(HOMEBRIDGE_CONFIGURATION_PATH, 'utf-8'));
     for (let index=0; index < configFile.platforms.length; index++){
       if(configFile.platforms[index].name === this.config.name){
         this.log.debug('Platform Name:', configFile.platforms[index].name);
-        this.log.info('Device Count:', configFile.platforms[index].devices.length);
+        this.log.debug('Device Count:', configFile.platforms[index].devices.length);
         for (let index2 =0; index2 < configFile.platforms[index].devices.length; index2++){
-          this.log.debug('Device Name:', configFile.platforms[index].devices[index2].name);
-          this.log.debug('Device UUID:', this.api.hap.uuid.generate('123'));
+          const deviceName = configFile.platforms[index].devices[index2].name;
+          const deviceUUID = this.api.hap.uuid.generate(configFile.platforms[index].devices[index2].name);
+
+          this.log.debug('Device Name:', deviceName);
+          this.log.debug('Device UUID:', deviceUUID);
+
+          deviceList.push({name: deviceName, uuid: deviceUUID});
         }
       }
     }
+
+    return deviceList;
+
   }
 
   async discoverDevices() {
 
-    this.refreshDeviceConfiguration();
-
-    this.deviceCount = this.config.devices.length;
-    this.log.error('Device Count:', this.deviceCount);
-
-
-
-    // EXAMPLE ONLY
-    // A real plugin you would discover accessories from the local network, cloud services
-    // or a user-defined array in the platform config.
-    const deviceList2 = [
-      {
-        exampleUniqueId: 'ABCD',
-        exampleDisplayName: 'Test Accessory 01',
-      },
-    ];
-
-
+    const deviceList2 = this.refreshDeviceConfiguration();
 
     // loop over the discovered devices and register each one if it has not already been registered
-    for (const device of deviceList2) {
+    for (const device of await deviceList2) {
 
       // generate a unique id for the accessory this should be generated from
       // something globally unique, but constant, for example, the device serial
       // number or MAC address
-      const uuid = this.api.hap.uuid.generate(device.exampleUniqueId);
+      const uuid = this.api.hap.uuid.generate(device.uuid);
 
 
       const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid);
@@ -88,8 +83,8 @@ export class vdpPlatform implements DynamicPlatformPlugin {
 
       } else {
 
-        this.log.info('Adding new accessory:', device.exampleDisplayName);
-        const accessory = new this.api.platformAccessory(device.exampleDisplayName, uuid);
+        this.log.info('Adding new accessory:', device.name);
+        const accessory = new this.api.platformAccessory(device.name, uuid);
         accessory.context.device = device;
 
         // create the accessory handler for the newly create accessory
