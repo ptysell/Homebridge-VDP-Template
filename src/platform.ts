@@ -25,7 +25,7 @@ export class vdpPlatform implements DynamicPlatformPlugin {
     this.api.on('didFinishLaunching', () => {
       log.debug('Executed didFinishLaunching callback');
       this.discoverDevices();
-      this.periodicDiscovery = setInterval(() => this.discoverDevices(), 5000);
+      // this.periodicDiscovery = setInterval(() => this.discoverDevices(), 5000);
 
     });
   }
