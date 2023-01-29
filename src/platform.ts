@@ -56,51 +56,38 @@ export class vdpPlatform implements DynamicPlatformPlugin {
     // eslint-disable-next-line prefer-const
     //let deviceList2: AccessoryType[] = this.refreshDeviceConfiguration();
 
-    this.log.debug('DeviceList Count:', deviceList.length);
-    this.log.debug('DeviceList Name0:', deviceList[0].name);
+    this.log.error('DeviceList Count:', deviceList.length);
+    this.log.error('DeviceList Name0:', deviceList[0].name);
+    this.log.error('DeviceList Name0:', deviceList[0].uuid);
+
 
 
 
     // loop over the discovered devices and register each one if it has not already been registered
     for (let index=0; index < deviceList.length; index++) {
 
-      // generate a unique id for the accessory this should be generated from
-      // something globally unique, but constant, for example, the device serial
-      // number or MAC address
-      //const uuid = this.api.hap.uuid.generate(deviceList2[index].uuid);
-
-
       this.log.info('Device UUID-----', deviceList[index].uuid);
 
-      const uuid = deviceList[index].uuid;
-
-
-      const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid);
+      const existingAccessory = this.accessories.find(accessory => accessory.UUID === deviceList[index].uuid);
 
       this.log.info('Existing UUID-----', existingAccessory?.UUID);
 
 
       if (existingAccessory) {
-        this.log.info('Restoring existing accessory from cache:', existingAccessory.displayName);
+        this.log.info('Restoring platformAccessory from cache:', existingAccessory.displayName);
 
-        // this is imported from `platformAccessory.ts`
         new platformAccessory(this, existingAccessory);
 
       } else {
 
-        this.log.info('Adding new accessory:', deviceList[index].name);
-        const accessory = new this.api.platformAccessory(deviceList[index].name, uuid);
-        this.log.info('Adding accessory context:', deviceList[index].name);
-
+        const accessory = new this.api.platformAccessory(deviceList[index].name, deviceList[index].uuid);
         accessory.context.device = deviceList[index];
 
-        // create the accessory handler for the newly create accessory
-        // this is imported from `platformAccessory.ts`
-        this.log.info('Adding new vdpTemplateAccessory:', deviceList[index].name);
+        this.log.info('Adding new platformAccessory:', deviceList[index].name, deviceList[index].uuid);
 
         new platformAccessory(this, accessory);
 
-        this.log.info('Registering platform accessory:', deviceList[index].name);
+        this.log.info('Registering platformAccessory:', deviceList[index].name, deviceList[index].uuid);
 
         this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
       }
