@@ -65,36 +65,37 @@ export class vdpPlatform implements DynamicPlatformPlugin {
   }
 
   //---------------Remove Methods---------------
-  removerAccessories(accessories: PlatformAccessory[]) {
-    this.log.info('Removing Platform Accessories:', accessories.length, ' of ', this.accessories.length);
-    for (const accessory of accessories){
-      this.removeAccessory(accessory);
+  removerAccessories(devices: PlatformAccessory[]) {
+    this.log.info('Removing Platform Accessories:', devices.length, ' of ', this.accessories.length);
+    for (const device of devices){
+      this.removeAccessory(device);
     }
     this.log.info('Platform Accessories:', this.accessories.length);
   }
 
-  removeAccessory(accessory: PlatformAccessory) {
-    this.log.info('Removing Platform Accessory:', accessory.displayName);
-    const accessoryIndex = this.accessories.findIndex(accessory => accessory.UUID === accessory.UUID);
-    this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+  removeAccessory(device: PlatformAccessory) {
+    this.log.info('Removing Platform Accessory:', device.displayName);
+    const accessoryIndex = this.accessories.findIndex(accessory => accessory.UUID === device.UUID);
+    this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [device]);
     this.accessories.splice(accessoryIndex, 1);
   }
 
   //---------------Prune Methods---------------
-  async pruneAccessories(accessories: PlatformAccessory[]){
-    this.log.info('Pruning Platform Accessories:', this.accessories.length, ' to ', accessories.length);
-    const deviceList: PlatformAccessory[] = [];
+  async pruneAccessories(devices: PlatformAccessory[]){
+    this.log.info('Pruning Platform Accessories:', this.accessories.length, ' to ', devices.length);
+    const pruneList: PlatformAccessory[] = [];
 
-    for (const accessory of this.accessories) {
-      const existingAccessory = accessories.find(accessory => accessory.UUID === accessory.UUID);
+    for (const device of this.accessories) {
+      const existingAccessory = devices.find(accessory => accessory.UUID === device.UUID);
       if(existingAccessory){
-        this.log.info('Accessory', accessory.displayName, 'is current.');
+        this.log.info('Accessory', device.displayName, 'is current.');
       } else {
-        this.log.info('Accessory', accessory.displayName, 'is not current.');
-        deviceList.push(accessory);
+        this.log.info('Accessory', device.displayName, 'is not current.');
+        pruneList.push(device);
       }
     }
-    this.removerAccessories(deviceList);
+    this.log.info('Pruning Accessories:', pruneList.length);
+    this.removerAccessories(pruneList);
     this.log.info('Platform Accessories:', this.accessories.length);
   }
 
