@@ -24,8 +24,6 @@ export class platformDiscovery {
       try {
 
         const configData = fs.readFileSync(HOMEBRIDGE_CONFIGURATION_PATH, 'utf-8');
-
-
         const configFile = JSON.parse(configData);
 
         if (this.configurationInfo.toString() === configData.toString()) {
