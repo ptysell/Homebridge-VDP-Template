@@ -1,10 +1,10 @@
 import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, Service, Characteristic } from 'homebridge';
 import { PLATFORM_NAME, PLUGIN_NAME } from './platformSettings';
-import { Accessory } from './platformAccessory';
+import { platformAccessory } from './platformAccessory';
 import { platformDiscovery } from './platformDiscovery';
 
 
-export class Platform implements DynamicPlatformPlugin {
+export class platform implements DynamicPlatformPlugin {
   public readonly Service: typeof Service = this.api.hap.Service;
   public readonly Characteristic: typeof Characteristic = this.api.hap.Characteristic;
 
@@ -118,7 +118,7 @@ export class Platform implements DynamicPlatformPlugin {
         this.log.error('Registering New Platform Accessory:', device.displayName);
         const accessory = new this.api.platformAccessory(device.displayName, device.UUID);
         accessory.context.device = device;
-        new Accessory(this, accessory);
+        new platformAccessory(this, accessory);
         this.addAccessory(accessory);
 
       }

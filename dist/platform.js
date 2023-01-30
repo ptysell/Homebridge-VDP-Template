@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Platform = void 0;
+exports.platform = void 0;
 const platformSettings_1 = require("./platformSettings");
 const platformAccessory_1 = require("./platformAccessory");
 const platformDiscovery_1 = require("./platformDiscovery");
-class Platform {
+class platform {
     constructor(log, config, api) {
         this.log = log;
         this.config = config;
@@ -92,11 +92,11 @@ class Platform {
                 this.log.error('Registering New Platform Accessory:', device.displayName);
                 const accessory = new this.api.platformAccessory(device.displayName, device.UUID);
                 accessory.context.device = device;
-                new platformAccessory_1.Accessory(this, accessory);
+                new platformAccessory_1.platformAccessory(this, accessory);
                 this.addAccessory(accessory);
             }
         }
     }
 }
-exports.Platform = Platform;
+exports.platform = platform;
 //# sourceMappingURL=platform.js.map

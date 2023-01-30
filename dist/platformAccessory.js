@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Accessory = void 0;
-class Accessory {
+exports.platformAccessory = void 0;
+class platformAccessory {
     constructor(platform, accessory) {
         this.platform = platform;
         this.accessory = accessory;
@@ -29,5 +29,5 @@ class Accessory {
         return isOn;
     }
 }
-exports.Accessory = Accessory;
+exports.platformAccessory = platformAccessory;
 //# sourceMappingURL=platformAccessory.js.map

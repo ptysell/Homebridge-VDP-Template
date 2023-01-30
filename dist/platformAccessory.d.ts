@@ -1,11 +1,11 @@
 import { PlatformAccessory, CharacteristicValue } from 'homebridge';
-import { Platform } from './platform';
-export declare class Accessory {
+import { platform } from './platform';
+export declare class platformAccessory {
     private readonly platform;
     private readonly accessory;
     private service;
     private exampleStates;
-    constructor(platform: Platform, accessory: PlatformAccessory);
+    constructor(platform: platform, accessory: PlatformAccessory);
     setOn(value: CharacteristicValue): Promise<void>;
     getOn(): Promise<CharacteristicValue>;
 }

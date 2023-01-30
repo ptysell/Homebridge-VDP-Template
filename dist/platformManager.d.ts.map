@@ -1,0 +1,1 @@
+{"version":3,"file":"platformManager.d.ts","sourceRoot":"","sources":["../src/platformManager.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,GAAG,EAAE,MAAM,EAAE,cAAc,EAAqB,MAAM,YAAY,CAAC;AAI5E,qBAAa,eAAe;aAGJ,GAAG,EAAE,MAAM;aACX,MAAM,EAAE,cAAc;aACtB,GAAG,EAAE,GAAG;gBAFR,GAAG,EAAE,MAAM,EACX,MAAM,EAAE,cAAc,EACtB,GAAG,EAAE,GAAG;CAI/B"}
