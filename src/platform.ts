@@ -66,11 +66,11 @@ export class vdpPlatform implements DynamicPlatformPlugin {
 
   //---------------Remove Methods---------------
   removerAccessories(accessories: PlatformAccessory[]) {
-    this.log.info('Removing Platform Accessories:', accessories.length, ':', this.accessories.length);
+    this.log.info('Removing Platform Accessories:', accessories.length, ' of ', this.accessories.length);
     for (const accessory of accessories){
       this.removeAccessory(accessory);
     }
-    this.log.info('Removed Platform Accessories:', (this.accessories.length - accessories.length));
+    this.log.info('Platform Accessories:', this.accessories.length);
   }
 
   removeAccessory(accessory: PlatformAccessory) {
@@ -82,7 +82,7 @@ export class vdpPlatform implements DynamicPlatformPlugin {
 
   //---------------Prune Methods---------------
   async pruneAccessories(accessories: PlatformAccessory[]){
-    this.log.info('Pruning Platform Accessories:', accessories.length, ':', this.accessories.length);
+    this.log.info('Pruning Platform Accessories:', this.accessories.length, ' to ', accessories.length);
     const deviceList: PlatformAccessory[] = [];
 
     for (const accessory of this.accessories) {
@@ -95,7 +95,7 @@ export class vdpPlatform implements DynamicPlatformPlugin {
       }
     }
     this.removerAccessories(deviceList);
-    this.log.info('Updated Platform Accessories:', accessories.length, ':', this.accessories.length, ':', (this.accessories.length - accessories.length));
+    this.log.info('Platform Accessories:', this.accessories.length);
   }
 
   async discoverDevices() {

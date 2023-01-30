@@ -52,11 +52,11 @@ class vdpPlatform {
     }
     //---------------Remove Methods---------------
     removerAccessories(accessories) {
-        this.log.info('Removing Platform Accessories:', accessories.length, ':', this.accessories.length);
+        this.log.info('Removing Platform Accessories:', accessories.length, ' of ', this.accessories.length);
         for (const accessory of accessories) {
             this.removeAccessory(accessory);
         }
-        this.log.info('Removed Platform Accessories:', (this.accessories.length - accessories.length));
+        this.log.info('Platform Accessories:', this.accessories.length);
     }
     removeAccessory(accessory) {
         this.log.info('Removing Platform Accessory:', accessory.displayName);
@@ -66,7 +66,7 @@ class vdpPlatform {
     }
     //---------------Prune Methods---------------
     async pruneAccessories(accessories) {
-        this.log.info('Pruning Platform Accessories:', accessories.length, ':', this.accessories.length);
+        this.log.info('Pruning Platform Accessories:', this.accessories.length, ' to ', accessories.length);
         const deviceList = [];
         for (const accessory of this.accessories) {
             const existingAccessory = accessories.find(accessory => accessory.UUID === accessory.UUID);
@@ -79,7 +79,7 @@ class vdpPlatform {
             }
         }
         this.removerAccessories(deviceList);
-        this.log.info('Updated Platform Accessories:', accessories.length, ':', this.accessories.length, ':', (this.accessories.length - accessories.length));
+        this.log.info('Platform Accessories:', this.accessories.length);
     }
     async discoverDevices() {
         const platformDiscoverer = new platformDiscovery_1.platformDiscovery(this.log, this.config, this.api);
