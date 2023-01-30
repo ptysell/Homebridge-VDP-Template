@@ -19,6 +19,7 @@ export declare class vdpPlatform implements DynamicPlatformPlugin {
     unregisterAccessories(accessory: PlatformAccessory[]): void;
     removeAccessory(accessory: PlatformAccessory): void;
     pruneAccessories(deviceList: platformDevice[]): Promise<void>;
+    pruneAccessory(device: PlatformAccessory): Promise<void>;
     discoverDevices(): Promise<void>;
 }
 //# sourceMappingURL=platform.d.ts.map
