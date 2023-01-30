@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.vdpPlatform = void 0;
+exports.Platform = void 0;
 const platformSettings_1 = require("./platformSettings");
 const platformAccessory_1 = require("./platformAccessory");
 const platformDiscovery_1 = require("./platformDiscovery");
-class vdpPlatform {
+class Platform {
     constructor(log, config, api) {
         this.log = log;
         this.config = config;
@@ -66,7 +66,7 @@ class vdpPlatform {
     }
     //---------------Prune Methods---------------
     pruneAccessories(accessories) {
-        this.log.info('Pruning Platform Accessories:', this.accessories.length, ' to ', accessories.length);
+        this.log.info('Pruning Platform Accessories:', 'from', this.accessories.length, ' to ', this.accessories.length - accessories.length);
         for (const accessory of this.accessories) {
             const existingAccessory = accessories.find(searchAccessory => searchAccessory.UUID === accessory.UUID);
             if (existingAccessory) {
@@ -77,7 +77,6 @@ class vdpPlatform {
                 this.removeAccessory(accessory);
             }
         }
-        this.log.info('Platform Accessories:', this.accessories.length);
     }
     async discoverDevices() {
         const platformDiscoverer = new platformDiscovery_1.platformDiscovery(this.log, this.config, this.api);
@@ -87,17 +86,17 @@ class vdpPlatform {
             const existingAccessory = this.accessories.find(accessory => accessory.UUID === device.UUID);
             if (existingAccessory) {
                 this.log.error('Found Existing Platform Accessory:', existingAccessory.displayName);
-                new platformAccessory_1.vdpAccessory(this, existingAccessory);
+                //new vdpAccessory(this, existingAccessory);
             }
             else {
                 this.log.error('Registering New Platform Accessory:', device.displayName);
                 const accessory = new this.api.platformAccessory(device.displayName, device.UUID);
                 accessory.context.device = device;
-                new platformAccessory_1.vdpAccessory(this, accessory);
+                new platformAccessory_1.Accessory(this, accessory);
                 this.addAccessory(accessory);
             }
         }
     }
 }
-exports.vdpPlatform = vdpPlatform;
+exports.Platform = Platform;
 //# sourceMappingURL=platform.js.map

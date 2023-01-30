@@ -1,11 +1,10 @@
 import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, Service, Characteristic } from 'homebridge';
 import { PLATFORM_NAME, PLUGIN_NAME } from './platformSettings';
-import { vdpAccessory } from './platformAccessory';
+import { Accessory } from './platformAccessory';
 import { platformDiscovery } from './platformDiscovery';
-import { access } from 'fs';
 
 
-export class vdpPlatform implements DynamicPlatformPlugin {
+export class Platform implements DynamicPlatformPlugin {
   public readonly Service: typeof Service = this.api.hap.Service;
   public readonly Characteristic: typeof Characteristic = this.api.hap.Characteristic;
 
@@ -82,7 +81,7 @@ export class vdpPlatform implements DynamicPlatformPlugin {
 
   //---------------Prune Methods---------------
   pruneAccessories(accessories: PlatformAccessory[]){
-    this.log.info('Pruning Platform Accessories:', this.accessories.length, ' to ', accessories.length);
+    this.log.info('Pruning Platform Accessories:', 'from', this.accessories.length, ' to ', this.accessories.length - accessories.length);
 
     for (const accessory of this.accessories) {
       const existingAccessory = accessories.find(searchAccessory => searchAccessory.UUID === accessory.UUID);
@@ -93,7 +92,6 @@ export class vdpPlatform implements DynamicPlatformPlugin {
         this.removeAccessory(accessory);
       }
     }
-    this.log.info('Platform Accessories:', this.accessories.length);
   }
 
 
@@ -113,14 +111,14 @@ export class vdpPlatform implements DynamicPlatformPlugin {
       if(existingAccessory){
 
         this.log.error('Found Existing Platform Accessory:', existingAccessory.displayName);
-        new vdpAccessory(this, existingAccessory);
+        //new vdpAccessory(this, existingAccessory);
 
       } else{
 
         this.log.error('Registering New Platform Accessory:', device.displayName);
         const accessory = new this.api.platformAccessory(device.displayName, device.UUID);
         accessory.context.device = device;
-        new vdpAccessory(this, accessory);
+        new Accessory(this, accessory);
         this.addAccessory(accessory);
 
       }

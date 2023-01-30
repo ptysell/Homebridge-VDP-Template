@@ -1,8 +1,7 @@
 import { Service, PlatformAccessory, CharacteristicValue } from 'homebridge';
+import { Platform } from './platform';
 
-import { vdpPlatform } from './platform';
-
-export class vdpAccessory {
+export class Accessory {
   private service: Service;
 
   private exampleStates = {
@@ -10,7 +9,7 @@ export class vdpAccessory {
   };
 
   constructor(
-    private readonly platform: vdpPlatform,
+    private readonly platform: Platform,
     private readonly accessory: PlatformAccessory,
 
 

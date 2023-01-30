@@ -2,6 +2,6 @@
 const platformSettings_1 = require("./platformSettings");
 const platform_1 = require("./platform");
 module.exports = (api) => {
-    api.registerPlatform(platformSettings_1.PLATFORM_NAME, platform_1.vdpPlatform);
+    api.registerPlatform(platformSettings_1.PLATFORM_NAME, platform_1.Platform);
 };
 //# sourceMappingURL=index.js.map
