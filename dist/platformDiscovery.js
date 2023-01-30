@@ -20,12 +20,12 @@ class platformDiscovery {
             try {
                 const configData = fs_1.default.readFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_PATH, 'utf-8');
                 const configFile = JSON.parse(configData);
-                if (this.configurationInfo === configData) {
+                if (this.configurationInfo === configData.toString()) {
                     this.log.info('Configuration Change: No');
-                    this.configurationInfo = configData;
                 }
                 else {
                     this.log.info('Configuration Change: Yes');
+                    this.configurationInfo = configData.toString();
                 }
                 for (let index = 0; index < configFile.platforms.length; index++) {
                     if (configFile.platforms[index].name === this.config.name) {

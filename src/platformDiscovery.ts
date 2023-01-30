@@ -28,11 +28,11 @@ export class platformDiscovery {
 
         const configFile = JSON.parse(configData);
 
-        if (this.configurationInfo === configData) {
+        if (this.configurationInfo === configData.toString()) {
           this.log.info('Configuration Change: No');
-          this.configurationInfo = configData;
         } else {
           this.log.info('Configuration Change: Yes');
+          this.configurationInfo = configData.toString();
         }
 
 
