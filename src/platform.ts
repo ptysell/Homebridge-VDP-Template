@@ -11,7 +11,7 @@ export class platform implements DynamicPlatformPlugin {
   public readonly accessories: PlatformAccessory[] = [];
   public deviceCount = 0;
   private periodicDiscovery: NodeJS.Timeout | null = null;
-
+  private platformDiscoverer: platformDiscovery;
 
 
   constructor(
@@ -26,6 +26,7 @@ export class platform implements DynamicPlatformPlugin {
       this.periodicDiscovery = setInterval(() => this.discoverDevices(), 5000);
 
     });
+    this.platformDiscoverer = new platformDiscovery(this.log, this.config, this.api);
   }
 
   //---------------Configure Methods---------------
@@ -98,8 +99,8 @@ export class platform implements DynamicPlatformPlugin {
 
   async discoverDevices() {
 
-    const platformDiscoverer = new platformDiscovery(this.log, this.config, this.api);
-    const deviceList: PlatformAccessory[] = await platformDiscoverer.scan(2000);
+    //const platformDiscoverer = new platformDiscovery(this.log, this.config, this.api);
+    const deviceList: PlatformAccessory[] = await this.platformDiscoverer.scan(2000);
 
     this.pruneAccessories(deviceList);
 

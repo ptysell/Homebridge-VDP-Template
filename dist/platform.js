@@ -20,6 +20,7 @@ class platform {
             this.discoverDevices();
             this.periodicDiscovery = setInterval(() => this.discoverDevices(), 5000);
         });
+        this.platformDiscoverer = new platformDiscovery_1.platformDiscovery(this.log, this.config, this.api);
     }
     //---------------Configure Methods---------------
     configureAccessories(accessories) {
@@ -79,8 +80,8 @@ class platform {
         }
     }
     async discoverDevices() {
-        const platformDiscoverer = new platformDiscovery_1.platformDiscovery(this.log, this.config, this.api);
-        const deviceList = await platformDiscoverer.scan(2000);
+        //const platformDiscoverer = new platformDiscovery(this.log, this.config, this.api);
+        const deviceList = await this.platformDiscoverer.scan(2000);
         this.pruneAccessories(deviceList);
         for (const device of deviceList) {
             const existingAccessory = this.accessories.find(accessory => accessory.UUID === device.UUID);

@@ -8,6 +8,7 @@ export declare class platform implements DynamicPlatformPlugin {
     readonly accessories: PlatformAccessory[];
     deviceCount: number;
     private periodicDiscovery;
+    private platformDiscoverer;
     constructor(log: Logger, config: PlatformConfig, api: API);
     configureAccessories(accessories: PlatformAccessory[]): void;
     configureAccessory(accessory: PlatformAccessory): void;
