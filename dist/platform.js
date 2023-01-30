@@ -87,7 +87,7 @@ class platform {
             const existingAccessory = this.accessories.find(accessory => accessory.UUID === device.UUID);
             if (existingAccessory) {
                 this.log.error('Found Existing Platform Accessory:', existingAccessory.displayName);
-                //new vdpAccessory(this, existingAccessory);
+                new platformAccessory_1.platformAccessory(this, existingAccessory);
             }
             else {
                 this.log.error('Registering New Platform Accessory:', device.displayName);

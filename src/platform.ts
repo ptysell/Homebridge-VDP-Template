@@ -112,7 +112,7 @@ export class platform implements DynamicPlatformPlugin {
       if(existingAccessory){
 
         this.log.error('Found Existing Platform Accessory:', existingAccessory.displayName);
-        //new vdpAccessory(this, existingAccessory);
+        new platformAccessory(this, existingAccessory);
 
       } else{
 
