@@ -65,7 +65,7 @@ class vdpPlatform {
         this.accessories.splice(accessoryIndex, 1);
     }
     //---------------Prune Methods---------------
-    async pruneAccessories(accessories) {
+    pruneAccessories(accessories) {
         this.log.info('Pruning Platform Accessories:', this.accessories.length, ' to ', accessories.length);
         for (const accessory of this.accessories) {
             const existingAccessory = accessories.find(searchAccessory => searchAccessory.UUID === accessory.UUID);

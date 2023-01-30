@@ -81,7 +81,7 @@ export class vdpPlatform implements DynamicPlatformPlugin {
   }
 
   //---------------Prune Methods---------------
-  async pruneAccessories(accessories: PlatformAccessory[]){
+  pruneAccessories(accessories: PlatformAccessory[]){
     this.log.info('Pruning Platform Accessories:', this.accessories.length, ' to ', accessories.length);
 
     for (const accessory of this.accessories) {
