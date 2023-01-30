@@ -25,6 +25,7 @@ class platformDiscovery {
                 }
                 else {
                     this.log.info('Configuration File Change: Yes');
+                    this.configurationInfo = configData.toString();
                     this.deviceList = [];
                     for (let index = 0; index < configFile.platforms.length; index++) {
                         if (configFile.platforms[index].name === this.config.name) {

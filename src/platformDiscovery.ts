@@ -30,6 +30,7 @@ export class platformDiscovery {
           this.log.info('Configuration File Change: No');
         } else {
           this.log.info('Configuration File Change: Yes');
+          this.configurationInfo = configData.toString();
           this.deviceList = [];
 
 
