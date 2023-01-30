@@ -37,6 +37,10 @@ class platformDiscovery {
                     this.log.error('--------------------------------------');
                     this.log.error('--------------------------------------');
                     this.configurationInfo = configData.toString();
+                    this.log.info('Platform 2.0 Change:', this.configurationInfo.toString());
+                    this.log.error('--------------------------------------');
+                    this.log.error('--------------------------------------');
+                    this.log.error('--------------------------------------');
                 }
                 for (let index = 0; index < configFile.platforms.length; index++) {
                     if (configFile.platforms[index].name === this.config.name) {

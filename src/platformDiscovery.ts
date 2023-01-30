@@ -45,6 +45,11 @@ export class platformDiscovery {
           this.log.error('--------------------------------------');
 
           this.configurationInfo = configData.toString();
+
+          this.log.info('Platform 2.0 Change:', this.configurationInfo.toString());
+          this.log.error('--------------------------------------');
+          this.log.error('--------------------------------------');
+          this.log.error('--------------------------------------');
         }
 
 
