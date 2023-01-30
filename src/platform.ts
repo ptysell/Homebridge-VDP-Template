@@ -25,7 +25,7 @@ export class vdpPlatform implements DynamicPlatformPlugin {
     this.api.on('didFinishLaunching', () => {
       log.debug('Executed didFinishLaunching callback');
       this.discoverDevices();
-      this.periodicDiscovery = setInterval(() => this.discoverDevices(), 5000);
+      this.periodicDiscovery = setInterval(() => this.discoverDevices(), 50000);
 
     });
   }
@@ -79,6 +79,7 @@ export class vdpPlatform implements DynamicPlatformPlugin {
       if(!existingAccessory){
         this.log.info('Pruning Platform Accessory:', device.displayName, 'at index', index);
         const tmpAccessory = new this.api.platformAccessory(device.displayName, device.UUID);
+
         this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [tmpAccessory]);
         this.accessories.splice(index, 1);
       }
@@ -122,10 +123,11 @@ export class vdpPlatform implements DynamicPlatformPlugin {
 
 
       this.log.error('---------------------------------');
-      this.log.warn('Device Name:', name);
-      this.log.warn('Device UUID:', uuid);
-      this.log.warn('Device Display Name:', displayName);
-      this.log.warn('Existing Accessory:', isExisting);
+      this.log.error('---------------------------------');
+      this.log.debug('Device Name:', name);
+      this.log.error('Device UUID:', uuid);
+      this.log.info('Device Display Name:', displayName);
+      this.log.warn('Device Cached:', isExisting);
       this.log.error('---------------------------------');
 
       if(existingAccessory){

@@ -18,7 +18,7 @@ class vdpPlatform {
         this.api.on('didFinishLaunching', () => {
             log.debug('Executed didFinishLaunching callback');
             this.discoverDevices();
-            this.periodicDiscovery = setInterval(() => this.discoverDevices(), 5000);
+            this.periodicDiscovery = setInterval(() => this.discoverDevices(), 50000);
         });
     }
     configureAccessories(accessory) {
@@ -94,10 +94,11 @@ class vdpPlatform {
                 isExisting = 'No';
             }
             this.log.error('---------------------------------');
-            this.log.warn('Device Name:', name);
-            this.log.warn('Device UUID:', uuid);
-            this.log.warn('Device Display Name:', displayName);
-            this.log.warn('Existing Accessory:', isExisting);
+            this.log.error('---------------------------------');
+            this.log.debug('Device Name:', name);
+            this.log.error('Device UUID:', uuid);
+            this.log.info('Device Display Name:', displayName);
+            this.log.warn('Device Cached:', isExisting);
             this.log.error('---------------------------------');
             if (existingAccessory) {
                 this.log.error('Found Existing Platform Accessory');
