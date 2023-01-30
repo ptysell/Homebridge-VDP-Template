@@ -25,7 +25,7 @@ export class vdpPlatform implements DynamicPlatformPlugin {
     this.api.on('didFinishLaunching', () => {
       log.debug('Executed didFinishLaunching callback');
       this.discoverDevices();
-      this.periodicDiscovery = setInterval(() => this.discoverDevices(), 50000);
+      this.periodicDiscovery = setInterval(() => this.discoverDevices(), 5000);
 
     });
   }
@@ -83,6 +83,7 @@ export class vdpPlatform implements DynamicPlatformPlugin {
         this.pruneAccessory(device);
       }
     }
+    this.log.info('Pruning Platform Accessories:', deviceList.length, ':', this.accessories.length);
   }
 
   async pruneAccessory(device: PlatformAccessory){
@@ -138,6 +139,7 @@ export class vdpPlatform implements DynamicPlatformPlugin {
 
       if(existingAccessory){
         this.log.error('Found Existing Platform Accessory');
+        new vdpAccessory(this, existingAccessory);
       } else{
 
         this.log.error('Registering New Platform Accessory');

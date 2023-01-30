@@ -18,7 +18,7 @@ class vdpPlatform {
         this.api.on('didFinishLaunching', () => {
             log.debug('Executed didFinishLaunching callback');
             this.discoverDevices();
-            this.periodicDiscovery = setInterval(() => this.discoverDevices(), 50000);
+            this.periodicDiscovery = setInterval(() => this.discoverDevices(), 5000);
         });
     }
     configureAccessories(accessory) {
@@ -67,6 +67,7 @@ class vdpPlatform {
                 this.pruneAccessory(device);
             }
         }
+        this.log.info('Pruning Platform Accessories:', deviceList.length, ':', this.accessories.length);
     }
     async pruneAccessory(device) {
         const accessoryIndex = this.accessories.findIndex(accessory => accessory.UUID === device.UUID);
@@ -108,6 +109,7 @@ class vdpPlatform {
             this.log.error('---------------------------------');
             if (existingAccessory) {
                 this.log.error('Found Existing Platform Accessory');
+                new platformAccessory_1.vdpAccessory(this, existingAccessory);
             }
             else {
                 this.log.error('Registering New Platform Accessory');
