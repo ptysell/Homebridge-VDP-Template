@@ -22,11 +22,15 @@ export class platformDiscovery {
 
 
       try {
-        const configFile = JSON.parse(fs.readFileSync(HOMEBRIDGE_CONFIGURATION_PATH, 'utf-8'));
 
-        if (this.configurationInfo === configFile) {
+        const configData = fs.readFileSync(HOMEBRIDGE_CONFIGURATION_PATH, 'utf-8');
+
+
+        const configFile = JSON.parse(configData);
+
+        if (this.configurationInfo === configData) {
           this.log.info('Configuration Change: No');
-          this.configurationInfo = configFile;
+          this.configurationInfo = configData;
         } else {
           this.log.info('Configuration Change: Yes');
         }

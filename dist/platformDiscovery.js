@@ -18,10 +18,11 @@ class platformDiscovery {
             const deviceList = [];
             this.log.info('Refreshing Configuration File.');
             try {
-                const configFile = JSON.parse(fs_1.default.readFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_PATH, 'utf-8'));
-                if (this.configurationInfo === configFile) {
+                const configData = fs_1.default.readFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_PATH, 'utf-8');
+                const configFile = JSON.parse(configData);
+                if (this.configurationInfo === configData) {
                     this.log.info('Configuration Change: No');
-                    this.configurationInfo = configFile;
+                    this.configurationInfo = configData;
                 }
                 else {
                     this.log.info('Configuration Change: Yes');
