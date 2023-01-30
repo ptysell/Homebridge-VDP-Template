@@ -4,11 +4,14 @@ import fs from 'fs';
 
 export class platformDiscovery {
 
+  private configurationInfo = '';
+
   constructor(
         public readonly log: Logger,
         public readonly config: PlatformConfig,
         public readonly api: API,
   ) {}
+
 
   async scan(timeout = 500): Promise<PlatformAccessory[]> {
     return new Promise((resolve, reject) => {
@@ -16,8 +19,20 @@ export class platformDiscovery {
 
       this.log.info('Refreshing Configuration File.');
 
+
+
       try {
         const configFile = JSON.parse(fs.readFileSync(HOMEBRIDGE_CONFIGURATION_PATH, 'utf-8'));
+
+        if (this.configurationInfo === configFile) {
+          this.log.info('Configuration Change: No');
+          this.configurationInfo = configFile;
+        } else {
+          this.log.info('Configuration Change: Yes');
+        }
+
+
+
         for (let index=0; index < configFile.platforms.length; index++){
           if(configFile.platforms[index].name === this.config.name){
             for (let index2 =0; index2 < configFile.platforms[index].devices.length; index2++){

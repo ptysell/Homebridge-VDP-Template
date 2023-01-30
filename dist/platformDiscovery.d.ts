@@ -3,6 +3,7 @@ export declare class platformDiscovery {
     readonly log: Logger;
     readonly config: PlatformConfig;
     readonly api: API;
+    private configurationInfo;
     constructor(log: Logger, config: PlatformConfig, api: API);
     scan(timeout?: number): Promise<PlatformAccessory[]>;
 }
