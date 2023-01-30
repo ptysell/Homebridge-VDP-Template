@@ -21,9 +21,10 @@ class platformDiscovery {
                 for (let index = 0; index < configFile.platforms.length; index++) {
                     if (configFile.platforms[index].name === this.config.name) {
                         for (let index2 = 0; index2 < configFile.platforms[index].devices.length; index2++) {
-                            const deviceName = configFile.platforms[index].devices[index2].name;
-                            const deviceUUID = this.api.hap.uuid.generate(configFile.platforms[index].devices[index2].name);
-                            deviceList.push({ name: deviceName, uuid: deviceUUID, displayName: deviceName });
+                            const displayName = configFile.platforms[index].devices[index2].name;
+                            const UUID = this.api.hap.uuid.generate(configFile.platforms[index].devices[index2].name);
+                            const accessory = new this.api.platformAccessory(displayName, UUID);
+                            deviceList.push(accessory);
                         }
                     }
                 }

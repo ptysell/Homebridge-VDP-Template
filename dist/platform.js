@@ -21,104 +21,82 @@ class vdpPlatform {
             this.periodicDiscovery = setInterval(() => this.discoverDevices(), 5000);
         });
     }
-    configureAccessories(accessory) {
-        this.log.info('Method: configureAccessories');
+    //---------------Configure Methods---------------
+    configureAccessories(accessories) {
+        this.log.info('Configuring Platform Accessories:', accessories.length);
     }
     configureAccessory(accessory) {
-        this.log.info('Loading accessory from cache:', accessory.displayName);
-        this.accessories.push(accessory);
+        this.log.info('Configuring Platform Accessories:', accessory.displayName);
+        //this.log.info('Loading accessory from cache:', accessory.displayName);
+        //this.accessories.push(accessory);
     }
-    addAccessories(accessory) {
-        this.log.info('Method: registerAccessories');
+    //---------------Add Methods---------------
+    addAccessories(accessories) {
+        this.log.info('Adding Platform Accessories:', accessories.length, ' to ', this.accessories.length);
+        for (const accessory of accessories) {
+            this.addAccessory(accessory);
+        }
+        this.log.info('Added Platform Accessories:', (this.accessories.length - accessories.length));
     }
     addAccessory(accessory) {
-        this.log.info('Method: registerAccessory');
+        this.log.info('Adding Platform Accessory:', accessory.displayName);
+        this.api.registerPlatformAccessories(platformSettings_1.PLUGIN_NAME, platformSettings_1.PLATFORM_NAME, [accessory]);
+        this.accessories.push(accessory);
     }
-    updateAccessories(accessory) {
-        this.log.info('Method: updateAccessories');
+    //---------------Update Methods---------------
+    updateAccessories(accessories) {
+        this.log.info('Updating Platform Accessories:', accessories.length);
     }
     updateAccessory(accessory) {
-        this.log.info('Method: updateAccessory');
+        this.log.info('Updating Platform Accessories:', accessory.displayName);
     }
-    unregisterAccessories(accessory) {
-        this.log.info('Method: unregisterAccessories');
+    //---------------Remove Methods---------------
+    removerAccessories(accessories) {
+        this.log.info('Removing Platform Accessories:', accessories.length, ':', this.accessories.length);
+        for (const accessory of accessories) {
+            this.removeAccessory(accessory);
+        }
+        this.log.info('Removed Platform Accessories:', (this.accessories.length - accessories.length));
     }
     removeAccessory(accessory) {
-        this.log.info('Unregistering Platform Accessory:', accessory.displayName);
+        this.log.info('Removing Platform Accessory:', accessory.displayName);
+        const accessoryIndex = this.accessories.findIndex(accessory => accessory.UUID === accessory.UUID);
         this.api.unregisterPlatformAccessories(platformSettings_1.PLUGIN_NAME, platformSettings_1.PLATFORM_NAME, [accessory]);
-        let index = 0;
-        for (const device of this.accessories) {
-            if (device.UUID === accessory.UUID) {
-                this.log.info('Removing Platform Accessory:', accessory.displayName);
-                this.accessories.splice(index, 1);
-            }
-            index++;
-        }
-    }
-    async pruneAccessories(deviceList) {
-        this.log.info('Pruning Platform Accessories:', deviceList.length, ':', this.accessories.length);
-        for (const device of this.accessories) {
-            const existingAccessory = deviceList.find(accessory => accessory.uuid === device.UUID);
-            if (existingAccessory) {
-                this.log.info('Accessory', device.displayName, 'is current.');
-            }
-            else {
-                this.log.info('Accessory', device.displayName, 'is not current.');
-                this.pruneAccessory(device);
-            }
-        }
-        this.log.info('Pruning Platform Accessories:', deviceList.length, ':', this.accessories.length);
-    }
-    async pruneAccessory(device) {
-        const accessoryIndex = this.accessories.findIndex(accessory => accessory.UUID === device.UUID);
-        this.log.info('Pruning Platform Accessory:', device.displayName, 'at index', accessoryIndex);
-        this.api.unregisterPlatformAccessories(platformSettings_1.PLUGIN_NAME, platformSettings_1.PLATFORM_NAME, [device]);
         this.accessories.splice(accessoryIndex, 1);
     }
+    //---------------Prune Methods---------------
+    async pruneAccessories(accessories) {
+        this.log.info('Pruning Platform Accessories:', accessories.length, ':', this.accessories.length);
+        const deviceList = [];
+        for (const accessory of this.accessories) {
+            const existingAccessory = accessories.find(accessory => accessory.UUID === accessory.UUID);
+            if (existingAccessory) {
+                this.log.info('Accessory', accessory.displayName, 'is current.');
+            }
+            else {
+                this.log.info('Accessory', accessory.displayName, 'is not current.');
+                deviceList.push(accessory);
+            }
+        }
+        this.removerAccessories(deviceList);
+        this.log.info('Updated Platform Accessories:', accessories.length, ':', this.accessories.length, ':', (this.accessories.length - accessories.length));
+    }
     async discoverDevices() {
-        const pendingUpdate = new Set();
-        const recentlyRegisteredDevices = new Set();
-        const registeredDevices = 0;
-        const newDevices = 0;
-        const unseenDevices = 0;
-        const scans = 0;
         const platformDiscoverer = new platformDiscovery_1.platformDiscovery(this.log, this.config, this.api);
         const deviceList = await platformDiscoverer.scan(2000);
         this.pruneAccessories(deviceList);
-        this.log.error('Config Accessory Count:', deviceList.length);
-        this.log.error('Platform Accessory Count:', this.accessories.length);
         for (const device of deviceList) {
-            const name = device.name;
-            //const uuid = device.uuid;
-            const uuid = this.api.hap.uuid.generate(device.displayName);
-            const displayName = device.displayName;
-            let isExisting = '';
-            const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid);
+            const existingAccessory = this.accessories.find(accessory => accessory.UUID === device.UUID);
             if (existingAccessory) {
-                isExisting = 'Yes';
-            }
-            else {
-                isExisting = 'No';
-            }
-            this.log.error('---------------------------------');
-            this.log.error('---------------------------------');
-            this.log.debug('Device Name:', name);
-            this.log.error('Device UUID:', uuid);
-            this.log.info('Device Display Name:', displayName);
-            this.log.warn('Device Cached:', isExisting);
-            this.log.error('---------------------------------');
-            if (existingAccessory) {
-                this.log.error('Found Existing Platform Accessory');
+                this.log.error('Found Existing Platform Accessory:', existingAccessory.displayName);
                 new platformAccessory_1.vdpAccessory(this, existingAccessory);
             }
             else {
-                this.log.error('Registering New Platform Accessory');
-                const accessory = new this.api.platformAccessory(device.displayName, uuid);
+                this.log.error('Registering New Platform Accessory:', device.displayName);
+                const accessory = new this.api.platformAccessory(device.displayName, device.UUID);
                 accessory.context.device = device;
                 new platformAccessory_1.vdpAccessory(this, accessory);
-                this.api.registerPlatformAccessories(platformSettings_1.PLUGIN_NAME, platformSettings_1.PLATFORM_NAME, [accessory]);
-                this.log.error('Push New Platform Accessory');
-                this.accessories.push(accessory);
+                this.addAccessory(accessory);
             }
         }
     }

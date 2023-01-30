@@ -1,5 +1,4 @@
 import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, Service, Characteristic } from 'homebridge';
-import type { platformDevice } from './types';
 export declare class vdpPlatform implements DynamicPlatformPlugin {
     readonly log: Logger;
     readonly config: PlatformConfig;
@@ -10,16 +9,15 @@ export declare class vdpPlatform implements DynamicPlatformPlugin {
     deviceCount: number;
     private periodicDiscovery;
     constructor(log: Logger, config: PlatformConfig, api: API);
-    configureAccessories(accessory: PlatformAccessory[]): void;
+    configureAccessories(accessories: PlatformAccessory[]): void;
     configureAccessory(accessory: PlatformAccessory): void;
-    addAccessories(accessory: PlatformAccessory[]): void;
+    addAccessories(accessories: PlatformAccessory[]): void;
     addAccessory(accessory: PlatformAccessory): void;
-    updateAccessories(accessory: PlatformAccessory[]): void;
+    updateAccessories(accessories: PlatformAccessory[]): void;
     updateAccessory(accessory: PlatformAccessory): void;
-    unregisterAccessories(accessory: PlatformAccessory[]): void;
+    removerAccessories(accessories: PlatformAccessory[]): void;
     removeAccessory(accessory: PlatformAccessory): void;
-    pruneAccessories(deviceList: platformDevice[]): Promise<void>;
-    pruneAccessory(device: PlatformAccessory): Promise<void>;
+    pruneAccessories(accessories: PlatformAccessory[]): Promise<void>;
     discoverDevices(): Promise<void>;
 }
 //# sourceMappingURL=platform.d.ts.map
