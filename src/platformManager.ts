@@ -186,7 +186,7 @@ export class platformManager {
   public pruneAccessory(accessory: PlatformAccessory) {
     this.log.info('Pruning Platform Accessory:', accessory.displayName);
     try {
-      if (this.accessoryExistsByUUID(accessory.UUID)){
+      if (!this.accessoryExistsByUUID(accessory.UUID)){
         this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
         this.accessories.splice(this.accessories.findIndex(searchAccessory => searchAccessory.UUID === accessory.UUID), 1);
       } else {
