@@ -20,7 +20,7 @@ class platform {
             this.periodicDiscovery = setInterval(() => this.discoverDevices(), 5000);
         });
         this.platformDiscoverer = new platformDiscovery_1.platformDiscovery(this.log, this.config, this.api);
-        this.platformManager = new platformManager_1.platformManager(this.log, this.config, this.api);
+        this.platformManager = new platformManager_1.platformManager(this.log, this.config, this.api, this);
         this.platformManager.refresh();
     }
     async discoverDevices() {

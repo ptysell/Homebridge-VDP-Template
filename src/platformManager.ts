@@ -1,7 +1,9 @@
 import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, Service, Characteristic } from 'homebridge';
 //import { platformAccessory } from './platformAccessory';
 import { PLATFORM_NAME, PLUGIN_NAME } from './platformSettings';
+import { platform } from './platform';
 import { platformDiscovery } from './platformDiscovery';
+import { platformAccessory } from './platformAccessory';
 
 
 
@@ -17,6 +19,7 @@ export class platformManager {
         public readonly log: Logger,
         public readonly config: PlatformConfig,
         public readonly api: API,
+        public readonly platform: platform,
   ) {
     this.platformDiscoverer = new platformDiscovery(this.log, this.config, this.api);
     this.refresh();
@@ -131,6 +134,7 @@ export class platformManager {
     try {
       if (!this.accessoryExistsByUUID(accessory.UUID)){
         this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+        new platformAccessory(this.platform, accessory);
         this.accessories.push(accessory);
       } else {
         throw new Error('Accessory ' + accessory.displayName + ' Already Exists');

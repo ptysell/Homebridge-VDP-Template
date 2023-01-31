@@ -32,7 +32,7 @@ export class platform implements DynamicPlatformPlugin {
 
     });
     this.platformDiscoverer = new platformDiscovery(this.log, this.config, this.api);
-    this.platformManager = new platformManager(this.log, this.config, this.api);
+    this.platformManager = new platformManager(this.log, this.config, this.api, this);
     this.platformManager.refresh();
   }
 

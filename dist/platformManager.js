@@ -4,11 +4,13 @@ exports.platformManager = void 0;
 //import { platformAccessory } from './platformAccessory';
 const platformSettings_1 = require("./platformSettings");
 const platformDiscovery_1 = require("./platformDiscovery");
+const platformAccessory_1 = require("./platformAccessory");
 class platformManager {
-    constructor(log, config, api) {
+    constructor(log, config, api, platform) {
         this.log = log;
         this.config = config;
         this.api = api;
+        this.platform = platform;
         this.accessories = [];
         this.discoveredAccessories = [];
         this.changeStatus = true;
@@ -109,6 +111,7 @@ class platformManager {
         try {
             if (!this.accessoryExistsByUUID(accessory.UUID)) {
                 this.api.registerPlatformAccessories(platformSettings_1.PLUGIN_NAME, platformSettings_1.PLATFORM_NAME, [accessory]);
+                new platformAccessory_1.platformAccessory(this.platform, accessory);
                 this.accessories.push(accessory);
             }
             else {

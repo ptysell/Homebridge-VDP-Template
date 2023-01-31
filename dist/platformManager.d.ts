@@ -1,13 +1,15 @@
 import { API, Logger, PlatformAccessory, PlatformConfig } from 'homebridge';
+import { platform } from './platform';
 export declare class platformManager {
     readonly log: Logger;
     readonly config: PlatformConfig;
     readonly api: API;
+    readonly platform: platform;
     readonly accessories: PlatformAccessory[];
     private discoveredAccessories;
     private changeStatus;
     private platformDiscoverer;
-    constructor(log: Logger, config: PlatformConfig, api: API);
+    constructor(log: Logger, config: PlatformConfig, api: API, platform: platform);
     refresh(): Promise<void>;
     accessoryExistsByUUID(UUID: string): boolean;
     accessoryExists(accessory: PlatformAccessory): boolean;
