@@ -22,11 +22,34 @@ export class platformManager {
         public readonly platform: platform,
   ) {
     this.platformDiscoverer = new platformDiscovery(this.log, this.config, this.api);
-    this.refresh();
+    this.initialize();
 
   }
 
   //      this.accessories.sort((a, b) => a.displayName.localeCompare(b.displayName));
+
+  public async initialize() {
+    try {
+      if(this.platformDiscoverer.refresh) {
+        const newAccessoires: PlatformAccessory[] = [];
+
+        this.discoveredAccessories = await this.platformDiscoverer.scan(300);
+
+        for (const accessory of this.discoveredAccessories) {
+          if (!this.accessoryExistsByUUID(accessory.UUID)) {
+            newAccessoires.push(accessory);
+          }
+        }
+        this.addAccessories(newAccessoires);
+        //this.pruneAccessories(this.discoveredAccessories);
+      }
+
+
+    } catch (error) {
+      this.log.error('');
+    }
+
+  }
 
   public async refresh() {
     try {

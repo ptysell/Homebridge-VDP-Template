@@ -10,6 +10,7 @@ export declare class platformManager {
     private changeStatus;
     private platformDiscoverer;
     constructor(log: Logger, config: PlatformConfig, api: API, platform: platform);
+    initialize(): Promise<void>;
     refresh(): Promise<void>;
     accessoryExistsByUUID(UUID: string): boolean;
     accessoryExists(accessory: PlatformAccessory): boolean;

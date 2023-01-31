@@ -15,9 +15,27 @@ class platformManager {
         this.discoveredAccessories = [];
         this.changeStatus = true;
         this.platformDiscoverer = new platformDiscovery_1.platformDiscovery(this.log, this.config, this.api);
-        this.refresh();
+        this.initialize();
     }
     //      this.accessories.sort((a, b) => a.displayName.localeCompare(b.displayName));
+    async initialize() {
+        try {
+            if (this.platformDiscoverer.refresh) {
+                const newAccessoires = [];
+                this.discoveredAccessories = await this.platformDiscoverer.scan(300);
+                for (const accessory of this.discoveredAccessories) {
+                    if (!this.accessoryExistsByUUID(accessory.UUID)) {
+                        newAccessoires.push(accessory);
+                    }
+                }
+                this.addAccessories(newAccessoires);
+                //this.pruneAccessories(this.discoveredAccessories);
+            }
+        }
+        catch (error) {
+            this.log.error('');
+        }
+    }
     async refresh() {
         try {
             if (this.platformDiscoverer.refresh) {

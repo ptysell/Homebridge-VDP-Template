@@ -27,7 +27,7 @@ class platform {
         //const platformDiscoverer = new platformDiscovery(this.log, this.config, this.api);
         // const deviceList: PlatformAccessory[] = await this.platformDiscoverer.scan(2000);
         // this.pruneAccessories(deviceList);
-        this.platformManager.refresh;
+        this.platformManager.refresh();
         // const discoverDevices = this.platformManager.getAccessories;
         // for (const accessory of discoverDevices) {
         //   const existingAccessory = this.accessories.find(searchAccessory => searchAccessory.UUID === accessory.UUID);
