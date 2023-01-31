@@ -1,31 +1,31 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.platformAccessory = void 0;
+const platformSettings_1 = require("./platformSettings");
 class platformAccessory {
     constructor(platform, accessory) {
         this.platform = platform;
         this.accessory = accessory;
-        this.exampleStates = {
+        this.state = {
             On: false,
         };
-        // set accessory information
         this.accessory.getService(this.platform.Service.AccessoryInformation)
-            .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Default-Manufacturer')
-            .setCharacteristic(this.platform.Characteristic.Model, 'Default-Model')
-            .setCharacteristic(this.platform.Characteristic.SerialNumber, 'Default-Serial');
-        this.service = this.accessory.getService(this.platform.Service.Lightbulb) || this.accessory.addService(this.platform.Service.Lightbulb);
-        this.service.setCharacteristic(this.platform.Characteristic.Name, accessory.displayName);
+            .setCharacteristic(this.platform.Characteristic.Manufacturer, platformSettings_1.MANUFACTURER_NAME)
+            .setCharacteristic(this.platform.Characteristic.Model, platformSettings_1.PLATFORM_NAME)
+            .setCharacteristic(this.platform.Characteristic.SerialNumber, this.accessory.UUID);
+        this.service = this.accessory.getService(this.platform.Service.Switch) || this.accessory.addService(this.platform.Service.Switch);
+        this.service.setCharacteristic(this.platform.Characteristic.Name, this.accessory.displayName);
         this.service.getCharacteristic(this.platform.Characteristic.On)
-            .onSet(this.setOn.bind(this)) // SET - bind to the `setOn` method below
-            .onGet(this.getOn.bind(this)); // GET - bind to the `getOn` method below
+            .onSet(this.setOn.bind(this))
+            .onGet(this.getOn.bind(this));
     }
     async setOn(value) {
-        this.exampleStates.On = value;
-        // this.platform.log.debug('Set Characteristic On ->', value);
+        this.state.On = value;
+        this.platform.log.debug('Set Characteristic On:', this.accessory.displayName, ' | ', value);
     }
     async getOn() {
-        const isOn = this.exampleStates.On;
-        //this.platform.log.debug('Get Characteristic On ->', isOn);
+        const isOn = this.state.On;
+        this.platform.log.debug('Set Characteristic On:', this.accessory.displayName, ' | ', isOn);
         return isOn;
     }
 }

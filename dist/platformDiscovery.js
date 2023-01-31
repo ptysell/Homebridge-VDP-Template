@@ -13,6 +13,7 @@ class platformDiscovery {
         this.api = api;
         this.configurationInfo = '';
         this.deviceList = [];
+        this.refresh = true;
     }
     async scan(timeout = 500) {
         return new Promise((resolve, reject) => {
@@ -22,9 +23,11 @@ class platformDiscovery {
                 const configFile = JSON.parse(configData);
                 if (this.configurationInfo.toString() === configData.toString()) {
                     this.log.info('Configuration File Change: No');
+                    this.refresh = false;
                 }
                 else {
                     this.log.info('Configuration File Change: Yes');
+                    this.refresh = true;
                     this.configurationInfo = configData.toString();
                     this.deviceList = [];
                     for (let index = 0; index < configFile.platforms.length; index++) {

@@ -5,6 +5,7 @@ export declare class platformDiscovery {
     readonly api: API;
     private configurationInfo;
     private deviceList;
+    refresh: boolean;
     constructor(log: Logger, config: PlatformConfig, api: API);
     scan(timeout?: number): Promise<PlatformAccessory[]>;
 }

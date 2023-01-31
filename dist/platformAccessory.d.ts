@@ -4,7 +4,7 @@ export declare class platformAccessory {
     private readonly platform;
     private readonly accessory;
     private service;
-    private exampleStates;
+    private state;
     constructor(platform: platform, accessory: PlatformAccessory);
     setOn(value: CharacteristicValue): Promise<void>;
     getOn(): Promise<CharacteristicValue>;

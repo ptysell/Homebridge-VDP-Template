@@ -9,16 +9,9 @@ export declare class platform implements DynamicPlatformPlugin {
     deviceCount: number;
     private periodicDiscovery;
     private platformDiscoverer;
+    private platformManager;
     constructor(log: Logger, config: PlatformConfig, api: API);
-    configureAccessories(accessories: PlatformAccessory[]): void;
-    configureAccessory(accessory: PlatformAccessory): void;
-    addAccessories(accessories: PlatformAccessory[]): void;
-    addAccessory(accessory: PlatformAccessory): void;
-    updateAccessories(accessories: PlatformAccessory[]): void;
-    updateAccessory(accessory: PlatformAccessory): void;
-    removerAccessories(accessories: PlatformAccessory[]): void;
-    removeAccessory(accessory: PlatformAccessory): void;
-    pruneAccessories(accessories: PlatformAccessory[]): void;
     discoverDevices(): Promise<void>;
+    configureAccessory(accessory: PlatformAccessory): void;
 }
 //# sourceMappingURL=platform.d.ts.map

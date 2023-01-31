@@ -1,9 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.platform = void 0;
-const platformSettings_1 = require("./platformSettings");
-const platformAccessory_1 = require("./platformAccessory");
 const platformDiscovery_1 = require("./platformDiscovery");
+const platformManager_1 = require("./platformManager");
 class platform {
     constructor(log, config, api) {
         this.log = log;
@@ -21,82 +20,37 @@ class platform {
             this.periodicDiscovery = setInterval(() => this.discoverDevices(), 5000);
         });
         this.platformDiscoverer = new platformDiscovery_1.platformDiscovery(this.log, this.config, this.api);
+        this.platformManager = new platformManager_1.platformManager(this.log, this.config, this.api);
+        this.platformManager.refresh();
     }
-    //---------------Configure Methods---------------
-    configureAccessories(accessories) {
-        this.log.info('Configuring Platform Accessories:', accessories.length);
+    async discoverDevices() {
+        //const platformDiscoverer = new platformDiscovery(this.log, this.config, this.api);
+        // const deviceList: PlatformAccessory[] = await this.platformDiscoverer.scan(2000);
+        // this.pruneAccessories(deviceList);
+        this.platformManager.refresh;
+        // const discoverDevices = this.platformManager.getAccessories;
+        // for (const accessory of discoverDevices) {
+        //   const existingAccessory = this.accessories.find(searchAccessory => searchAccessory.UUID === accessory.UUID);
+        //   if(existingAccessory){
+        //     this.log.error('Found Existing Platform Accessory:', existingAccessory.displayName);
+        //     new platformAccessory(this, existingAccessory);
+        //   } else{
+        //     this.log.error('Registering New Platform Accessory:', device.displayName);
+        //     const accessory = new this.api.platformAccessory(device.displayName, device.UUID);
+        //     accessory.context.device = device;
+        //     new platformAccessory(this, accessory);
+        //     this.addAccessory(accessory);
+        //   }
+        // }
     }
+    // //---------------Configure Methods---------------
+    // configureAccessories(accessories: PlatformAccessory[]) {
+    //   this.log.info('Configuring Platform Accessories:', accessories.length);
+    // }
     configureAccessory(accessory) {
         this.log.info('Configuring Platform Accessories:', accessory.displayName);
         //this.log.info('Loading accessory from cache:', accessory.displayName);
         //this.accessories.push(accessory);
-    }
-    //---------------Add Methods---------------
-    addAccessories(accessories) {
-        this.log.info('Adding Platform Accessories:', accessories.length, ' to ', this.accessories.length);
-        for (const accessory of accessories) {
-            this.addAccessory(accessory);
-        }
-        this.log.info('Added Platform Accessories:', (this.accessories.length - accessories.length));
-    }
-    addAccessory(accessory) {
-        this.log.info('Adding Platform Accessory:', accessory.displayName);
-        this.api.registerPlatformAccessories(platformSettings_1.PLUGIN_NAME, platformSettings_1.PLATFORM_NAME, [accessory]);
-        this.accessories.push(accessory);
-    }
-    //---------------Update Methods---------------
-    updateAccessories(accessories) {
-        this.log.info('Updating Platform Accessories:', accessories.length);
-    }
-    updateAccessory(accessory) {
-        this.log.info('Updating Platform Accessories:', accessory.displayName);
-    }
-    //---------------Remove Methods---------------
-    removerAccessories(accessories) {
-        this.log.info('Removing Platform Accessories:', accessories.length, ' of ', this.accessories.length);
-        for (const accessory of accessories) {
-            this.removeAccessory(accessory);
-        }
-        this.log.info('Platform Accessories:', this.accessories.length);
-    }
-    removeAccessory(accessory) {
-        this.log.info('Removing Platform Accessory:', accessory.displayName);
-        const accessoryIndex = this.accessories.findIndex(searchAccessory => searchAccessory.UUID === accessory.UUID);
-        this.api.unregisterPlatformAccessories(platformSettings_1.PLUGIN_NAME, platformSettings_1.PLATFORM_NAME, [accessory]);
-        this.accessories.splice(accessoryIndex, 1);
-    }
-    //---------------Prune Methods---------------
-    pruneAccessories(accessories) {
-        this.log.info('Pruning Platform Accessories:', 'from', this.accessories.length, ' to ', this.accessories.length - accessories.length);
-        for (const accessory of this.accessories) {
-            const existingAccessory = accessories.find(searchAccessory => searchAccessory.UUID === accessory.UUID);
-            if (existingAccessory) {
-                this.log.info('Accessory', accessory.displayName, 'is current.');
-            }
-            else {
-                this.log.info('Accessory', accessory.displayName, 'is not current.');
-                this.removeAccessory(accessory);
-            }
-        }
-    }
-    async discoverDevices() {
-        //const platformDiscoverer = new platformDiscovery(this.log, this.config, this.api);
-        const deviceList = await this.platformDiscoverer.scan(2000);
-        this.pruneAccessories(deviceList);
-        for (const device of deviceList) {
-            const existingAccessory = this.accessories.find(accessory => accessory.UUID === device.UUID);
-            if (existingAccessory) {
-                this.log.error('Found Existing Platform Accessory:', existingAccessory.displayName);
-                new platformAccessory_1.platformAccessory(this, existingAccessory);
-            }
-            else {
-                this.log.error('Registering New Platform Accessory:', device.displayName);
-                const accessory = new this.api.platformAccessory(device.displayName, device.UUID);
-                accessory.context.device = device;
-                new platformAccessory_1.platformAccessory(this, accessory);
-                this.addAccessory(accessory);
-            }
-        }
     }
 }
 exports.platform = platform;

@@ -6,6 +6,7 @@ export class platformDiscovery {
 
   private configurationInfo = '';
   private deviceList: PlatformAccessory[] = [];
+  public refresh = true;
 
   constructor(
         public readonly log: Logger,
@@ -28,8 +29,10 @@ export class platformDiscovery {
 
         if (this.configurationInfo.toString() === configData.toString()) {
           this.log.info('Configuration File Change: No');
+          this.refresh = false;
         } else {
           this.log.info('Configuration File Change: Yes');
+          this.refresh = true;
           this.configurationInfo = configData.toString();
           this.deviceList = [];
 
