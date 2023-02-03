@@ -34,7 +34,7 @@ export class platformConfigurationManager {
   // }
   // }
 
-  update(): boolean {
+  async update(): Promise<boolean> {
     try {
       fs.stat(HOMEBRIDGE_CONFIGURATION_PATH, (error, stats) => {
         if(error) {
@@ -76,9 +76,9 @@ export class platformConfigurationManager {
     return false;
   }
 
-  scan(timeout = 500): PlatformAccessory[] {
+  async scan(timeout = 500): Promise<PlatformAccessory[]> {
     this.log.info('Refreshing Configuration File.');
-    this.log.info('Configuration Status:', this.update());
+    this.log.info('Configuration Status:', await this.update());
 
     // try {
     //   if (this.update()) {

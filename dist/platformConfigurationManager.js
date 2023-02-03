@@ -30,7 +30,7 @@ class platformConfigurationManager {
     //   throw new Error('');
     // }
     // }
-    update() {
+    async update() {
         try {
             fs_1.default.stat(platformSettings_1.HOMEBRIDGE_CONFIGURATION_PATH, (error, stats) => {
                 if (error) {
@@ -74,9 +74,9 @@ class platformConfigurationManager {
         }
         return false;
     }
-    scan(timeout = 500) {
+    async scan(timeout = 500) {
         this.log.info('Refreshing Configuration File.');
-        this.log.info('Configuration Status:', this.update());
+        this.log.info('Configuration Status:', await this.update());
         // try {
         //   if (this.update()) {
         //     this.log.info('Configuration File Change: Yes');
