@@ -14,6 +14,18 @@ class platformDiscovery {
         this.configurationInfo = '';
         this.deviceList = [];
         this.refresh = true;
+        this.lastUpdated = '';
+    }
+    async update() {
+        fs_1.default.stat(platformSettings_1.HOMEBRIDGE_CONFIGURATION_PATH, (err, stats) => {
+            if (err) {
+                throw err;
+            }
+            // print file last modified date
+            this.log.error(`File Data Last Modified: ${stats.mtime}`);
+            this.log.error(`File Status Last Modified: ${stats.ctime}`);
+        });
+        return true;
     }
     async scan(timeout = 500) {
         return new Promise((resolve, reject) => {

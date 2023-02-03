@@ -8,12 +8,31 @@ export class platformDiscovery {
   private deviceList: PlatformAccessory[] = [];
   public refresh = true;
 
+  private lastUpdated = '';
+
   constructor(
         public readonly log: Logger,
         public readonly config: PlatformConfig,
         public readonly api: API,
   ) {}
 
+  async update(): Promise<boolean> {
+
+    fs.stat(HOMEBRIDGE_CONFIGURATION_PATH, (err, stats) => {
+      if(err) {
+        throw err;
+      }
+
+      // print file last modified date
+      this.log.error(`File Data Last Modified: ${stats.mtime}`);
+      this.log.error(`File Status Last Modified: ${stats.ctime}`);
+
+
+    });
+
+
+    return true;
+  }
 
   async scan(timeout = 500): Promise<PlatformAccessory[]> {
     return new Promise((resolve, reject) => {
