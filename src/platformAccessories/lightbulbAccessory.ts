@@ -1,36 +1,18 @@
 import { Service, PlatformAccessory, CharacteristicValue } from 'homebridge';
-import { platform } from './platform';
-import { MANUFACTURER_NAME, PLATFORM_NAME } from './platformSettings';
+import { platformAccessory } from '../platformAccessory';
+import { platform } from '../platform';
+import { MANUFACTURER_NAME, PLATFORM_NAME } from '../platformSettings';
 
 
-export class platformAccessory {
-
-  protected platform: platform;
-  protected accessory: PlatformAccessory;
+export class lightbulbAccessory extends platformAccessory {
   protected service: Service;
 
-  protected state = {
-    On: false,
-  };
-
-  public readonly UUID: string;
-  public readonly displayName: string;
-
   constructor(
-    platform: platform,
-    accessory: PlatformAccessory,
-
-
+    protected readonly platform: platform,
+    protected readonly accessory: PlatformAccessory,
   ) {
-    this.platform = platform;
-    this.accessory = accessory;
 
-    this.UUID = accessory.UUID;
-    this.displayName = accessory.displayName;
-
-
-
-
+    super(platform, accessory);
     this.accessory.getService(this.platform.Service.AccessoryInformation)!
       .setCharacteristic(this.platform.Characteristic.Manufacturer, MANUFACTURER_NAME)
       .setCharacteristic(this.platform.Characteristic.Model, PLATFORM_NAME)

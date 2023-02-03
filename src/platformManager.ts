@@ -30,6 +30,10 @@ export class platformManager {
 
   public async initialize() {
     try {
+
+
+
+
       if(this.platformDiscoverer.refresh) {
         const newAccessoires: PlatformAccessory[] = [];
 

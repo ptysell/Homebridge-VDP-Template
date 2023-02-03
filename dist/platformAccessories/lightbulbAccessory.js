@@ -1,16 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.platformAccessory = void 0;
-const platformSettings_1 = require("./platformSettings");
-class platformAccessory {
+exports.lightbulbAccessory = void 0;
+const platformAccessory_1 = require("../platformAccessory");
+const platformSettings_1 = require("../platformSettings");
+class lightbulbAccessory extends platformAccessory_1.platformAccessory {
     constructor(platform, accessory) {
-        this.state = {
-            On: false,
-        };
+        super(platform, accessory);
         this.platform = platform;
         this.accessory = accessory;
-        this.UUID = accessory.UUID;
-        this.displayName = accessory.displayName;
         this.accessory.getService(this.platform.Service.AccessoryInformation)
             .setCharacteristic(this.platform.Characteristic.Manufacturer, platformSettings_1.MANUFACTURER_NAME)
             .setCharacteristic(this.platform.Characteristic.Model, platformSettings_1.PLATFORM_NAME)
@@ -31,5 +28,5 @@ class platformAccessory {
         return isOn;
     }
 }
-exports.platformAccessory = platformAccessory;
-//# sourceMappingURL=platformAccessory.js.map
+exports.lightbulbAccessory = lightbulbAccessory;
+//# sourceMappingURL=lightbulbAccessory.js.map

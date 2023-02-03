@@ -6,10 +6,16 @@
     "type": "object",
     "properties": {
       "name": {
-        "title": "Name",
+        "title": "Name:",
         "type": "string",
         "required": true,
         "default": "VDP Template Dynamic Platform"
+      }, 
+      "configPath": {
+        "title": "Config Path:",
+        "type": "string",
+        "required": true,
+        "default": "/var/lib/homebridge/config.json"
       }, 
       "devices": {
           "type": "array",
