@@ -1,6 +1,6 @@
 import { API, Logger, PlatformConfig, PlatformAccessory } from 'homebridge';
 import { HOMEBRIDGE_CONFIGURATION_PATH } from './platformSettings';
-import fs from 'fs';
+import fs, { stat } from 'fs';
 
 export class platformConfigurationManager {
 
@@ -20,6 +20,7 @@ export class platformConfigurationManager {
 
   async initialize(){
     try {
+      this.log.debug('Platform Configuration Manager: Initializing');
       fs.stat(HOMEBRIDGE_CONFIGURATION_PATH, (error, stats) => {
         if(error) {
           throw new Error('');
@@ -29,6 +30,7 @@ export class platformConfigurationManager {
     } catch (error) {
       throw new Error('');
     }
+    this.log.debug('Platform Configuration Manager: Last Updated |', this.lastUpdated);
   }
 
   async update(): Promise<boolean> {
@@ -38,7 +40,11 @@ export class platformConfigurationManager {
         if(error) {
           throw new Error('');
         }
+        this.log.error('Platform Configuration Manager: Last Updated |', this.lastUpdated);
+        this.log.error('Platform Configuration File: Last Updated |', stats.ctimeMs);
+
         if(this.lastUpdated === stats.ctimeMs){
+          this.lastUpdated = stats.ctimeMs;
           return true;
         }
       });
