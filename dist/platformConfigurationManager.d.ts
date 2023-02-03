@@ -9,7 +9,7 @@ export declare class platformConfigurationManager {
     private lastUpdated;
     constructor(log: Logger, config: PlatformConfig, api: API);
     initialize(): Promise<void>;
-    update(): Promise<boolean>;
+    update(): boolean;
     scan(timeout?: number): Promise<PlatformAccessory[]>;
 }
 //# sourceMappingURL=platformConfigurationManager.d.ts.map

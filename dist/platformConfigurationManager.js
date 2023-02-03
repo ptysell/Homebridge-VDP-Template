@@ -31,7 +31,7 @@ class platformConfigurationManager {
         }
         this.log.debug('Platform Configuration Manager: Last Updated |', this.lastUpdated);
     }
-    async update() {
+    update() {
         try {
             fs_1.default.stat(platformSettings_1.HOMEBRIDGE_CONFIGURATION_PATH, (error, stats) => {
                 if (error) {
@@ -41,14 +41,14 @@ class platformConfigurationManager {
                 this.log.error('Platform Configuration File: Last Updated |', stats.ctimeMs);
                 if (this.lastUpdated === stats.ctimeMs) {
                     this.lastUpdated = stats.ctimeMs;
-                    return true;
+                    return false;
                 }
             });
         }
         catch (error) {
             throw new Error('');
         }
-        return false;
+        return true;
     }
     async scan(timeout = 500) {
         return new Promise((resolve, reject) => {

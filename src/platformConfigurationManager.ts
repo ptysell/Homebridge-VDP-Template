@@ -33,7 +33,7 @@ export class platformConfigurationManager {
     this.log.debug('Platform Configuration Manager: Last Updated |', this.lastUpdated);
   }
 
-  async update(): Promise<boolean> {
+  update(): boolean {
 
     try {
       fs.stat(HOMEBRIDGE_CONFIGURATION_PATH, (error, stats) => {
@@ -45,13 +45,13 @@ export class platformConfigurationManager {
 
         if(this.lastUpdated === stats.ctimeMs){
           this.lastUpdated = stats.ctimeMs;
-          return true;
+          return false;
         }
       });
     } catch (error) {
       throw new Error('');
     }
-    return false;
+    return true;
   }
 
   async scan(timeout = 500): Promise<PlatformAccessory[]> {
