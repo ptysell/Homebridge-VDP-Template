@@ -30,7 +30,7 @@ class platformConfigurationManager {
     //   throw new Error('');
     // }
     // }
-    update() {
+    async update() {
         let updateStatus = false;
         this.log.warn('<Update> Initializing: Return Value |', updateStatus);
         try {
@@ -54,33 +54,14 @@ class platformConfigurationManager {
         this.log.warn('<Update> Returning: Return Value |', updateStatus);
         return updateStatus;
     }
-    refresh() {
-        try {
-            fs_1.default.stat(platformSettings_1.HOMEBRIDGE_CONFIGURATION_PATH, (error, stats) => {
-                if (error) {
-                    throw new Error('');
-                }
-                if (this.lastUpdated === stats.ctimeMs) {
-                    this.log.debug('Update2: No');
-                    return false;
-                }
-                else {
-                    this.log.debug('Update2: Yes');
-                    this.lastUpdated = stats.ctimeMs;
-                    return true;
-                }
-            });
-        }
-        catch (error) {
-            throw new Error('');
-        }
-        return false;
+    async refresh() {
+        return await this.update();
     }
-    scan(timeout = 500) {
+    async scan() {
         this.log.info('Refreshing Configuration File.');
         this.log.error('Configuration Status:', this.update());
         try {
-            if (this.update()) {
+            if (await this.update()) {
                 this.log.info('Configuration File Change: Yes');
                 const configData = fs_1.default.readFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_PATH, 'utf-8');
                 const configFile = JSON.parse(configData);

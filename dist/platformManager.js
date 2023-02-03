@@ -20,9 +20,9 @@ class platformManager {
     //      this.accessories.sort((a, b) => a.displayName.localeCompare(b.displayName));
     async initialize() {
         try {
-            if (this.platformDiscoverer.refresh()) {
+            if (await this.platformDiscoverer.refresh()) {
                 const newAccessoires = [];
-                this.discoveredAccessories = await this.platformDiscoverer.scan(300);
+                this.discoveredAccessories = await this.platformDiscoverer.scan();
                 for (const accessory of this.discoveredAccessories) {
                     if (!this.accessoryExistsByUUID(accessory.UUID)) {
                         newAccessoires.push(accessory);
@@ -38,9 +38,9 @@ class platformManager {
     }
     async refresh() {
         try {
-            if (this.platformDiscoverer.refresh()) {
+            if (await this.platformDiscoverer.refresh()) {
                 const newAccessoires = [];
-                this.discoveredAccessories = await this.platformDiscoverer.scan(300);
+                this.discoveredAccessories = await this.platformDiscoverer.scan();
                 for (const accessory of this.discoveredAccessories) {
                     if (!this.accessoryExistsByUUID(accessory.UUID)) {
                         newAccessoires.push(accessory);

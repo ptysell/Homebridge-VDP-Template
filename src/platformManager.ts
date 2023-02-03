@@ -34,10 +34,10 @@ export class platformManager {
 
 
 
-      if(this.platformDiscoverer.refresh()) {
+      if(await this.platformDiscoverer.refresh()) {
         const newAccessoires: PlatformAccessory[] = [];
 
-        this.discoveredAccessories = await this.platformDiscoverer.scan(300);
+        this.discoveredAccessories = await this.platformDiscoverer.scan();
 
         for (const accessory of this.discoveredAccessories) {
           if (!this.accessoryExistsByUUID(accessory.UUID)) {
@@ -57,10 +57,10 @@ export class platformManager {
 
   public async refresh() {
     try {
-      if(this.platformDiscoverer.refresh()) {
+      if(await this.platformDiscoverer.refresh()) {
         const newAccessoires: PlatformAccessory[] = [];
 
-        this.discoveredAccessories = await this.platformDiscoverer.scan(300);
+        this.discoveredAccessories = await this.platformDiscoverer.scan();
 
         for (const accessory of this.discoveredAccessories) {
           if (!this.accessoryExistsByUUID(accessory.UUID)) {
