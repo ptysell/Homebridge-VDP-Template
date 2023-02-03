@@ -30,26 +30,25 @@ class platformConfigurationManager {
     //   throw new Error('');
     // }
     // }
-    async update() {
+    update() {
+        let updateStatus = false;
+        this.log.warn('<Update> Initializing: Return Value |', updateStatus);
         try {
             fs_1.default.stat(platformSettings_1.HOMEBRIDGE_CONFIGURATION_PATH, (error, stats) => {
-                if (error) {
-                    throw new Error('');
-                }
                 if (this.lastUpdated === stats.ctimeMs) {
-                    this.log.debug('Update: No');
-                    return false;
+                    this.log.warn('<Update> Match Time Stamps: Return Value |', updateStatus);
                 }
                 else {
-                    this.log.debug('Update: Yes');
-                    return true;
+                    updateStatus = true;
+                    this.log.warn('<Update> Match Time Stamps: Return Value |', updateStatus);
                 }
             });
         }
         catch (error) {
-            throw new Error('');
+            this.log.error('');
         }
-        return false;
+        this.log.warn('<Update> Returning: Return Value |', updateStatus);
+        return updateStatus;
     }
     refresh() {
         try {
@@ -73,11 +72,11 @@ class platformConfigurationManager {
         }
         return false;
     }
-    async scan(timeout = 500) {
+    scan(timeout = 500) {
         this.log.info('Refreshing Configuration File.');
-        this.log.error('Configuration Status:', await this.update());
+        this.log.error('Configuration Status:', this.update());
         try {
-            if (await this.update()) {
+            if (this.update()) {
                 this.log.info('Configuration File Change: Yes');
                 const configData = fs_1.default.readFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_PATH, 'utf-8');
                 const configFile = JSON.parse(configData);

@@ -7,8 +7,8 @@ export declare class platformConfigurationManager {
     private deviceList;
     private lastUpdated;
     constructor(log: Logger, config: PlatformConfig, api: API);
-    update(): Promise<boolean>;
+    update(): boolean;
     refresh(): boolean;
-    scan(timeout?: number): Promise<PlatformAccessory[]>;
+    scan(timeout?: number): PlatformAccessory[];
 }
 //# sourceMappingURL=platformConfigurationManager.d.ts.map
