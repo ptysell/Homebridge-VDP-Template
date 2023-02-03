@@ -17,18 +17,17 @@ class platformConfigurationManager {
         this.initialize();
     }
     async initialize() {
-        try {
-            this.log.debug('Platform Configuration Manager: Initializing');
-            fs_1.default.stat(platformSettings_1.HOMEBRIDGE_CONFIGURATION_PATH, (error, stats) => {
-                if (error) {
-                    throw new Error('');
-                }
-                this.lastUpdated = stats.ctimeMs;
-            });
-        }
-        catch (error) {
-            throw new Error('');
-        }
+        // try {
+        //   this.log.debug('Platform Configuration Manager: Initializing');
+        //   fs.stat(HOMEBRIDGE_CONFIGURATION_PATH, (error, stats) => {
+        //     if(error) {
+        //       throw new Error('');
+        //     }
+        //     this.lastUpdated = stats.ctimeMs;
+        //   });
+        // } catch (error) {
+        //   throw new Error('');
+        // }
     }
     update() {
         let retrunValue = false;
@@ -38,11 +37,11 @@ class platformConfigurationManager {
                     throw new Error('');
                 }
                 if (this.lastUpdated === stats.ctimeMs) {
-                    this.log.debug('Last Update: True');
-                    retrunValue = true;
+                    this.log.debug('Update: No');
+                    retrunValue = false;
                 }
                 else {
-                    this.log.debug('Last Update: False');
+                    this.log.debug('Update: Yes');
                     retrunValue = true;
                     this.lastUpdated = stats.ctimeMs;
                 }
