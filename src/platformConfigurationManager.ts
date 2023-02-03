@@ -37,26 +37,37 @@ export class platformConfigurationManager {
   // }
   // }
 
+  private async getFileState(): Promise<number> {
+    let ctime = 0;
+    fs.stat(HOMEBRIDGE_CONFIGURATION_PATH, (error, stats) => {
+      ctime = stats.ctimeMs;
+    });
+    return ctime;
+  }
+
+
   public async update(): Promise<boolean> {
     this.log.warn('--------------------------------');
     this.log.warn('<Update> Initializing: Return Value |', this.updateStatus);
     try {
-      fs.stat(HOMEBRIDGE_CONFIGURATION_PATH, (error, stats) => {
-        if(this.lastUpdated === stats.ctimeMs){
-          this.log.warn('<Update> Matched Time Stamps: Return Value |', this.updateStatus);
-          this.updateStatus = false;
-        } else {
-          this.updateStatus = true;
-          this.log.warn('<Update> Miss-Matched Time Stamps: Return Value |', this.updateStatus);
-          this.log.error('<Update> Set Last Updated.......');
-          this.log.error('<Update> From:', this.lastUpdated);
-          this.log.error('<Update> To:', stats.ctimeMs);
 
-          this.lastUpdated = stats.ctimeMs;
-          this.log.warn('<Update> Should Return Value: Return Value |', this.updateStatus);
+      const fileState = await this.getFileState();
 
-        }
-      });
+      if(this.lastUpdated === fileState){
+        this.log.warn('<Update> Matched Time Stamps: Return Value |', this.updateStatus);
+        this.updateStatus = false;
+      } else {
+        this.updateStatus = true;
+        this.log.warn('<Update> Miss-Matched Time Stamps: Return Value |', this.updateStatus);
+        this.log.error('<Update> Set Last Updated.......');
+        this.log.error('<Update> From:', this.lastUpdated);
+        this.log.error('<Update> To:', fileState);
+
+        this.lastUpdated = fileState;
+        this.log.warn('<Update> Should Return Value: Return Value |', this.updateStatus);
+
+      }
+
     } catch (error) {
       this.log.error('-----Update Error-----');
     }

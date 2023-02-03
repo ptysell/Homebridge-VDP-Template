@@ -8,6 +8,7 @@ export declare class platformConfigurationManager {
     private lastUpdated;
     private updateStatus;
     constructor(log: Logger, config: PlatformConfig, api: API);
+    private getFileState;
     update(): Promise<boolean>;
     refresh(): Promise<boolean>;
     scan(): Promise<PlatformAccessory[]>;
