@@ -3,7 +3,7 @@ export declare class platformConfigurationManager {
     readonly log: Logger;
     readonly config: PlatformConfig;
     readonly api: API;
-    private configurationInfo;
+    private configurationFile;
     private deviceList;
     private lastUpdated;
     constructor(log: Logger, config: PlatformConfig, api: API);
