@@ -42,8 +42,10 @@ export class platformConfigurationManager {
           throw new Error('');
         }
         if(this.lastUpdated === stats.ctimeMs){
-          retrunValue = false;
+          this.log.debug('Last Update: True');
+          retrunValue = true;
         } else {
+          this.log.debug('Last Update: False');
           retrunValue = true;
           this.lastUpdated = stats.ctimeMs;
         }
