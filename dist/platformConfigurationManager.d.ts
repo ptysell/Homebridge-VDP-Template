@@ -6,6 +6,7 @@ export declare class platformConfigurationManager {
     private configurationFile;
     private deviceList;
     private lastUpdated;
+    private updateStatus;
     constructor(log: Logger, config: PlatformConfig, api: API);
     update(): Promise<boolean>;
     refresh(): Promise<boolean>;

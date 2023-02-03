@@ -15,6 +15,7 @@ class platformConfigurationManager {
         this.deviceList = [];
         //public refresh = true;
         this.lastUpdated = 0;
+        this.updateStatus = false;
         //this.initialize();
     }
     //async initialize(){
@@ -31,16 +32,17 @@ class platformConfigurationManager {
     // }
     // }
     async update() {
-        let updateStatus = false;
-        this.log.warn('<Update> Initializing: Return Value |', updateStatus);
+        this.log.warn('--------------------------------');
+        this.log.warn('<Update> Initializing: Return Value |', this.updateStatus);
         try {
             fs_1.default.stat(platformSettings_1.HOMEBRIDGE_CONFIGURATION_PATH, (error, stats) => {
                 if (this.lastUpdated === stats.ctimeMs) {
-                    this.log.warn('<Update> Matched Time Stamps: Return Value |', updateStatus);
+                    this.log.warn('<Update> Matched Time Stamps: Return Value |', this.updateStatus);
+                    this.updateStatus = false;
                 }
                 else {
-                    updateStatus = true;
-                    this.log.warn('<Update> Miss-Matched Time Stamps: Return Value |', updateStatus);
+                    this.updateStatus = true;
+                    this.log.warn('<Update> Miss-Matched Time Stamps: Return Value |', this.updateStatus);
                     this.log.error('<Update> Set Last Updated.......');
                     this.log.error('<Update> From:', this.lastUpdated);
                     this.log.error('<Update> To:', stats.ctimeMs);
@@ -51,8 +53,9 @@ class platformConfigurationManager {
         catch (error) {
             this.log.error('');
         }
-        this.log.warn('<Update> Returning: Return Value |', updateStatus);
-        return updateStatus;
+        this.log.warn('<Update> Returning: Return Value |', this.updateStatus);
+        this.log.warn('--------------------------------');
+        return this.updateStatus;
     }
     async refresh() {
         return await this.update();
