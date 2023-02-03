@@ -42,7 +42,7 @@ export class platform implements DynamicPlatformPlugin {
     // const deviceList: PlatformAccessory[] = await this.platformDiscoverer.scan(2000);
     // this.pruneAccessories(deviceList);
 
-    this.log.debug('Configuration File Updated:', this.platformDiscoverer.update());
+    this.log.debug('Configuration File Updated:', this.platformDiscoverer.scan());
 
 
 
