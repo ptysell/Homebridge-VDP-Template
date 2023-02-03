@@ -5,11 +5,10 @@ export declare class platformConfigurationManager {
     readonly api: API;
     private configurationInfo;
     private deviceList;
-    refresh: boolean;
     private lastUpdated;
     constructor(log: Logger, config: PlatformConfig, api: API);
-    initialize(): Promise<void>;
     update(): boolean;
-    scan(timeout?: number): Promise<PlatformAccessory[]>;
+    refresh(): boolean;
+    scan(timeout?: number): PlatformAccessory[];
 }
 //# sourceMappingURL=platformConfigurationManager.d.ts.map

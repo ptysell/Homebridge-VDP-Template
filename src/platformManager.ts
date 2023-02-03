@@ -34,7 +34,7 @@ export class platformManager {
 
 
 
-      if(this.platformDiscoverer.refresh) {
+      if(this.platformDiscoverer.refresh()) {
         const newAccessoires: PlatformAccessory[] = [];
 
         this.discoveredAccessories = await this.platformDiscoverer.scan(300);
@@ -57,7 +57,7 @@ export class platformManager {
 
   public async refresh() {
     try {
-      if(this.platformDiscoverer.refresh) {
+      if(this.platformDiscoverer.refresh()) {
         const newAccessoires: PlatformAccessory[] = [];
 
         this.discoveredAccessories = await this.platformDiscoverer.scan(300);
