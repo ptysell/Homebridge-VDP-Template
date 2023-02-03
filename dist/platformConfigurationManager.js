@@ -47,11 +47,12 @@ class platformConfigurationManager {
                     this.log.error('<Update> From:', this.lastUpdated);
                     this.log.error('<Update> To:', stats.ctimeMs);
                     this.lastUpdated = stats.ctimeMs;
+                    this.log.warn('<Update> Should Return Value: Return Value |', this.updateStatus);
                 }
             });
         }
         catch (error) {
-            this.log.error('');
+            this.log.error('-----Update Error-----');
         }
         this.log.warn('<Update> Returning: Return Value |', this.updateStatus);
         this.log.warn('--------------------------------');
