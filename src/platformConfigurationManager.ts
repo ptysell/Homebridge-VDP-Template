@@ -57,7 +57,7 @@ export class platformConfigurationManager {
   }
 
 
-  async scan(timeout = 500): Promise<PlatformAccessory[]> {
+  scan(timeout = 500): Promise<PlatformAccessory[]> {
     return new Promise((resolve, reject) => {
 
       this.log.info('Refreshing Configuration File.');

@@ -52,7 +52,7 @@ class platformConfigurationManager {
         }
         return retrunValue;
     }
-    async scan(timeout = 500) {
+    scan(timeout = 500) {
         return new Promise((resolve, reject) => {
             this.log.info('Refreshing Configuration File.');
             try {
