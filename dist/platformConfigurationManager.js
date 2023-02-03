@@ -30,7 +30,6 @@ class platformConfigurationManager {
         // }
     }
     update() {
-        let retrunValue = false;
         try {
             fs_1.default.stat(platformSettings_1.HOMEBRIDGE_CONFIGURATION_PATH, (error, stats) => {
                 if (error) {
@@ -38,11 +37,11 @@ class platformConfigurationManager {
                 }
                 if (this.lastUpdated === stats.ctimeMs) {
                     this.log.debug('Update: No');
-                    retrunValue = false;
+                    return false;
                 }
                 else {
                     this.log.debug('Update: Yes');
-                    retrunValue = true;
+                    return true;
                     this.lastUpdated = stats.ctimeMs;
                 }
             });
@@ -50,7 +49,7 @@ class platformConfigurationManager {
         catch (error) {
             throw new Error('');
         }
-        return retrunValue;
+        return false;
     }
     scan(timeout = 500) {
         return new Promise((resolve, reject) => {

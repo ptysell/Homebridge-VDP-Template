@@ -35,7 +35,6 @@ export class platformConfigurationManager {
   }
 
   update(): boolean {
-    let retrunValue = false;
     try {
       fs.stat(HOMEBRIDGE_CONFIGURATION_PATH, (error, stats) => {
         if(error) {
@@ -43,17 +42,17 @@ export class platformConfigurationManager {
         }
         if(this.lastUpdated === stats.ctimeMs){
           this.log.debug('Update: No');
-          retrunValue = false;
+          return false;
         } else {
           this.log.debug('Update: Yes');
-          retrunValue = true;
+          return true;
           this.lastUpdated = stats.ctimeMs;
         }
       });
     } catch (error) {
       throw new Error('');
     }
-    return retrunValue;
+    return false;
   }
 
 
