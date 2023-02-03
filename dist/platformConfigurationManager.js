@@ -36,11 +36,15 @@ class platformConfigurationManager {
         try {
             fs_1.default.stat(platformSettings_1.HOMEBRIDGE_CONFIGURATION_PATH, (error, stats) => {
                 if (this.lastUpdated === stats.ctimeMs) {
-                    this.log.warn('<Update> Match Time Stamps: Return Value |', updateStatus);
+                    this.log.warn('<Update> Matched Time Stamps: Return Value |', updateStatus);
                 }
                 else {
                     updateStatus = true;
-                    this.log.warn('<Update> Match Time Stamps: Return Value |', updateStatus);
+                    this.log.warn('<Update> Miss-Matched Time Stamps: Return Value |', updateStatus);
+                    this.log.error('<Update> Set Last Updated.......');
+                    this.log.error('<Update> From:', this.lastUpdated);
+                    this.log.error('<Update> To:', stats.ctimeMs);
+                    this.lastUpdated = stats.ctimeMs;
                 }
             });
         }
