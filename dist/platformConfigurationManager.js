@@ -75,7 +75,7 @@ class platformConfigurationManager {
     }
     async scan(timeout = 500) {
         this.log.info('Refreshing Configuration File.');
-        this.log.info('Configuration Status:', await this.update());
+        this.log.error('Configuration Status:', await this.update());
         try {
             if (await this.update()) {
                 this.log.info('Configuration File Change: Yes');
