@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.platformManager = void 0;
 //import { platformAccessory } from './platformAccessory';
 const platformSettings_1 = require("./platformSettings");
-const platformDiscovery_1 = require("./platformDiscovery");
+const platformConfigurationManager_1 = require("./platformConfigurationManager");
 const platformAccessory_1 = require("./platformAccessory");
 class platformManager {
     constructor(log, config, api, platform) {
@@ -14,7 +14,7 @@ class platformManager {
         this.accessories = [];
         this.discoveredAccessories = [];
         this.changeStatus = true;
-        this.platformDiscoverer = new platformDiscovery_1.platformDiscovery(this.log, this.config, this.api);
+        this.platformDiscoverer = new platformConfigurationManager_1.platformConfigurationManager(this.log, this.config, this.api);
         this.initialize();
     }
     //      this.accessories.sort((a, b) => a.displayName.localeCompare(b.displayName));

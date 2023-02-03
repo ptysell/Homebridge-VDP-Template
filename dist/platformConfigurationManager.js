@@ -3,10 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.platformDiscovery = void 0;
+exports.platformConfigurationManager = void 0;
 const platformSettings_1 = require("./platformSettings");
 const fs_1 = __importDefault(require("fs"));
-class platformDiscovery {
+class platformConfigurationManager {
     constructor(log, config, api) {
         this.log = log;
         this.config = config;
@@ -14,18 +14,36 @@ class platformDiscovery {
         this.configurationInfo = '';
         this.deviceList = [];
         this.refresh = true;
-        this.lastUpdated = '';
+        this.initialize();
+    }
+    async initialize() {
+        try {
+            fs_1.default.stat(platformSettings_1.HOMEBRIDGE_CONFIGURATION_PATH, (error, stats) => {
+                if (error) {
+                    throw new Error('');
+                }
+                this.lastUpdated = stats.ctimeMs;
+            });
+        }
+        catch (error) {
+            throw new Error('');
+        }
     }
     async update() {
-        fs_1.default.stat(platformSettings_1.HOMEBRIDGE_CONFIGURATION_PATH, (err, stats) => {
-            if (err) {
-                throw err;
-            }
-            // print file last modified date
-            this.log.error(`File Data Last Modified: ${stats.mtime}`);
-            this.log.error(`File Status Last Modified: ${stats.ctime}`);
-        });
-        return true;
+        try {
+            fs_1.default.stat(platformSettings_1.HOMEBRIDGE_CONFIGURATION_PATH, (error, stats) => {
+                if (error) {
+                    throw new Error('');
+                }
+                if (this.lastUpdated === stats.ctimeMs) {
+                    return true;
+                }
+            });
+        }
+        catch (error) {
+            throw new Error('');
+        }
+        return false;
     }
     async scan(timeout = 500) {
         return new Promise((resolve, reject) => {
@@ -63,5 +81,5 @@ class platformDiscovery {
         });
     }
 }
-exports.platformDiscovery = platformDiscovery;
-//# sourceMappingURL=platformDiscovery.js.map
+exports.platformConfigurationManager = platformConfigurationManager;
+//# sourceMappingURL=platformConfigurationManager.js.map

@@ -2,7 +2,7 @@ import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, 
 //import { platformAccessory } from './platformAccessory';
 import { PLATFORM_NAME, PLUGIN_NAME } from './platformSettings';
 import { platform } from './platform';
-import { platformDiscovery } from './platformDiscovery';
+import { platformConfigurationManager } from './platformConfigurationManager';
 import { platformAccessory } from './platformAccessory';
 
 
@@ -13,7 +13,7 @@ export class platformManager {
   private discoveredAccessories: PlatformAccessory[] = [];
   private changeStatus = true;
   //public readonly accessoryCount: number = this.accessories.length;
-  private platformDiscoverer: platformDiscovery;
+  private platformDiscoverer: platformConfigurationManager;
 
   constructor(
         public readonly log: Logger,
@@ -21,7 +21,7 @@ export class platformManager {
         public readonly api: API,
         public readonly platform: platform,
   ) {
-    this.platformDiscoverer = new platformDiscovery(this.log, this.config, this.api);
+    this.platformDiscoverer = new platformConfigurationManager(this.log, this.config, this.api);
     this.initialize();
 
   }

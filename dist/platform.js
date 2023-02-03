@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.platform = void 0;
-const platformDiscovery_1 = require("./platformDiscovery");
+const platformConfigurationManager_1 = require("./platformConfigurationManager");
 class platform {
     // private platformManager: platformManager;
     constructor(log, config, api) {
@@ -19,7 +19,7 @@ class platform {
             this.discoverDevices();
             this.periodicDiscovery = setInterval(() => this.discoverDevices(), 5000);
         });
-        this.platformDiscoverer = new platformDiscovery_1.platformDiscovery(this.log, this.config, this.api);
+        this.platformDiscoverer = new platformConfigurationManager_1.platformConfigurationManager(this.log, this.config, this.api);
         // this.platformManager = new platformManager(this.log, this.config, this.api, this);
         // this.platformManager.refresh();
     }

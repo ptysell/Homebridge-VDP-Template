@@ -1,5 +1,5 @@
 import { API, Logger, PlatformConfig, PlatformAccessory } from 'homebridge';
-export declare class platformDiscovery {
+export declare class platformConfigurationManager {
     readonly log: Logger;
     readonly config: PlatformConfig;
     readonly api: API;
@@ -8,7 +8,8 @@ export declare class platformDiscovery {
     refresh: boolean;
     private lastUpdated;
     constructor(log: Logger, config: PlatformConfig, api: API);
+    initialize(): Promise<void>;
     update(): Promise<boolean>;
     scan(timeout?: number): Promise<PlatformAccessory[]>;
 }
-//# sourceMappingURL=platformDiscovery.d.ts.map
+//# sourceMappingURL=platformConfigurationManager.d.ts.map

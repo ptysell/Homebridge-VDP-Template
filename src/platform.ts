@@ -1,7 +1,7 @@
 import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, Service, Characteristic } from 'homebridge';
 import { PLATFORM_NAME, PLUGIN_NAME } from './platformSettings';
 import { platformAccessory } from './platformAccessory';
-import { platformDiscovery } from './platformDiscovery';
+import { platformConfigurationManager } from './platformConfigurationManager';
 import { platformManager } from './platformManager';
 import { access } from 'fs';
 
@@ -14,7 +14,7 @@ export class platform implements DynamicPlatformPlugin {
   public readonly accessories: PlatformAccessory[] = [];
   public deviceCount = 0;
   private periodicDiscovery: NodeJS.Timeout | null = null;
-  private platformDiscoverer: platformDiscovery;
+  private platformDiscoverer: platformConfigurationManager;
 
   // private platformManager: platformManager;
 
@@ -31,7 +31,7 @@ export class platform implements DynamicPlatformPlugin {
       this.periodicDiscovery = setInterval(() => this.discoverDevices(), 5000);
 
     });
-    this.platformDiscoverer = new platformDiscovery(this.log, this.config, this.api);
+    this.platformDiscoverer = new platformConfigurationManager(this.log, this.config, this.api);
     // this.platformManager = new platformManager(this.log, this.config, this.api, this);
     // this.platformManager.refresh();
   }

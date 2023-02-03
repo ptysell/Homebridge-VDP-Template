@@ -2,36 +2,50 @@ import { API, Logger, PlatformConfig, PlatformAccessory } from 'homebridge';
 import { HOMEBRIDGE_CONFIGURATION_PATH } from './platformSettings';
 import fs from 'fs';
 
-export class platformDiscovery {
+export class platformConfigurationManager {
 
   private configurationInfo = '';
   private deviceList: PlatformAccessory[] = [];
   public refresh = true;
 
-  private lastUpdated = '';
+  private lastUpdated;
 
   constructor(
         public readonly log: Logger,
         public readonly config: PlatformConfig,
         public readonly api: API,
-  ) {}
+  ) {
+    this.initialize();
+  }
+
+  async initialize(){
+    try {
+      fs.stat(HOMEBRIDGE_CONFIGURATION_PATH, (error, stats) => {
+        if(error) {
+          throw new Error('');
+        }
+        this.lastUpdated = stats.ctimeMs;
+      });
+    } catch (error) {
+      throw new Error('');
+    }
+  }
 
   async update(): Promise<boolean> {
 
-    fs.stat(HOMEBRIDGE_CONFIGURATION_PATH, (err, stats) => {
-      if(err) {
-        throw err;
-      }
-
-      // print file last modified date
-      this.log.error(`File Data Last Modified: ${stats.mtime}`);
-      this.log.error(`File Status Last Modified: ${stats.ctime}`);
-
-
-    });
-
-
-    return true;
+    try {
+      fs.stat(HOMEBRIDGE_CONFIGURATION_PATH, (error, stats) => {
+        if(error) {
+          throw new Error('');
+        }
+        if(this.lastUpdated === stats.ctimeMs){
+          return true;
+        }
+      });
+    } catch (error) {
+      throw new Error('');
+    }
+    return false;
   }
 
   async scan(timeout = 500): Promise<PlatformAccessory[]> {
