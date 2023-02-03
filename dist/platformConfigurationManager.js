@@ -63,8 +63,8 @@ class platformConfigurationManager {
                     this.log.info('Configuration File Change: Yes');
                     const configData = fs_1.default.readFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_PATH, 'utf-8');
                     const configFile = JSON.parse(configData);
-                    for (const test in configFile.platforms) {
-                        this.log.warn('Platform:', test.toString());
+                    for (let index = 0; index < configFile.platforms.length; index++) {
+                        this.log.warn('Platform:', configFile.platforms[index].name);
                     }
                 }
                 setTimeout(() => {

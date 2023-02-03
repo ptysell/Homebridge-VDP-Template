@@ -1,6 +1,6 @@
 import { API, Logger, PlatformConfig, PlatformAccessory } from 'homebridge';
 import { HOMEBRIDGE_CONFIGURATION_PATH } from './platformSettings';
-import { platformConfiguration } from './platformInterfaces';
+import { platformConfiguration, platformConfigurationPlatforms } from './platformInterfaces';
 
 import fs, { stat } from 'fs';
 
@@ -73,9 +73,10 @@ export class platformConfigurationManager {
           this.log.info('Configuration File Change: Yes');
           const configData = fs.readFileSync(HOMEBRIDGE_CONFIGURATION_PATH, 'utf-8');
           const configFile: platformConfiguration = JSON.parse(configData);
-          for (const test in configFile.platforms) {
-            this.log.warn('Platform:', test.toString());
+          for (let index=0; index < configFile.platforms.length; index++){
+            this.log.warn('Platform:', configFile.platforms[index].name);
           }
+
         }
         setTimeout(() => {
           resolve(this.deviceList);

@@ -1,12 +1,17 @@
 export interface platformConfiguration {
-    bridge: platformConfigurationBridge[];
-    accessories: platformConfigurationAccessories[];
+    bridge: platformConfigurationBridge;
+    accessories: platformConfigurationAccessories;
     platforms: platformConfigurationPlatforms[];
-    disabledPlugins: platformConfigurationDisabledPlugins[];
+    disabledPlugins: platformConfigurationDisabledPlugins;
     }
 
 export interface platformConfigurationBridge {
     name: string;
+    username: string;
+    port: string;
+    pin: string;
+    advertiser: string;
+    bind: string[];
 }
 
 export interface platformConfigurationAccessories {
@@ -21,6 +26,10 @@ export interface platformConfigurationPlatforms {
 export interface platformConfigurationDisabledPlugins {
         name: string;
         }
+
+
+
+
 
 
 
