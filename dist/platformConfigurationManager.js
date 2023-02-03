@@ -31,6 +31,7 @@ class platformConfigurationManager {
         }
     }
     update() {
+        let retrunValue = false;
         try {
             this.log.debug('Platform Configuration Manager: Updating');
             fs_1.default.stat(platformSettings_1.HOMEBRIDGE_CONFIGURATION_PATH, (error, stats) => {
@@ -41,19 +42,23 @@ class platformConfigurationManager {
                 this.log.error('Platform Configuration File: Last Updated |', stats.ctimeMs);
                 if (this.lastUpdated === stats.ctimeMs) {
                     this.log.debug('Platform Configuration Manager: Timestamp Match');
-                    return false;
+                    retrunValue = false;
+                    this.log.debug('Platform Configuration Manager: No Need To Update | Return Value |', retrunValue);
+                    return true;
                 }
                 else {
                     this.log.debug('Platform Configuration Manager: Timestamp Miss-Match');
+                    retrunValue = true;
+                    this.log.debug('Platform Configuration Manager: Need To Update | Return Value |', retrunValue);
                     this.lastUpdated = stats.ctimeMs;
+                    return false;
                 }
             });
         }
         catch (error) {
             throw new Error('');
         }
-        this.log.debug('Platform Configuration Manager: -------------------------');
-        return true;
+        return retrunValue;
     }
     async scan(timeout = 500) {
         return new Promise((resolve, reject) => {

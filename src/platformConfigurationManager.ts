@@ -34,6 +34,8 @@ export class platformConfigurationManager {
 
   update(): boolean {
 
+    let retrunValue = false;
+
     try {
       this.log.debug('Platform Configuration Manager: Updating');
       fs.stat(HOMEBRIDGE_CONFIGURATION_PATH, (error, stats) => {
@@ -45,10 +47,15 @@ export class platformConfigurationManager {
 
         if(this.lastUpdated === stats.ctimeMs){
           this.log.debug('Platform Configuration Manager: Timestamp Match');
-          return false;
+          retrunValue = false;
+          this.log.debug('Platform Configuration Manager: No Need To Update | Return Value |', retrunValue);
+          return true;
         } else {
           this.log.debug('Platform Configuration Manager: Timestamp Miss-Match');
+          retrunValue = true;
+          this.log.debug('Platform Configuration Manager: Need To Update | Return Value |', retrunValue);
           this.lastUpdated = stats.ctimeMs;
+          return false;
         }
 
       });
@@ -56,9 +63,8 @@ export class platformConfigurationManager {
       throw new Error('');
     }
 
-    this.log.debug('Platform Configuration Manager: -------------------------');
+    return retrunValue;
 
-    return true;
   }
 
   async scan(timeout = 500): Promise<PlatformAccessory[]> {
