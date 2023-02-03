@@ -30,12 +30,12 @@ export class platformConfigurationManager {
     } catch (error) {
       throw new Error('');
     }
-    this.log.debug('Platform Configuration Manager: Last Updated |', this.lastUpdated);
   }
 
   update(): boolean {
 
     try {
+      this.log.debug('Platform Configuration Manager: Updating');
       fs.stat(HOMEBRIDGE_CONFIGURATION_PATH, (error, stats) => {
         if(error) {
           throw new Error('');
@@ -44,13 +44,20 @@ export class platformConfigurationManager {
         this.log.error('Platform Configuration File: Last Updated |', stats.ctimeMs);
 
         if(this.lastUpdated === stats.ctimeMs){
-          this.lastUpdated = stats.ctimeMs;
+          this.log.debug('Platform Configuration Manager: Timestamp Match');
           return false;
+        } else {
+          this.log.debug('Platform Configuration Manager: Timestamp Miss-Match');
+          this.lastUpdated = stats.ctimeMs;
         }
+
       });
     } catch (error) {
       throw new Error('');
     }
+
+    this.log.debug('Platform Configuration Manager: -------------------------');
+
     return true;
   }
 
