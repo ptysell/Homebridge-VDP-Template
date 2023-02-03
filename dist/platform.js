@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.platform = void 0;
-const platformDiscovery_1 = require("./platformDiscovery");
-const platformManager_1 = require("./platformManager");
 class platform {
+    // private platformDiscoverer: platformDiscovery;
+    // private platformManager: platformManager;
     constructor(log, config, api) {
         this.log = log;
         this.config = config;
@@ -19,9 +19,9 @@ class platform {
             this.discoverDevices();
             this.periodicDiscovery = setInterval(() => this.discoverDevices(), 5000);
         });
-        this.platformDiscoverer = new platformDiscovery_1.platformDiscovery(this.log, this.config, this.api);
-        this.platformManager = new platformManager_1.platformManager(this.log, this.config, this.api, this);
-        this.platformManager.refresh();
+        // this.platformDiscoverer = new platformDiscovery(this.log, this.config, this.api);
+        // this.platformManager = new platformManager(this.log, this.config, this.api, this);
+        // this.platformManager.refresh();
     }
     async discoverDevices() {
         //const platformDiscoverer = new platformDiscovery(this.log, this.config, this.api);
