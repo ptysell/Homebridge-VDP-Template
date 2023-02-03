@@ -41,8 +41,8 @@ class platformConfigurationManager {
                 }
                 else {
                     this.log.debug('Update: Yes');
-                    return true;
                     this.lastUpdated = stats.ctimeMs;
+                    return true;
                 }
             });
         }
