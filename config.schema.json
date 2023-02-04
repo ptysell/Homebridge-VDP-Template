@@ -27,6 +27,11 @@
                     "title" : "Name",
                     "type" : "string",
                     "required" : true
+                  },
+                  "uuid" : {
+                    "title" : "UUID",
+                    "type" : "string",
+                    "readonly" : true
                   }
               }
           }
