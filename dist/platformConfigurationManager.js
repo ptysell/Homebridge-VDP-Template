@@ -33,7 +33,7 @@ class platformConfigurationManager {
     // }
     async getFileState() {
         let ctime = 0;
-        fs_1.default.stat(platformSettings_1.HOMEBRIDGE_CONFIGURATION_PATH, (error, stats) => {
+        await fs_1.default.stat(platformSettings_1.HOMEBRIDGE_CONFIGURATION_PATH, (error, stats) => {
             ctime = stats.ctimeMs;
         });
         return ctime;

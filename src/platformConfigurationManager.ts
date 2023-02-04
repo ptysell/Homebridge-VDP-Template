@@ -39,7 +39,7 @@ export class platformConfigurationManager {
 
   private async getFileState(): Promise<number> {
     let ctime = 0;
-    fs.stat(HOMEBRIDGE_CONFIGURATION_PATH, (error, stats) => {
+    await fs.stat(HOMEBRIDGE_CONFIGURATION_PATH, (error, stats) => {
       ctime = stats.ctimeMs;
     });
     return ctime;
