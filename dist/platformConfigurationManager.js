@@ -31,30 +31,28 @@ class platformConfigurationManager {
     //   throw new Error('');
     // }
     // }
-    async getFileState() {
-        let ctime = 0;
-        await fs_1.default.stat(platformSettings_1.HOMEBRIDGE_CONFIGURATION_PATH, (error, stats) => {
-            ctime = stats.ctimeMs;
-        });
-        return ctime;
+    async getConfigurationState() {
+        let returnValue = false;
+        if (this.configurationFile === fs_1.default.readFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_PATH, 'utf-8')) {
+            returnValue = true;
+        }
+        else {
+            returnValue = false;
+        }
+        return returnValue;
     }
     async update() {
         this.log.warn('--------------------------------');
         this.log.warn('<Update> Initializing: Return Value |', this.updateStatus);
         try {
-            const fileState = await this.getFileState();
-            if (this.lastUpdated === fileState) {
-                this.log.warn('<Update> Matched Time Stamps: Return Value |', this.updateStatus);
+            if (await this.getConfigurationState()) {
                 this.updateStatus = false;
+                this.log.warn('<Update> Current Configuration Loaded: Not Reloading |', this.updateStatus);
             }
             else {
                 this.updateStatus = true;
-                this.log.warn('<Update> Miss-Matched Time Stamps: Return Value |', this.updateStatus);
-                this.log.error('<Update> Set Last Updated.......');
-                this.log.error('<Update> From:', this.lastUpdated);
-                this.log.error('<Update> To:', fileState);
-                this.lastUpdated = fileState;
-                this.log.warn('<Update> Should Return Value: Return Value |', this.updateStatus);
+                this.configurationFile = fs_1.default.readFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_PATH, 'utf-8');
+                this.log.warn('<Update> Old Configuration: Reloading Configuration |', this.updateStatus);
             }
         }
         catch (error) {
