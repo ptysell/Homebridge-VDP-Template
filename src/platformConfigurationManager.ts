@@ -73,6 +73,9 @@ export class platformConfigurationManager {
     }
     this.log.warn('<Update> Returning: Return Value |', this.updateStatus);
     this.log.warn('--------------------------------');
+    this.log.warn('--------------------------------');
+    this.log.warn('--------------------------------');
+
 
     return this.updateStatus;
   }
