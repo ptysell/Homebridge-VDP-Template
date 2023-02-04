@@ -31,21 +31,63 @@ class platformConfigurationManager {
     //   throw new Error('');
     // }
     // }
-    async getConfigurationState() {
-        let returnValue = false;
-        if (this.configurationFile === fs_1.default.readFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_PATH, 'utf-8')) {
-            returnValue = true;
+    // let path = 'views'; //your folder path (views is an example folder)
+    // configurationUpdated(path, (error, configConahnged) => {
+    //   if (configConahnged){
+    //     console.log('folder was changed, need to compare files');
+    //     //need to update redis here
+    //     //...comapre files to find what was changed
+    //   }
+    //   else{
+    //     console.log('folder was not changed');
+    //   }
+    // });
+    /**
+     * Checks if a file/folder was changed
+     */
+    async checkFileModified() {
+        this.log.warn('--------------------------------');
+        this.log.warn('--------------------------------');
+        this.log.debug('platformConfigurationManager | checkFileModified: Function Start');
+        let retrunResults;
+        if (this.lastModifed === fs_1.default.statSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_PATH).ctimeMs) {
+            this.log.debug('platformConfigurationManager | checkFileModified: ctimeMs Match | false');
+            retrunResults = false;
         }
         else {
-            returnValue = false;
+            this.log.debug('platformConfigurationManager | checkFileModified: ctimeMs No Match | true');
+            this.log.error('platformConfigurationManager | checkFileModified: Set Modified');
+            this.lastModifed = fs_1.default.statSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_PATH).ctimeMs;
+            retrunResults = true;
         }
-        return returnValue;
+        this.log.debug('platformConfigurationManager | checkFileModified: Returning Value |', retrunResults);
+        this.log.debug('platformConfigurationManager | checkFileModified: Function End');
+        this.log.warn('--------------------------------');
+        this.log.warn('--------------------------------');
+        return retrunResults;
     }
+    // fs.open(path, 'r', (error, fd) => {
+    //   //obtain previous modified date of the folder (I would use redis to store/retrieve this data)
+    //   //let lastModifed = '2016-12-03T00:41:12Z'; //put the string value here, this is just example
+    //   fs.stat(path, (error, data) => {
+    //     //I use moment module to compare dates
+    //     const previousLMM = this.lastModifed;
+    //     const folderLMM = data.ctimeMs;
+    //     let results: boolean;
+    //     if (folderLMM === previousLMM) {
+    //       results = true;
+    //     } else {
+    //       results = false;
+    //     }
+    //     return callback (null, results);
+    //   });
+    // });
+    //}
     async update() {
         this.log.warn('--------------------------------');
         this.log.warn('<Update> Initializing: Return Value |', this.updateStatus);
         try {
-            if (await this.getConfigurationState()) {
+            if (await this.checkFileModified()) {
                 this.updateStatus = false;
                 this.log.warn('<Update> Current Configuration Loaded: Not Reloading |', this.updateStatus);
             }

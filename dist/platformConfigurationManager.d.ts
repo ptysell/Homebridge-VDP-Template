@@ -7,8 +7,12 @@ export declare class platformConfigurationManager {
     private deviceList;
     private lastUpdated;
     private updateStatus;
+    private lastModifed;
     constructor(log: Logger, config: PlatformConfig, api: API);
-    private getConfigurationState;
+    /**
+     * Checks if a file/folder was changed
+     */
+    checkFileModified(): Promise<boolean>;
     update(): Promise<boolean>;
     refresh(): Promise<boolean>;
     scan(): Promise<PlatformAccessory[]>;
