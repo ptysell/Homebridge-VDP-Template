@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.platform = void 0;
-const platformConfigurationManager_1 = require("./platformConfigurationManager");
+const homebridgeConnector_1 = require("./platformManager/connectors/homebridgeConnector");
 class platform {
     // private platformManager: platformManager;
     constructor(log, config, api) {
@@ -19,7 +19,7 @@ class platform {
             this.discoverDevices();
             this.periodicDiscovery = setInterval(() => this.discoverDevices(), 5000);
         });
-        this.platformDiscoverer = new platformConfigurationManager_1.platformConfigurationManager(this.log, this.config, this.api);
+        this.platformDiscoverer = new homebridgeConnector_1.homebridgeConnector(this.log, this.config, this.api);
         // this.platformManager = new platformManager(this.log, this.config, this.api, this);
         // this.platformManager.refresh();
     }
@@ -27,7 +27,7 @@ class platform {
         //const platformDiscoverer = new platformDiscovery(this.log, this.config, this.api);
         // const deviceList: PlatformAccessory[] = await this.platformDiscoverer.scan(2000);
         // this.pruneAccessories(deviceList);
-        this.log.error('Configuration File Updated:', await this.platformDiscoverer.checkFileModified());
+        this.log.error('Configuration File Updated:', await this.platformDiscoverer.status);
         // const discoverDevices = this.platformManager.getAccessories;
         // for (const accessory of discoverDevices) {
         //   const existingAccessory = this.accessories.find(searchAccessory => searchAccessory.UUID === accessory.UUID);

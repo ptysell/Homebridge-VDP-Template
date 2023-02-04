@@ -1,9 +1,10 @@
 import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, Service, Characteristic } from 'homebridge';
 import { PLATFORM_NAME, PLUGIN_NAME } from './platformSettings';
 import { platformAccessory } from './platformAccessory';
-import { platformConfigurationManager } from './platformConfigurationManager';
-import { platformManager } from './platformManager';
+//import { platformConfigurationManager } from './platformManager/connectors/connectorHomebridgeJSON';
+//import { platformManager } from './platformManager/platformManager';
 import { access } from 'fs';
+import { homebridgeConnector } from './platformManager/connectors/homebridgeConnector';
 
 
 
@@ -14,7 +15,7 @@ export class platform implements DynamicPlatformPlugin {
   public readonly accessories: PlatformAccessory[] = [];
   public deviceCount = 0;
   private periodicDiscovery: NodeJS.Timeout | null = null;
-  private platformDiscoverer: platformConfigurationManager;
+  private platformDiscoverer: homebridgeConnector;
 
   // private platformManager: platformManager;
 
@@ -31,7 +32,7 @@ export class platform implements DynamicPlatformPlugin {
       this.periodicDiscovery = setInterval(() => this.discoverDevices(), 5000);
 
     });
-    this.platformDiscoverer = new platformConfigurationManager(this.log, this.config, this.api);
+    this.platformDiscoverer = new homebridgeConnector(this.log, this.config, this.api);
     // this.platformManager = new platformManager(this.log, this.config, this.api, this);
     // this.platformManager.refresh();
   }
@@ -42,7 +43,7 @@ export class platform implements DynamicPlatformPlugin {
     // const deviceList: PlatformAccessory[] = await this.platformDiscoverer.scan(2000);
     // this.pruneAccessories(deviceList);
 
-    this.log.error('Configuration File Updated:', await this.platformDiscoverer.checkFileModified());
+    this.log.error('Configuration File Updated:', await this.platformDiscoverer.status);
 
 
 
