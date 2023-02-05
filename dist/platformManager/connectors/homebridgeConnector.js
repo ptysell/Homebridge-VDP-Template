@@ -39,6 +39,10 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
         return;
     }
     async status() {
+        this.log.warn('[homebridgeConnector]<status> Start');
+        this.log.warn('[homebridgeConnector]<status>(cachedConfigurationTimeStamp) Value:', this.cachedConfigurationTimeStamp);
+        this.log.warn('[homebridgeConnector]<status>(fs.statSync) Value:', fs_1.default.statSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs);
+        this.log.warn('[homebridgeConnector]<status> -----------------------------');
         if (this.cachedConfigurationTimeStamp !== fs_1.default.statSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs) {
             return true;
         }

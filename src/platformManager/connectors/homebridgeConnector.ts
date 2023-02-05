@@ -51,6 +51,11 @@ export class homebridgeConnector extends platformConnector {
 
 
   public async status(): Promise<boolean | void> {
+    this.log.warn('[homebridgeConnector]<status> Start');
+    this.log.warn('[homebridgeConnector]<status>(cachedConfigurationTimeStamp) Value:', this.cachedConfigurationTimeStamp);
+    this.log.warn('[homebridgeConnector]<status>(fs.statSync) Value:', fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs);
+    this.log.warn('[homebridgeConnector]<status> -----------------------------');
+
     if(this.cachedConfigurationTimeStamp !== fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs){
       return true;
     }
