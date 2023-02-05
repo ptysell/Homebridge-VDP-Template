@@ -44,15 +44,15 @@ export class homebridgeConnector extends platformConnector {
 
     this.log.error('----------Start Accessories----------');
     for (let accessoryIndex=0; accessoryIndex < currentConfigurationFile.platforms[platformIndex].accessories.length; accessoryIndex++){
-      this.log.error('----------Start Accessories'+ accessoryIndex.toString +' ----------');
+      this.log.error('----------Start Accessories'+ accessoryIndex +' ----------');
       this.log.error('Name:', currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].name);
-      this.log.error('UUID:', currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].UUID);
-      if (currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].UUID === 'N/A') {
+      this.log.error('UUID:', currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].uuid);
+      if (currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].uuid === 'N/A') {
         this.log.error('----------Accessories No UUID----------');
-        currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].UUID =
+        currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].uuid =
         this.api.hap.uuid.generate(currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].name + Math.random);
       }
-      this.log.error('----------End Accessories'+ accessoryIndex.toString +' ----------');
+      this.log.error('----------End Accessories'+ accessoryIndex +' ----------');
 
 
     }

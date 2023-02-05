@@ -23,7 +23,7 @@ export interface platformConfigurationPlatforms {
 }
 export interface platformConfigurationPlatformsAccessory {
     name: string;
-    UUID: string;
+    uuid: string;
 }
 export interface platformConfigurationDisabledPlugins {
     name: string;
