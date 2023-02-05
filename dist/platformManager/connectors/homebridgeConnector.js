@@ -18,7 +18,11 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
         this.deviceList = [];
         this.cachedConfigurationTimeStamp = 0;
         this.cachedConfigurationFile = '';
+        //private cachedPlatformData: platformConfiguration;
         this.cachedPlatformIndex = -1;
+        this.log.error('----------------------------------');
+        this.log.error('Test:', config.platform.toString());
+        this.log.error('----------------------------------');
         this.cachedConfigurationTimeStamp = fs_1.default.statSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
         this.cachedConfigurationFile = fs_1.default.readFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
         this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);
@@ -28,7 +32,7 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
                 this.cachedPlatformIndex = index;
             }
             else {
-                //throw new Error('[homebridgeConnector]<constructor> PLATFORM_NAME does not exist in config.json');
+                throw new Error('[homebridgeConnector]<constructor> PLATFORM_NAME does not exist in config.json');
             }
         }
         // for (let index = 0; index < this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories.length; index++){

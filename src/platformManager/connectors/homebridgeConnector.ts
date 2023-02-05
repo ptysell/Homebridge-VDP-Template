@@ -1,6 +1,6 @@
-import { API, Logger, PlatformConfig, PlatformAccessory, UnknownContext } from 'homebridge';
+import { API, Logger, PlatformConfig, PlatformAccessory } from 'homebridge';
 import { HOMEBRIDGE_CONFIGURATION_FILE_PATH, PLATFORM_NAME} from '../../platformSettings';
-import { homebridgeConfiguration } from '../../platformInterfaces/platformInterfaces';
+import { homebridgeConfiguration, platformConfiguration } from '../../platformInterfaces/platformInterfaces';
 
 import fs from 'fs';
 import { platformConnector } from './platformConnector';
@@ -9,11 +9,13 @@ import { platformConnector } from './platformConnector';
 export class homebridgeConnector extends platformConnector {
 
   public name = 'homebridgeConnector';
-  protected deviceList: PlatformAccessory<UnknownContext>[] = [];
+  protected deviceList: PlatformAccessory[] = [];
 
   private cachedConfigurationTimeStamp = 0;
   private cachedConfigurationFile = '';
   private cachedConfigurationData: homebridgeConfiguration;
+
+  //private cachedPlatformData: platformConfiguration;
   private cachedPlatformIndex = -1;
 
   constructor(
@@ -22,6 +24,12 @@ export class homebridgeConnector extends platformConnector {
     public readonly api: API,
   ) {
     super(log, config, api, HOMEBRIDGE_CONFIGURATION_FILE_PATH);
+
+    this.log.error('----------------------------------');
+    this.log.error('Test:', config.platform.toString());
+    this.log.error('----------------------------------');
+
+
 
     this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
     this.cachedConfigurationFile = fs.readFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
@@ -32,9 +40,10 @@ export class homebridgeConnector extends platformConnector {
       if (this.cachedConfigurationData.platforms[index].name === PLATFORM_NAME) {
         this.cachedPlatformIndex = index;
       } else {
-        //throw new Error('[homebridgeConnector]<constructor> PLATFORM_NAME does not exist in config.json');
+        throw new Error('[homebridgeConnector]<constructor> PLATFORM_NAME does not exist in config.json');
       }
     }
+
 
     // for (let index = 0; index < this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories.length; index++){
     //   if (this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].uuid === 'N/A') {
