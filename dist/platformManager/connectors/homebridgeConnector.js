@@ -33,6 +33,7 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
             //this.deviceList.push()
         }
         fs_1.default.writeFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(currentConfigurationFile));
+        this.cachedConfigurationTimeStamp = fs_1.default.statSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
     }
     async loadConfigurationFromJSON(configurationFile) {
         return;

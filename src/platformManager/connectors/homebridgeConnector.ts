@@ -41,6 +41,7 @@ export class homebridgeConnector extends platformConnector {
 
     }
     fs.writeFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(currentConfigurationFile));
+    this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
   }
 
   private async loadConfigurationFromJSON(configurationFile: string): Promise<boolean | void> {
