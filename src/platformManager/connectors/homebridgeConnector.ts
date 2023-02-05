@@ -32,7 +32,7 @@ export class homebridgeConnector extends platformConnector {
 
     for (let index = 0; index < this.cachedConfigurationData.platforms.length; index++) {
       this.log.warn('Platform Name:', this.cachedConfigurationData.platforms[index].name);
-      if (this.cachedConfigurationData.platforms[index].name === PLATFORM_NAME) {
+      if (this.cachedConfigurationData.platforms[index].platform === PLATFORM_NAME) {
         this.cachedPlatformIndex = index;
       }
     }

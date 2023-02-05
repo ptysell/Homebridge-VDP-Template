@@ -26,7 +26,7 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
         this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);
         for (let index = 0; index < this.cachedConfigurationData.platforms.length; index++) {
             this.log.warn('Platform Name:', this.cachedConfigurationData.platforms[index].name);
-            if (this.cachedConfigurationData.platforms[index].name === platformSettings_1.PLATFORM_NAME) {
+            if (this.cachedConfigurationData.platforms[index].platform === platformSettings_1.PLATFORM_NAME) {
                 this.cachedPlatformIndex = index;
             }
         }
