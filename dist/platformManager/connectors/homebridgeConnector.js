@@ -32,7 +32,7 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
                 this.cachedPlatformIndex = index;
             }
             else {
-                throw new Error('[homebridgeConnector]<constructor> PLATFORM_NAME does not exist in config.json');
+                // throw new Error('[homebridgeConnector]<constructor> PLATFORM_NAME does not exist in config.json');
             }
         }
         // for (let index = 0; index < this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories.length; index++){
