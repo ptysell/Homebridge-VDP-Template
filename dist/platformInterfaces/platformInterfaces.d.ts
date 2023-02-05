@@ -18,7 +18,7 @@ export interface homebridgeConfiguration {
             uuid: string;
             category: string | void;
             service: string | void;
-        }[];
+        }[] | void;
     }[];
     disabledPlugins: {
         name: string;
