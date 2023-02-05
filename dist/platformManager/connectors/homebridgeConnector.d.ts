@@ -9,10 +9,9 @@ export declare class homebridgeConnector extends platformConnector {
     private cachedConfigurationTimeStamp;
     private cachedConfigurationFile;
     private cachedConfigurationData;
+    private cachedPlatformIndex;
     constructor(log: Logger, config: PlatformConfig, api: API);
-    protected firstRun(): void;
     protected initialize(): Promise<void>;
-    private loadConfigurationFromJSON;
     status(): Promise<boolean | void>;
     refresh(): Promise<void>;
     get(): Promise<PlatformAccessory[]>;

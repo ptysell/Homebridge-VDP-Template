@@ -1,5 +1,5 @@
 import { API, Logger, PlatformConfig, PlatformAccessory, UnknownContext } from 'homebridge';
-import { platformConfiguration, platformConfigurationPlatforms } from '../../platformInterfaces/platformInterfaces';
+//import { platformConfiguration, platformConfigurationPlatforms } from '../../platformInterfaces/platformInterfaces';
 
 import fs, { stat } from 'fs';
 import { platformConnector } from './platformConnector';
