@@ -47,7 +47,7 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
         }
         this.log.error('----------End Accessories----------');
         this.log.error('----------Start JSON----------');
-        this.log.debug(JSON.stringify(currentConfigurationFile));
+        this.log.debug('JSON: ', JSON.stringify(currentConfigurationFile).toString);
         this.log.error('----------End JSON----------');
         this.log.debug('[homebridgeConnector]<initalize>(End of Function)');
     }
