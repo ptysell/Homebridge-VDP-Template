@@ -1,8 +1,8 @@
-import { API, Logger, PlatformConfig, PlatformAccessory, UnknownContext } from 'homebridge';
+import { API, Logger, PlatformConfig, PlatformAccessory, UnknownContext, uuid } from 'homebridge';
 import { HOMEBRIDGE_CONFIGURATION_FILE_PATH, PLATFORM_NAME} from '../../platformSettings';
-import { platformConfiguration, platformConfigurationPlatforms } from '../../platformInterfaces/platformInterfaces';
+import { platformConfiguration, platformConfigurationPlatforms, platformConfigurationPlatformsAccessory } from '../../platformInterfaces/platformInterfaces';
 
-import fs from 'fs';
+import fs, { access } from 'fs';
 import { platformConnector } from './platformConnector';
 
 
@@ -42,6 +42,25 @@ export class homebridgeConnector extends platformConnector {
     this.log.error('Data:', JSON.stringify(currentConfigurationFile.platforms[platformIndex]));
     this.log.error('----------End Platform----------');
 
+    this.log.error('----------Start Accessories----------');
+    for (let accessoryIndex=0; accessoryIndex < currentConfigurationFile.platforms[platformIndex].accessories.length; accessoryIndex++){
+      this.log.error('----------Start Accessories'+ accessoryIndex.toString +' ----------');
+      this.log.error('Name:', currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].name);
+      this.log.error('UUID:', currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].UUID);
+      if (currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].UUID === 'N/A') {
+        this.log.error('----------Accessories No UUID----------');
+        currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].UUID =
+        this.api.hap.uuid.generate(currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].name + Math.random);
+      }
+      this.log.error('----------End Accessories'+ accessoryIndex.toString +' ----------');
+
+
+    }
+    this.log.error('----------End Accessories----------');
+
+    this.log.error('----------Start JSON----------');
+    this.log.debug(JSON.stringify(currentConfigurationFile));
+    this.log.error('----------End JSON----------');
 
 
 

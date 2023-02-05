@@ -1,4 +1,5 @@
 export interface platformConfiguration {
+    [x: string]: any;
     bridge: platformConfigurationBridge;
     accessories: platformConfigurationAccessories;
     platforms: platformConfigurationPlatforms[];
@@ -18,6 +19,11 @@ export interface platformConfigurationAccessories {
 export interface platformConfigurationPlatforms {
     name: string;
     platform: string;
+    accessories: platformConfigurationPlatformsAccessory[];
+}
+export interface platformConfigurationPlatformsAccessory {
+    name: string;
+    UUID: string;
 }
 export interface platformConfigurationDisabledPlugins {
     name: string;
