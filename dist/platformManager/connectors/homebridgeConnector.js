@@ -18,8 +18,6 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
         this.deviceList = [];
         this.cachedConfigurationTimeStamp = 0;
         this.cachedConfigurationFile = '';
-        this.cachedPlatformFile = '';
-        //private cachedPlatformData: platformConfiguration;
         this.cachedPlatformIndex = -1;
         this.cachedConfigurationTimeStamp = fs_1.default.statSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
         this.cachedConfigurationFile = fs_1.default.readFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
@@ -45,27 +43,6 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
         this.cachedConfigurationFile = fs_1.default.readFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
         this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);
     }
-    // protected firstRun() {
-    //   this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
-    //   this.cachedConfigurationFile = fs.readFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
-    //   this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);
-    //   const currentConfigurationFile: platformConfiguration = JSON.parse(this.cachedConfigurationFile);
-    //   const platformIndex = currentConfigurationFile.platforms.findIndex(
-    //     (platformConfigurationPlatforms) => platformConfigurationPlatforms.platform === PLATFORM_NAME,
-    //   );
-    //   for (let accessoryIndex=0; accessoryIndex < currentConfigurationFile.platforms[platformIndex].accessories.length; accessoryIndex++){
-    //     if (currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].uuid === 'N/A') {
-    //       currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].uuid =
-    //       this.api.hap.uuid.generate(currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].name + Math.random);
-    //     }
-    //     // this.deviceList.push(new PlatformAccessory(
-    //     //   currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].name,
-    //     //   currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].uuid,
-    //     // ))
-    //   }
-    //   fs.writeFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(currentConfigurationFile));
-    //   this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
-    // }
     async initialize() {
         // this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
         // this.cachedConfigurationFile = fs.readFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
@@ -87,17 +64,35 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
     //   return;
     // }
     async status() {
-        this.log.warn('[homebridgeConnector]<status> Start');
-        this.log.warn('[homebridgeConnector]<status>(cachedConfigurationTimeStamp) Value:', this.cachedConfigurationTimeStamp);
-        this.log.warn('[homebridgeConnector]<status>(fs.statSync) Value:', fs_1.default.statSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs);
-        this.log.warn('[homebridgeConnector]<status> -----------------------------');
         if (this.cachedConfigurationTimeStamp !== fs_1.default.statSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs) {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
     async refresh() {
-        this.log.error('[homebridgeConnector]<refresh> Method not implemented.');
+        this.cachedConfigurationTimeStamp = fs_1.default.statSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
+        this.cachedConfigurationFile = fs_1.default.readFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
+        this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);
+        for (let index = 0; index < this.cachedConfigurationData.platforms.length; index++) {
+            this.log.warn('Platform Name:', this.cachedConfigurationData.platforms[index].name);
+            if (this.cachedConfigurationData.platforms[index].platform === platformSettings_1.PLATFORM_NAME) {
+                this.cachedPlatformIndex = index;
+            }
+        }
+        if (this.cachedPlatformIndex === -1) {
+            throw new Error('[homebridgeConnector]<constructor> PLATFORM_NAME does not exist in config.json');
+        }
+        for (let index = 0; index < this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories.length; index++) {
+            if (this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].uuid === 'N/A') {
+                this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].uuid =
+                    this.api.hap.uuid.generate(this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].name + Math.random);
+            }
+        }
+        fs_1.default.writeFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(this.cachedConfigurationData));
+        this.log.warn('JSON:', JSON.stringify(this.cachedConfigurationData));
+        this.cachedConfigurationTimeStamp = fs_1.default.statSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
+        this.cachedConfigurationFile = fs_1.default.readFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
+        this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);
     }
     async get() {
         this.log.error('[homebridgeConnector]<get> Method not implemented.');

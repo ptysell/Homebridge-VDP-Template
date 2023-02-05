@@ -15,8 +15,6 @@ export class homebridgeConnector extends platformConnector {
   private cachedConfigurationFile = '';
   private cachedConfigurationData: homebridgeConfiguration;
 
-  private cachedPlatformFile ='';
-  //private cachedPlatformData: platformConfiguration;
   private cachedPlatformIndex = -1;
 
   constructor(
@@ -56,33 +54,6 @@ export class homebridgeConnector extends platformConnector {
 
   }
 
-  // protected firstRun() {
-  //   this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
-  //   this.cachedConfigurationFile = fs.readFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
-  //   this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);
-
-
-  //   const currentConfigurationFile: platformConfiguration = JSON.parse(this.cachedConfigurationFile);
-  //   const platformIndex = currentConfigurationFile.platforms.findIndex(
-  //     (platformConfigurationPlatforms) => platformConfigurationPlatforms.platform === PLATFORM_NAME,
-  //   );
-  //   for (let accessoryIndex=0; accessoryIndex < currentConfigurationFile.platforms[platformIndex].accessories.length; accessoryIndex++){
-  //     if (currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].uuid === 'N/A') {
-  //       currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].uuid =
-  //       this.api.hap.uuid.generate(currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].name + Math.random);
-  //     }
-  //     // this.deviceList.push(new PlatformAccessory(
-  //     //   currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].name,
-  //     //   currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].uuid,
-  //     // ))
-
-  //   }
-  //   fs.writeFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(currentConfigurationFile));
-  //   this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
-
-  // }
-
-
   protected async initialize(): Promise<void> {
     // this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
     // this.cachedConfigurationFile = fs.readFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
@@ -110,19 +81,40 @@ export class homebridgeConnector extends platformConnector {
 
 
   public async status(): Promise<boolean | void> {
-    this.log.warn('[homebridgeConnector]<status> Start');
-    this.log.warn('[homebridgeConnector]<status>(cachedConfigurationTimeStamp) Value:', this.cachedConfigurationTimeStamp);
-    this.log.warn('[homebridgeConnector]<status>(fs.statSync) Value:', fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs);
-    this.log.warn('[homebridgeConnector]<status> -----------------------------');
-
     if(this.cachedConfigurationTimeStamp !== fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs){
-      return false;
+      return true;
     }
-    return true;
+    return false;
   }
 
   public async refresh(): Promise<void> {
-    this.log.error('[homebridgeConnector]<refresh> Method not implemented.');
+    this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
+    this.cachedConfigurationFile = fs.readFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
+    this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);
+
+    for (let index = 0; index < this.cachedConfigurationData.platforms.length; index++) {
+      this.log.warn('Platform Name:', this.cachedConfigurationData.platforms[index].name);
+      if (this.cachedConfigurationData.platforms[index].platform === PLATFORM_NAME) {
+        this.cachedPlatformIndex = index;
+      }
+    }
+
+    if (this.cachedPlatformIndex === -1){
+      throw new Error('[homebridgeConnector]<constructor> PLATFORM_NAME does not exist in config.json');
+    }
+
+    for (let index = 0; index < this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories.length; index++){
+      if (this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].uuid === 'N/A') {
+        this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].uuid =
+        this.api.hap.uuid.generate(this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].name + Math.random);
+      }
+    }
+
+    fs.writeFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(this.cachedConfigurationData));
+    this.log.warn('JSON:', JSON.stringify(this.cachedConfigurationData));
+    this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
+    this.cachedConfigurationFile = fs.readFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
+    this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);
   }
 
   public async get(): Promise<PlatformAccessory[]> {
