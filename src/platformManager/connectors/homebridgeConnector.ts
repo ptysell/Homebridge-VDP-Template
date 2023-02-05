@@ -28,10 +28,11 @@ export class homebridgeConnector extends platformConnector {
     this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);
 
     for (let index = 0; index < this.cachedConfigurationData.platforms.length; index++) {
+      this.log.warn('Platform Name:', this.cachedConfigurationData.platforms[index].name);
       if (this.cachedConfigurationData.platforms[index].name === PLATFORM_NAME) {
         this.cachedPlatformIndex = index;
       } else {
-        throw new Error('');
+        //throw new Error('[homebridgeConnector]<constructor> PLATFORM_NAME does not exist in config.json');
       }
     }
 
@@ -46,7 +47,7 @@ export class homebridgeConnector extends platformConnector {
     this.log.warn('JSON:', JSON.stringify(this.cachedConfigurationData));
     this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
     this.cachedConfigurationFile = fs.readFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
-    this.cachedConfigurationData = JSON.parse(this.cachedConfiguration);
+    this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);
 
   }
 
