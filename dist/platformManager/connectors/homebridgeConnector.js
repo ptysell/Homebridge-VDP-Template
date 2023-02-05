@@ -18,7 +18,7 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
         this.cachedConfigurationTimeStamp = 0;
         this.cachedConfigurationFile = '';
         this.cachedConfigurationData = '';
-        this.initialize();
+        //this.initialize();
     }
     async initialize() {
         this.log.debug('[homebridgeConnector]<initalize>(Start of Function)');
@@ -27,14 +27,12 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
         this.log.debug('[homebridgeConnector]<initalize>Getting Configuration File');
         this.cachedConfigurationFile = fs_1.default.readFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
         const currentConfigurationFile = JSON.parse(this.cachedConfigurationFile);
-        this.log.error('----------Start Bridge----------');
-        this.log.error('Bridge Name:', currentConfigurationFile.bridge.name);
-        this.log.error('Bridge User Name:', currentConfigurationFile.bridge.username);
-        this.log.error('Bridge Port:', currentConfigurationFile.bridge.port);
-        this.log.error('Bridge Pin:', currentConfigurationFile.bridge.pin);
-        this.log.error('Bridge Advertiser:', currentConfigurationFile.bridge.advertiser);
-        this.log.error('Bridge Bind:', currentConfigurationFile.bridge.bind.toString);
-        this.log.error('----------End Bridge----------');
+        const platformIndex = currentConfigurationFile.platforms.findIndex((platformConfigurationPlatforms) => platformConfigurationPlatforms.platform === platformSettings_1.PLATFORM_NAME);
+        this.log.error('----------Start Platform----------');
+        this.log.error('Name:', currentConfigurationFile.platforms[platformIndex].name);
+        this.log.error('Platform Name:', currentConfigurationFile.platforms[platformIndex].platform);
+        this.log.error('Data:', JSON.stringify(currentConfigurationFile.platforms[platformIndex]));
+        this.log.error('----------End Platform----------');
         this.log.debug('[homebridgeConnector]<initalize>(End of Function)');
     }
     async loadConfigurationFromJSON(configurationFile) {

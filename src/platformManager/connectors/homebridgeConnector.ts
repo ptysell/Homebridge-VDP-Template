@@ -1,5 +1,5 @@
 import { API, Logger, PlatformConfig, PlatformAccessory, UnknownContext } from 'homebridge';
-import { HOMEBRIDGE_CONFIGURATION_FILE_PATH } from '../../platformSettings';
+import { HOMEBRIDGE_CONFIGURATION_FILE_PATH, PLATFORM_NAME} from '../../platformSettings';
 import { platformConfiguration, platformConfigurationPlatforms } from '../../platformInterfaces/platformInterfaces';
 
 import fs from 'fs';
@@ -21,7 +21,7 @@ export class homebridgeConnector extends platformConnector {
     public readonly api: API,
   ) {
     super(log, config, api, HOMEBRIDGE_CONFIGURATION_FILE_PATH);
-    this.initialize();
+    //this.initialize();
   }
 
   protected async initialize(): Promise<void> {
@@ -33,14 +33,14 @@ export class homebridgeConnector extends platformConnector {
     this.cachedConfigurationFile = fs.readFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
 
     const currentConfigurationFile: platformConfiguration = JSON.parse(this.cachedConfigurationFile);
-    this.log.error('----------Start Bridge----------');
-    this.log.error('Bridge Name:', currentConfigurationFile.bridge.name);
-    this.log.error('Bridge User Name:', currentConfigurationFile.bridge.username);
-    this.log.error('Bridge Port:', currentConfigurationFile.bridge.port);
-    this.log.error('Bridge Pin:', currentConfigurationFile.bridge.pin);
-    this.log.error('Bridge Advertiser:', currentConfigurationFile.bridge.advertiser);
-    this.log.error('Bridge Bind:', currentConfigurationFile.bridge.bind.toString);
-    this.log.error('----------End Bridge----------');
+    const platformIndex = currentConfigurationFile.platforms.findIndex(
+      (platformConfigurationPlatforms) => platformConfigurationPlatforms.platform === PLATFORM_NAME,
+    );
+    this.log.error('----------Start Platform----------');
+    this.log.error('Name:', currentConfigurationFile.platforms[platformIndex].name);
+    this.log.error('Platform Name:', currentConfigurationFile.platforms[platformIndex].platform);
+    this.log.error('Data:', JSON.stringify(currentConfigurationFile.platforms[platformIndex]));
+    this.log.error('----------End Platform----------');
 
 
 
