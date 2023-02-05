@@ -14,21 +14,21 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
         this.initialize();
     }
     async initialize() {
-        this.log.error('Method not implemented.');
+        this.log.error('[homebridgeConnector]<initalize> Method not implemented.');
     }
     async status() {
-        this.log.error('Method not implemented.');
+        this.log.error('[homebridgeConnector]<status> Method not implemented.');
         return true;
     }
     async refresh() {
-        this.log.error('Method not implemented.');
+        this.log.error('[homebridgeConnector]<refresh> Method not implemented.');
     }
     async get() {
-        this.log.error('Method not implemented.');
+        this.log.error('[homebridgeConnector]<get> Method not implemented.');
         return this.deviceList;
     }
     async update() {
-        this.log.error('Method not implemented.');
+        this.log.error('[homebridgeConnector]<update> Method not implemented.');
     }
 }
 exports.homebridgeConnector = homebridgeConnector;

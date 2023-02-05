@@ -16,7 +16,7 @@ class platform {
         this.log.info('Finished initializing platform:', this.config.name);
         this.api.on('didFinishLaunching', () => {
             log.debug('Executed didFinishLaunching callback');
-            this.discoverDevices();
+            //this.discoverDevices();
             this.periodicDiscovery = setInterval(() => this.discoverDevices(), 5000);
         });
         this.platformDiscoverer = new homebridgeConnector_1.homebridgeConnector(this.log, this.config, this.api);
@@ -27,7 +27,7 @@ class platform {
         //const platformDiscoverer = new platformDiscovery(this.log, this.config, this.api);
         // const deviceList: PlatformAccessory[] = await this.platformDiscoverer.scan(2000);
         // this.pruneAccessories(deviceList);
-        this.log.error('Configuration File Updated:', await this.platformDiscoverer.status);
+        this.log.error('Configuration File Updated:', await this.platformDiscoverer.status());
         // const discoverDevices = this.platformManager.getAccessories;
         // for (const accessory of discoverDevices) {
         //   const existingAccessory = this.accessories.find(searchAccessory => searchAccessory.UUID === accessory.UUID);

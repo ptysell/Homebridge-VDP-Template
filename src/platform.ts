@@ -28,7 +28,7 @@ export class platform implements DynamicPlatformPlugin {
     this.log.info('Finished initializing platform:', this.config.name);
     this.api.on('didFinishLaunching', () => {
       log.debug('Executed didFinishLaunching callback');
-      this.discoverDevices();
+      //this.discoverDevices();
       this.periodicDiscovery = setInterval(() => this.discoverDevices(), 5000);
 
     });
@@ -43,7 +43,7 @@ export class platform implements DynamicPlatformPlugin {
     // const deviceList: PlatformAccessory[] = await this.platformDiscoverer.scan(2000);
     // this.pruneAccessories(deviceList);
 
-    this.log.error('Configuration File Updated:', await this.platformDiscoverer.status);
+    this.log.error('Configuration File Updated:', await this.platformDiscoverer.status());
 
 
 
