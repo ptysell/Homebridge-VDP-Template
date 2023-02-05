@@ -31,7 +31,8 @@
                   "uuid" : {
                     "title" : "UUID",
                     "type" : "string",
-                    "readonly" : true
+                    "readonly" : true,
+                    "default": ""
                   }
               }
           }

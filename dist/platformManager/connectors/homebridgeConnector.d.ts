@@ -6,8 +6,12 @@ export declare class homebridgeConnector extends platformConnector {
     readonly api: API;
     name: string;
     protected deviceList: PlatformAccessory<UnknownContext>[];
+    private cachedConfigurationTimeStamp;
+    private cachedConfigurationFile;
+    private cachedConfigurationData;
     constructor(log: Logger, config: PlatformConfig, api: API);
     protected initialize(): Promise<void>;
+    private loadConfigurationFromJSON;
     status(): Promise<boolean | void>;
     refresh(): Promise<void>;
     get(): Promise<PlatformAccessory[]>;
