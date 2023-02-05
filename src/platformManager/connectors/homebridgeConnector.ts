@@ -62,8 +62,10 @@ export class homebridgeConnector extends platformConnector {
     this.log.debug('JSON: ', JSON.stringify(currentConfigurationFile));
     this.log.error('----------End JSON----------');
 
+    this.log.error('----------Start File Write----------');
+    fs.writeFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(currentConfigurationFile));
 
-
+    this.log.error('----------End File Write----------');
 
     this.log.debug('[homebridgeConnector]<initalize>(End of Function)');
   }
