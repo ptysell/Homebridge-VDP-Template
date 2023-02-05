@@ -13,18 +13,23 @@ export interface homebridgeConfiguration {
     platforms: {
         name: string;
         platform: string;
-        accessories: {
-            name: string;
-            uuid: string;
-            category: string | void;
-            service: string | void;
-        }[] | void;
     }[];
     disabledPlugins: {
         name: string;
     };
 }
 
+export interface platformConfiguration {
+    name: string;
+    platform: string;
+    accessories: {
+        name: string;
+        uuid: string;
+        category: string | void;
+        service: string | void;
+    }[];
+
+}
 
 
 

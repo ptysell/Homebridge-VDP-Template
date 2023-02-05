@@ -36,12 +36,12 @@ export class homebridgeConnector extends platformConnector {
       }
     }
 
-    for (let index = 0; index < this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories.length; index++){
-      if (this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].uuid === 'N/A') {
-        this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].uuid =
-        this.api.hap.uuid.generate(this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].name + Math.random);
-      }
-    }
+    // for (let index = 0; index < this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories.length; index++){
+    //   if (this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].uuid === 'N/A') {
+    //     this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].uuid =
+    //     this.api.hap.uuid.generate(this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].name + Math.random);
+    //   }
+    // }
 
     //fs.writeFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(this.cachedConfigurationData));
     this.log.warn('JSON:', JSON.stringify(this.cachedConfigurationData));
