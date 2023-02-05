@@ -25,49 +25,22 @@ export class homebridgeConnector extends platformConnector {
   }
 
   protected async initialize(): Promise<void> {
-    this.log.debug('[homebridgeConnector]<initalize>(Start of Function)');
-
-    this.log.debug('[homebridgeConnector]<initalize>Getting Configuration File TimeStamp');
     this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
-    this.log.debug('[homebridgeConnector]<initalize>Getting Configuration File');
     this.cachedConfigurationFile = fs.readFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
 
     const currentConfigurationFile: platformConfiguration = JSON.parse(this.cachedConfigurationFile);
     const platformIndex = currentConfigurationFile.platforms.findIndex(
       (platformConfigurationPlatforms) => platformConfigurationPlatforms.platform === PLATFORM_NAME,
     );
-    this.log.error('----------Start Platform----------');
-    this.log.error('Name:', currentConfigurationFile.platforms[platformIndex].name);
-    this.log.error('Platform Name:', currentConfigurationFile.platforms[platformIndex].platform);
-    this.log.error('Data:', JSON.stringify(currentConfigurationFile.platforms[platformIndex]));
-    this.log.error('----------End Platform----------');
-
-    this.log.error('----------Start Accessories----------');
     for (let accessoryIndex=0; accessoryIndex < currentConfigurationFile.platforms[platformIndex].accessories.length; accessoryIndex++){
-      this.log.error('----------Start Accessories'+ accessoryIndex +' ----------');
-      this.log.error('Name:', currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].name);
-      this.log.error('UUID:', currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].uuid);
       if (currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].uuid === 'N/A') {
-        this.log.error('----------Accessories No UUID----------');
         currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].uuid =
         this.api.hap.uuid.generate(currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].name + Math.random);
       }
-      this.log.error('----------End Accessories'+ accessoryIndex +' ----------');
-
+      //this.deviceList.push()
 
     }
-    this.log.error('----------End Accessories----------');
-
-    this.log.error('----------Start JSON----------');
-    this.log.debug('JSON: ', JSON.stringify(currentConfigurationFile));
-    this.log.error('----------End JSON----------');
-
-    this.log.error('----------Start File Write----------');
     fs.writeFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(currentConfigurationFile));
-
-    this.log.error('----------End File Write----------');
-
-    this.log.debug('[homebridgeConnector]<initalize>(End of Function)');
   }
 
   private async loadConfigurationFromJSON(configurationFile: string): Promise<boolean | void> {
@@ -77,8 +50,10 @@ export class homebridgeConnector extends platformConnector {
 
 
   public async status(): Promise<boolean | void> {
-    this.log.error('[homebridgeConnector]<status> Method not implemented.');
-    return true;
+    if(this.cachedConfigurationTimeStamp !== fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs){
+      return true;
+    }
+    return false;
   }
 
   public async refresh(): Promise<void> {
