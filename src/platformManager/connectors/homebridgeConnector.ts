@@ -59,7 +59,7 @@ export class homebridgeConnector extends platformConnector {
     this.log.error('----------End Accessories----------');
 
     this.log.error('----------Start JSON----------');
-    this.log.debug('JSON: ', JSON.stringify(currentConfigurationFile).toString);
+    this.log.debug('JSON: ', JSON.stringify(currentConfigurationFile));
     this.log.error('----------End JSON----------');
 
 
