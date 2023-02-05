@@ -8,7 +8,6 @@ class platformConnector {
         this.config = config;
         this.api = api;
         this.resourcePath = resourcePath;
-        this.initialize();
     }
 }
 exports.platformConnector = platformConnector;

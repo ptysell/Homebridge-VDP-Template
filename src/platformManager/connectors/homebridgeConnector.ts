@@ -21,8 +21,30 @@ export class homebridgeConnector extends platformConnector {
     public readonly api: API,
   ) {
     super(log, config, api, HOMEBRIDGE_CONFIGURATION_FILE_PATH);
-    //this.initialize();
+    this.firstRun();
   }
+
+  protected firstRun() {
+    this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
+    this.cachedConfigurationFile = fs.readFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
+
+    const currentConfigurationFile: platformConfiguration = JSON.parse(this.cachedConfigurationFile);
+    const platformIndex = currentConfigurationFile.platforms.findIndex(
+      (platformConfigurationPlatforms) => platformConfigurationPlatforms.platform === PLATFORM_NAME,
+    );
+    for (let accessoryIndex=0; accessoryIndex < currentConfigurationFile.platforms[platformIndex].accessories.length; accessoryIndex++){
+      if (currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].uuid === 'N/A') {
+        currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].uuid =
+        this.api.hap.uuid.generate(currentConfigurationFile.platforms[platformIndex].accessories[accessoryIndex].name + Math.random);
+      }
+      //this.deviceList.push()
+
+    }
+    fs.writeFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(currentConfigurationFile));
+    this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
+
+  }
+
 
   protected async initialize(): Promise<void> {
     this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;

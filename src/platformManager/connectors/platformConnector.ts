@@ -12,7 +12,6 @@ export abstract class platformConnector {
         public readonly api: API,
         public readonly resourcePath: string,
   ) {
-    this.initialize();
   }
 
   protected abstract initialize(): Promise<void>;
