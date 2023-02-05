@@ -1,1 +1,1 @@
-{"version":3,"file":"platformSettings.d.ts","sourceRoot":"","sources":["../src/platformSettings.ts"],"names":[],"mappings":"AAAA,eAAO,MAAM,iBAAiB,6BAA6B,CAAC;AAC5D,eAAO,MAAM,aAAa,oBAAoB,CAAC;AAC/C,eAAO,MAAM,WAAW,+BAA+B,CAAC;AACxD,eAAO,MAAM,kCAAkC,oCAAoC,CAAC"}
+{"version":3,"file":"platformSettings.d.ts","sourceRoot":"","sources":["../src/platformSettings.ts"],"names":[],"mappings":"AAAA,eAAO,MAAM,iBAAiB,6BAA6B,CAAC;AAC5D,eAAO,MAAM,aAAa,iBAAiB,CAAC;AAC5C,eAAO,MAAM,WAAW,4BAA4B,CAAC;AACrD,eAAO,MAAM,kCAAkC,oCAAoC,CAAC"}
