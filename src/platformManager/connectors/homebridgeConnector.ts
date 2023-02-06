@@ -17,6 +17,8 @@ export class homebridgeConnector extends platformConnector {
   private cachedPlatformFile = '';
   private cachedPlatformData: IPlatform;
 
+  private platformIndex = -1;
+
   constructor(
     public readonly log: Logger,
     public readonly config: PlatformConfig,
@@ -32,7 +34,9 @@ export class homebridgeConnector extends platformConnector {
     for (const platform of this.cachedConfigurationData.platforms){
       if (platform.platform === PLATFORM_NAME) {
         this.cachedPlatformFile = JSON.stringify(platform);
+        break;
       }
+      this.platformIndex += 1;
     }
 
     this.cachedPlatformData = JSON.parse(this.cachedPlatformFile);
@@ -46,11 +50,7 @@ export class homebridgeConnector extends platformConnector {
       }
     }
 
-    for (let platform of this.cachedConfigurationData.platforms){
-      if (platform.name === PLATFORM_NAME) {
-        platform = this.cachedPlatformData;
-      }
-    }
+    this.cachedConfigurationData.platforms[this.platformIndex] = this.cachedPlatformData;
 
     fs.writeFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(this.cachedConfigurationData));
     this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
@@ -89,20 +89,7 @@ export class homebridgeConnector extends platformConnector {
       }
     }
 
-    let platfornIndex = 0;
-    for (let platform of this.cachedConfigurationData.platforms){
-      if (platform.name === PLATFORM_NAME) {
-        platform = this.cachedPlatformData;
-        break;
-      }
-      platfornIndex+=1;
-    }
-
-    this.cachedConfigurationData.platforms[platfornIndex] = this.cachedPlatformData;
-
-
-
-    this.log.info('cachedPlatformData JSON: ', JSON.stringify(this.cachedConfigurationData));
+    this.cachedConfigurationData.platforms[this.platformIndex] = this.cachedPlatformData;
 
     fs.writeFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(this.cachedConfigurationData));
     this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
