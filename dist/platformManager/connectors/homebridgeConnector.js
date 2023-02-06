@@ -22,14 +22,15 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
         this.cachedConfigurationTimeStamp = fs_1.default.statSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
         this.cachedConfigurationFile = fs_1.default.readFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
         this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);
-        this.log.info('Finding Platform.....');
         for (const platform of this.cachedConfigurationData.platforms) {
+            this.log.info('Finding Platform.....');
+            this.log.info('Platform:', platform.name);
             if (platform.name === platformSettings_1.PLATFORM_NAME) {
                 this.log.info('Platform Found: ' + platform.name);
                 this.cachedPlatformFile = JSON.stringify(platform);
-                break;
             }
         }
+        this.log.info('Platform File:', this.cachedPlatformFile);
         this.cachedPlatformData = JSON.parse(this.cachedPlatformFile);
         // for (let index = 0; index < this.cachedConfigurationData.platforms.length; index++) {
         //   if (this.cachedConfigurationData.platforms[index].platform === PLATFORM_NAME) {

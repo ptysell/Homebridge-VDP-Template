@@ -30,15 +30,21 @@ export class homebridgeConnector extends platformConnector {
     this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);
 
 
-    this.log.info('Finding Platform.....');
 
     for (const platform of this.cachedConfigurationData.platforms){
+      this.log.info('Finding Platform.....');
+      this.log.info('Platform:', platform.name);
       if (platform.name === PLATFORM_NAME) {
+
         this.log.info('Platform Found: ' + platform.name);
         this.cachedPlatformFile = JSON.stringify(platform);
-        break;
       }
     }
+
+    this.log.info('Platform File:', this.cachedPlatformFile);
+
+
+
     this.cachedPlatformData = JSON.parse(this.cachedPlatformFile);
 
     // for (let index = 0; index < this.cachedConfigurationData.platforms.length; index++) {
