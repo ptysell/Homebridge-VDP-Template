@@ -30,8 +30,8 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
         for (const accessory of this.cachedPlatformData.accessories) {
             this.log.info('Loading Accessory: ' + accessory.name + ' with UUID ' + accessory.uuid);
             if (accessory.uuid === 'N/A') {
-                this.log.info('Accessory: ' + accessory.name + ' UUID = N/A');
                 accessory.uuid = this.api.hap.uuid.generate(accessory.name + Math.random);
+                this.log.info('Accessory: ' + accessory.name + ' UUID = ' + accessory.uuid);
             }
         }
         for (let platform of this.cachedConfigurationData.platforms) {
@@ -63,8 +63,8 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
         for (const accessory of this.cachedPlatformData.accessories) {
             this.log.info('Loading Accessory: ' + accessory.name + ' with UUID ' + accessory.uuid);
             if (accessory.uuid === 'N/A') {
-                this.log.info('Accessory: ' + accessory.name + ' UUID = N/A');
                 accessory.uuid = this.api.hap.uuid.generate(accessory.name + Math.random);
+                this.log.info('Accessory: ' + accessory.name + ' UUID = ' + accessory.uuid);
             }
         }
         for (let platform of this.cachedConfigurationData.platforms) {
