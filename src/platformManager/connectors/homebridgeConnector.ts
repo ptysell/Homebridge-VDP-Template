@@ -98,7 +98,7 @@ export class homebridgeConnector extends platformConnector {
       platfornIndex+=1;
     }
 
-    //this.cachedConfigurationData.platforms[platfornIndex] = this.cachedPlatformData;
+    this.cachedConfigurationData.platforms[platfornIndex] = this.cachedPlatformData;
 
 
 
