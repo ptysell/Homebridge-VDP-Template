@@ -89,13 +89,20 @@ export class homebridgeConnector extends platformConnector {
       }
     }
 
+    let platfornIndex = 0;
     for (let platform of this.cachedConfigurationData.platforms){
       if (platform.name === PLATFORM_NAME) {
         platform = this.cachedPlatformData;
+        break;
       }
+      platfornIndex+=1;
     }
 
-    this.log.info('cachedPlatformData JSON: ', JSON.stringify(this.cachedPlatformData));
+    //this.cachedConfigurationData.platforms[platfornIndex] = this.cachedPlatformData;
+
+
+
+    this.log.info('cachedPlatformData JSON: ', JSON.stringify(this.cachedConfigurationData));
 
     fs.writeFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(this.cachedConfigurationData));
     this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;

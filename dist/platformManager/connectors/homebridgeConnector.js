@@ -67,12 +67,16 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
                 this.log.info('Accessory: ' + accessory.name + ' UUID = ' + accessory.uuid);
             }
         }
+        let platfornIndex = 0;
         for (let platform of this.cachedConfigurationData.platforms) {
             if (platform.name === platformSettings_1.PLATFORM_NAME) {
                 platform = this.cachedPlatformData;
+                break;
             }
+            platfornIndex += 1;
         }
-        this.log.info('cachedPlatformData JSON: ', JSON.stringify(this.cachedPlatformData));
+        //this.cachedConfigurationData.platforms[platfornIndex] = this.cachedPlatformData;
+        this.log.info('cachedPlatformData JSON: ', JSON.stringify(this.cachedConfigurationData));
         fs_1.default.writeFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(this.cachedConfigurationData));
         this.cachedConfigurationTimeStamp = fs_1.default.statSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
         this.cachedConfigurationFile = fs_1.default.readFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
