@@ -41,7 +41,7 @@ export class homebridgeConnector extends platformConnector {
       }
     }
 
-    this.platformIndex = this.cachedConfigurationData.platforms.findIndex(searchPlatform => searchPlatform.platform, PLATFORM_NAME);
+    this.platformIndex = this.cachedConfigurationData.platforms.findIndex(searchPlatform => searchPlatform.platform === PLATFORM_NAME);
     this.log.error('Platform Index:', this.platformIndex);
 
 

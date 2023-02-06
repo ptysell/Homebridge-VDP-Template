@@ -28,7 +28,7 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
                 break;
             }
         }
-        this.platformIndex = this.cachedConfigurationData.platforms.findIndex(searchPlatform => searchPlatform.platform, platformSettings_1.PLATFORM_NAME);
+        this.platformIndex = this.cachedConfigurationData.platforms.findIndex(searchPlatform => searchPlatform.platform === platformSettings_1.PLATFORM_NAME);
         this.log.error('Platform Index:', this.platformIndex);
         this.cachedPlatformData = JSON.parse(this.cachedPlatformFile);
         for (const accessory of this.cachedPlatformData.accessories) {
