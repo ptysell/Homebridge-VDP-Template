@@ -34,17 +34,17 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
         this.log.info('Loading Platform.....');
         this.cachedPlatformData = JSON.parse(JSON.stringify(this.cachedConfigurationData.platforms[this.cachedPlatformIndex]));
         this.log.info('Loading Accessories.....');
-        for (const accessoryTemp of this.cachedPlatformData.accessories) {
-            this.log.info('Loading Accessory:', accessoryTemp.name);
+        for (const accessory of this.cachedPlatformData.accessories) {
+            this.log.info('Loading Accessory: ' + accessory.name + ' with UUID ' + accessory.uuid);
+            if (accessory.uuid === 'N/A') {
+                this.log.info('Accessory: ' + accessory.name + ' UUID = N/A');
+                accessory.uuid = this.api.hap.uuid.generate(accessory.name + Math.random);
+            }
         }
-        // for (let index = 0; index < this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories.length; index++){
-        //   if (this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].uuid === 'N/A') {
-        //     this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].uuid =
-        //     this.api.hap.uuid.generate(this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].name + Math.random);
-        //   }
-        //   // const platformAccessory:platformAccessory = {displayName: acce};
-        // }
-        fs_1.default.writeFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(this.cachedConfigurationData));
+        this.log.info('Updating Config.....');
+        this.cachedConfigurationData.platforms[this.cachedPlatformIndex] = this.cachedPlatformData;
+        this.log.error('JSON:', JSON.stringify(this.cachedConfigurationData));
+        //fs.writeFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(this.cachedConfigurationData));
         this.cachedConfigurationTimeStamp = fs_1.default.statSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
         this.cachedConfigurationFile = fs_1.default.readFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
         this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);

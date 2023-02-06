@@ -48,29 +48,21 @@ export class homebridgeConnector extends platformConnector {
 
 
 
-    for(const accessoryTemp of this.cachedPlatformData.accessories) {
-
-      this.log.info('Loading Accessory:', accessoryTemp.name);
-
+    for(const accessory of this.cachedPlatformData.accessories) {
+      this.log.info('Loading Accessory: ' + accessory.name + ' with UUID ' + accessory.uuid);
+      if (accessory.uuid === 'N/A') {
+        this.log.info('Accessory: ' + accessory.name +' UUID = N/A');
+        accessory.uuid = this.api.hap.uuid.generate(accessory.name + Math.random);
+      }
     }
 
+    this.log.info('Updating Config.....');
+    this.cachedConfigurationData.platforms[this.cachedPlatformIndex] = this.cachedPlatformData;
+
+    this.log.error('JSON:', JSON.stringify(this.cachedConfigurationData));
 
 
-
-
-
-
-
-    // for (let index = 0; index < this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories.length; index++){
-    //   if (this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].uuid === 'N/A') {
-    //     this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].uuid =
-    //     this.api.hap.uuid.generate(this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].name + Math.random);
-    //   }
-    //   // const platformAccessory:platformAccessory = {displayName: acce};
-
-    // }
-
-    fs.writeFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(this.cachedConfigurationData));
+    //fs.writeFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(this.cachedConfigurationData));
     this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
     this.cachedConfigurationFile = fs.readFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
     this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);
