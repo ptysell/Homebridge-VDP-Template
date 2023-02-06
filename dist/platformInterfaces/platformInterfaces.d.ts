@@ -20,24 +20,13 @@ export interface hombridgePlatform {
     name: string;
     platform: string;
 }
-export interface platform extends hombridgePlatform {
+export interface IPlatform extends hombridgePlatform {
     name: string;
     platform: string;
-    accessories: platformAccessory[];
+    accessories: IPlatformAccessory[];
 }
-export interface platformAccessory {
-    UUID: string;
-    displayName: string;
-    accessories: {
-        name: string;
-        uuid: string;
-        category: string | void;
-        service: string | void;
-        services: string[] | void;
-    }[];
-}
-export interface lightbulbAccessory extends platformAccessory {
-    Category: string;
-    Type: string;
+export interface IPlatformAccessory {
+    name: string;
+    uuid: string;
 }
 //# sourceMappingURL=platformInterfaces.d.ts.map

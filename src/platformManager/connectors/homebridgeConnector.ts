@@ -1,23 +1,21 @@
-import { API, Logger, PlatformConfig, PlatformAccessory } from 'homebridge';
+import { API, Logger, PlatformConfig } from 'homebridge';
 import { HOMEBRIDGE_CONFIGURATION_FILE_PATH, PLATFORM_NAME} from '../../platformSettings';
-import { homebridgeConfiguration, platform, platformAccessory } from '../../platformInterfaces/platformInterfaces';
+import { homebridgeConfiguration, IPlatform, IPlatformAccessory } from '../../platformInterfaces/platformInterfaces';
 
 import fs from 'fs';
 import { platformConnector } from './platformConnector';
-//import { platformAccessory } from '../../platformAccessory';
 
 export class homebridgeConnector extends platformConnector {
-  protected deviceList: platformAccessory[] = [];
+  protected deviceList: IPlatformAccessory[] = [];
 
   public name = 'homebridgeConnector';
-  protected devplatformAccessories: platformAccessory[] = [];
 
   private cachedConfigurationTimeStamp = 0;
   private cachedConfigurationFile = '';
   private cachedConfigurationData: homebridgeConfiguration;
   private cachedPlatformIndex = -1;
 
-  //private cachedPlatformData: platform;
+  private cachedPlatformData: IPlatform;
 
   constructor(
     public readonly log: Logger,
@@ -43,7 +41,18 @@ export class homebridgeConnector extends platformConnector {
 
     this.log.info('Platform Found');
     this.log.info('Loading Platform.....');
-    this.log.info('JSON Platform.....', JSON.stringify(this.cachedConfigurationData.platforms[this.cachedPlatformIndex]));
+    this.cachedPlatformData = JSON.parse(JSON.stringify(this.cachedConfigurationData.platforms[this.cachedPlatformIndex]));
+    this.log.info('Loading Accessories.....');
+
+
+
+
+
+    for(const accessoryTemp of this.cachedPlatformData.accessories) {
+
+      this.log.info('Loading Accessory:', accessoryTemp.name);
+
+    }
 
 
 
@@ -129,7 +138,7 @@ export class homebridgeConnector extends platformConnector {
     this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);
   }
 
-  public async get(): Promise<platformAccessory[]> {
+  public async get(): Promise<IPlatformAccessory[]> {
     this.log.error('[homebridgeConnector]<get> Method not implemented.');
     return this.deviceList;
   }

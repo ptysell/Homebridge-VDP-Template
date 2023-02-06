@@ -28,29 +28,23 @@ export interface hombridgePlatform {
 
 
 
-export interface platform extends hombridgePlatform {
+export interface IPlatform extends hombridgePlatform {
     name: string;
     platform: string;
-    accessories: platformAccessory [];
+    accessories: IPlatformAccessory[];
 }
 
 
 
-export interface platformAccessory {
-    UUID: string;
-    displayName: string;
-    accessories: {
-        name: string;
-        uuid: string;
-        category: string | void;
-        service: string | void;
-        services: string[] | void;
-    }[];
-}
 
-export interface lightbulbAccessory extends platformAccessory {
-Category: string;
-Type: string;
+
+export interface IPlatformAccessory {
+    name: string;
+    uuid: string;
+
+   // category: string | void;
+    //servicetype: string | void;
+    //services: Array<string> | void;
 
 }
 

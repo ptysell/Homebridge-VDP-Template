@@ -7,9 +7,7 @@ exports.homebridgeConnector = void 0;
 const platformSettings_1 = require("../../platformSettings");
 const fs_1 = __importDefault(require("fs"));
 const platformConnector_1 = require("./platformConnector");
-//import { platformAccessory } from '../../platformAccessory';
 class homebridgeConnector extends platformConnector_1.platformConnector {
-    //private cachedPlatformData: platform;
     constructor(log, config, api) {
         super(log, config, api, platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH);
         this.log = log;
@@ -17,7 +15,6 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
         this.api = api;
         this.deviceList = [];
         this.name = 'homebridgeConnector';
-        this.devplatformAccessories = [];
         this.cachedConfigurationTimeStamp = 0;
         this.cachedConfigurationFile = '';
         this.cachedPlatformIndex = -1;
@@ -35,7 +32,11 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
         }
         this.log.info('Platform Found');
         this.log.info('Loading Platform.....');
-        this.log.info('JSON Platform.....', JSON.stringify(this.cachedConfigurationData.platforms[this.cachedPlatformIndex]));
+        this.cachedPlatformData = JSON.parse(JSON.stringify(this.cachedConfigurationData.platforms[this.cachedPlatformIndex]));
+        this.log.info('Loading Accessories.....');
+        for (const accessoryTemp of this.cachedPlatformData.accessories) {
+            this.log.info('Loading Accessory:', accessoryTemp.name);
+        }
         // for (let index = 0; index < this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories.length; index++){
         //   if (this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].uuid === 'N/A') {
         //     this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].uuid =
