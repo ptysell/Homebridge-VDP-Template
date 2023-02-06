@@ -17,7 +17,7 @@ export class homebridgeConnector extends platformConnector {
   private cachedPlatformFile = '';
   private cachedPlatformData: IPlatform;
 
-  private platformIndex = -1;
+  private platformIndex: number;
 
   constructor(
     public readonly log: Logger,
@@ -26,6 +26,9 @@ export class homebridgeConnector extends platformConnector {
   ) {
 
     super(log, config, api, HOMEBRIDGE_CONFIGURATION_FILE_PATH);
+
+    this.log.error('----------Constructor----------');
+
 
     this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
     this.cachedConfigurationFile = fs.readFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
@@ -70,6 +73,7 @@ export class homebridgeConnector extends platformConnector {
   }
 
   public async refresh(): Promise<void> {
+    this.log.error('----------Refresh----------');
 
     this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
     this.cachedConfigurationFile = fs.readFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');

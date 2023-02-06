@@ -18,7 +18,7 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
         this.cachedConfigurationTimeStamp = 0;
         this.cachedConfigurationFile = '';
         this.cachedPlatformFile = '';
-        this.platformIndex = -1;
+        this.log.error('----------Constructor----------');
         this.cachedConfigurationTimeStamp = fs_1.default.statSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
         this.cachedConfigurationFile = fs_1.default.readFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
         this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);
@@ -51,6 +51,7 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
         return false;
     }
     async refresh() {
+        this.log.error('----------Refresh----------');
         this.cachedConfigurationTimeStamp = fs_1.default.statSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
         this.cachedConfigurationFile = fs_1.default.readFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
         this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);
