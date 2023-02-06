@@ -59,10 +59,7 @@ export class homebridgeConnector extends platformConnector {
     this.log.info('Updating Config.....');
     this.cachedConfigurationData.platforms[this.cachedPlatformIndex] = this.cachedPlatformData;
 
-    this.log.error('JSON:', JSON.stringify(this.cachedConfigurationData));
-
-
-    //fs.writeFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(this.cachedConfigurationData));
+    fs.writeFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(this.cachedConfigurationData));
     this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
     this.cachedConfigurationFile = fs.readFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
     this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);
@@ -107,6 +104,7 @@ export class homebridgeConnector extends platformConnector {
     this.cachedConfigurationFile = fs.readFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
     this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);
 
+    this.log.info('Finding Platform.....');
     for (let index = 0; index < this.cachedConfigurationData.platforms.length; index++) {
       if (this.cachedConfigurationData.platforms[index].platform === PLATFORM_NAME) {
         this.cachedPlatformIndex = index;
@@ -117,12 +115,25 @@ export class homebridgeConnector extends platformConnector {
       throw new Error('[homebridgeConnector]<constructor> PLATFORM_NAME does not exist in config.json');
     }
 
-    // for (let index = 0; index < this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories.length; index++){
-    //   if (this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].uuid === 'N/A') {
-    //     this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].uuid =
-    //     this.api.hap.uuid.generate(this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].name + Math.random);
-    //   }
-    // }
+    this.log.info('Platform Found');
+    this.log.info('Loading Platform.....');
+    this.cachedPlatformData = JSON.parse(JSON.stringify(this.cachedConfigurationData.platforms[this.cachedPlatformIndex]));
+    this.log.info('Loading Accessories.....');
+
+
+
+
+
+    for(const accessory of this.cachedPlatformData.accessories) {
+      this.log.info('Loading Accessory: ' + accessory.name + ' with UUID ' + accessory.uuid);
+      if (accessory.uuid === 'N/A') {
+        this.log.info('Accessory: ' + accessory.name +' UUID = N/A');
+        accessory.uuid = this.api.hap.uuid.generate(accessory.name + Math.random);
+      }
+    }
+
+    this.log.info('Updating Config.....');
+    this.cachedConfigurationData.platforms[this.cachedPlatformIndex] = this.cachedPlatformData;
 
     fs.writeFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(this.cachedConfigurationData));
     this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
