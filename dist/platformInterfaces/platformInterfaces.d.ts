@@ -28,5 +28,8 @@ export interface IPlatform extends hombridgePlatform {
 export interface IPlatformAccessory {
     name: string;
     uuid: string;
+    category: string | void;
+    servicetype: string | void;
+    services: Array<string> | void;
 }
 //# sourceMappingURL=platformInterfaces.d.ts.map

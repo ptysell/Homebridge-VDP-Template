@@ -42,9 +42,9 @@ export interface IPlatformAccessory {
     name: string;
     uuid: string;
 
-   // category: string | void;
-    //servicetype: string | void;
-    //services: Array<string> | void;
+    category: string | void;
+    servicetype: string | void;
+    services: Array<string> | void;
 
 }
 
