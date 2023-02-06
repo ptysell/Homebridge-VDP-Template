@@ -25,10 +25,10 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
         for (const platform of this.cachedConfigurationData.platforms) {
             if (platform.platform === platformSettings_1.PLATFORM_NAME) {
                 this.cachedPlatformFile = JSON.stringify(platform);
+                break;
             }
-            this.platformIndex = this.platformIndex + 1;
-            this.log.warn('Platform: ' + platform.name + ' at index ' + this.platformIndex);
         }
+        this.platformIndex = this.cachedConfigurationData.platforms.findIndex(searchPlatform => searchPlatform.platform, platformSettings_1.PLATFORM_NAME);
         this.log.error('Platform Index:', this.platformIndex);
         this.cachedPlatformData = JSON.parse(this.cachedPlatformFile);
         for (const accessory of this.cachedPlatformData.accessories) {
@@ -39,7 +39,6 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
             }
         }
         this.cachedConfigurationData.platforms[this.platformIndex] = this.cachedPlatformData;
-        this.log.error('JSON:', this.cachedConfigurationData);
         fs_1.default.writeFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(this.cachedConfigurationData));
         this.cachedConfigurationTimeStamp = fs_1.default.statSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
         this.cachedConfigurationFile = fs_1.default.readFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
@@ -61,7 +60,6 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
                 break;
             }
         }
-        this.log.error('Platform Index:', this.platformIndex);
         this.cachedPlatformData = JSON.parse(this.cachedPlatformFile);
         for (const accessory of this.cachedPlatformData.accessories) {
             this.log.info('Loading Accessory: ' + accessory.name + ' with UUID ' + accessory.uuid);
@@ -71,7 +69,6 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
             }
         }
         this.cachedConfigurationData.platforms[this.platformIndex] = this.cachedPlatformData;
-        this.log.error('JSON:', this.cachedConfigurationData);
         fs_1.default.writeFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(this.cachedConfigurationData));
         this.cachedConfigurationTimeStamp = fs_1.default.statSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
         this.cachedConfigurationFile = fs_1.default.readFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
