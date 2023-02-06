@@ -34,9 +34,9 @@ export class homebridgeConnector extends platformConnector {
     for (const platform of this.cachedConfigurationData.platforms){
       if (platform.platform === PLATFORM_NAME) {
         this.cachedPlatformFile = JSON.stringify(platform);
-        break;
       }
-      this.platformIndex += 1;
+      this.platformIndex = this.platformIndex + 1;
+      this.log.warn('Platform: ' + platform.name + ' at index ' + this.platformIndex);
     }
 
     this.log.error('Platform Index:', this.platformIndex);
@@ -82,7 +82,6 @@ export class homebridgeConnector extends platformConnector {
         this.cachedPlatformFile = JSON.stringify(platform);
         break;
       }
-      this.platformIndex += 1;
     }
 
     this.log.error('Platform Index:', this.platformIndex);
