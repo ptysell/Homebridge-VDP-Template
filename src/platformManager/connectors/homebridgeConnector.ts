@@ -27,9 +27,6 @@ export class homebridgeConnector extends platformConnector {
 
     super(log, config, api, HOMEBRIDGE_CONFIGURATION_FILE_PATH);
 
-    this.log.error('----------Constructor----------');
-
-
     this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
     this.cachedConfigurationFile = fs.readFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
     this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);
@@ -42,18 +39,14 @@ export class homebridgeConnector extends platformConnector {
     }
 
     this.platformIndex = this.cachedConfigurationData.platforms.findIndex(searchPlatform => searchPlatform.platform === PLATFORM_NAME);
-    this.log.error('Platform Index:', this.platformIndex);
-
 
     this.cachedPlatformData = JSON.parse(this.cachedPlatformFile);
 
     for(const accessory of this.cachedPlatformData.accessories) {
-      this.log.info('Loading Accessory: ' + accessory.name + ' with UUID ' + accessory.uuid);
       if (accessory.uuid === 'N/A') {
         accessory.uuid = this.api.hap.uuid.generate(accessory.name + Math.random);
-        this.log.info('Accessory: ' + accessory.name +' UUID = ' + accessory.uuid);
-
       }
+      this.log.debug('Loading Accessory: ' + accessory.name + ' with UUID ' + accessory.uuid);
     }
 
     this.cachedConfigurationData.platforms[this.platformIndex] = this.cachedPlatformData;
@@ -73,7 +66,6 @@ export class homebridgeConnector extends platformConnector {
   }
 
   public async refresh(): Promise<void> {
-    this.log.error('----------Refresh----------');
 
     this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
     this.cachedConfigurationFile = fs.readFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
@@ -89,12 +81,10 @@ export class homebridgeConnector extends platformConnector {
     this.cachedPlatformData = JSON.parse(this.cachedPlatformFile);
 
     for(const accessory of this.cachedPlatformData.accessories) {
-      this.log.info('Loading Accessory: ' + accessory.name + ' with UUID ' + accessory.uuid);
       if (accessory.uuid === 'N/A') {
         accessory.uuid = this.api.hap.uuid.generate(accessory.name + Math.random);
-        this.log.info('Accessory: ' + accessory.name +' UUID = ' + accessory.uuid);
-
       }
+      this.log.debug('Loading Accessory: ' + accessory.name + ' with UUID ' + accessory.uuid);
     }
 
     this.cachedConfigurationData.platforms[this.platformIndex] = this.cachedPlatformData;

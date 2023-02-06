@@ -27,7 +27,7 @@ export class platform implements DynamicPlatformPlugin {
   ) {
     this.log.info('Finished initializing platform:', this.config.name);
     this.api.on('didFinishLaunching', () => {
-      log.debug('Executed didFinishLaunching callback');
+      //log.debug('Executed didFinishLaunching callback');
       //this.discoverDevices();
       this.periodicDiscovery = setInterval(() => this.discoverDevices(), 5000);
 

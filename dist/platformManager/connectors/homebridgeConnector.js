@@ -18,7 +18,6 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
         this.cachedConfigurationTimeStamp = 0;
         this.cachedConfigurationFile = '';
         this.cachedPlatformFile = '';
-        this.log.error('----------Constructor----------');
         this.cachedConfigurationTimeStamp = fs_1.default.statSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
         this.cachedConfigurationFile = fs_1.default.readFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
         this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);
@@ -29,14 +28,12 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
             }
         }
         this.platformIndex = this.cachedConfigurationData.platforms.findIndex(searchPlatform => searchPlatform.platform === platformSettings_1.PLATFORM_NAME);
-        this.log.error('Platform Index:', this.platformIndex);
         this.cachedPlatformData = JSON.parse(this.cachedPlatformFile);
         for (const accessory of this.cachedPlatformData.accessories) {
-            this.log.info('Loading Accessory: ' + accessory.name + ' with UUID ' + accessory.uuid);
             if (accessory.uuid === 'N/A') {
                 accessory.uuid = this.api.hap.uuid.generate(accessory.name + Math.random);
-                this.log.info('Accessory: ' + accessory.name + ' UUID = ' + accessory.uuid);
             }
+            this.log.debug('Loading Accessory: ' + accessory.name + ' with UUID ' + accessory.uuid);
         }
         this.cachedConfigurationData.platforms[this.platformIndex] = this.cachedPlatformData;
         fs_1.default.writeFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(this.cachedConfigurationData));
@@ -51,7 +48,6 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
         return false;
     }
     async refresh() {
-        this.log.error('----------Refresh----------');
         this.cachedConfigurationTimeStamp = fs_1.default.statSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
         this.cachedConfigurationFile = fs_1.default.readFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
         this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);
@@ -63,11 +59,10 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
         }
         this.cachedPlatformData = JSON.parse(this.cachedPlatformFile);
         for (const accessory of this.cachedPlatformData.accessories) {
-            this.log.info('Loading Accessory: ' + accessory.name + ' with UUID ' + accessory.uuid);
             if (accessory.uuid === 'N/A') {
                 accessory.uuid = this.api.hap.uuid.generate(accessory.name + Math.random);
-                this.log.info('Accessory: ' + accessory.name + ' UUID = ' + accessory.uuid);
             }
+            this.log.debug('Loading Accessory: ' + accessory.name + ' with UUID ' + accessory.uuid);
         }
         this.cachedConfigurationData.platforms[this.platformIndex] = this.cachedPlatformData;
         fs_1.default.writeFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(this.cachedConfigurationData));
