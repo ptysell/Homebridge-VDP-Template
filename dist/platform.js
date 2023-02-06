@@ -28,8 +28,11 @@ class platform {
         // const deviceList: PlatformAccessory[] = await this.platformDiscoverer.scan(2000);
         // this.pruneAccessories(deviceList);
         if (await this.platformDiscoverer.status()) {
-            this.log.warn('[platform]<discoverDevices>(platformDiscoverer Returned False) | Refresh');
+            this.log.warn('[platform]<discoverDevices>(platformDiscoverer Returned True) | Refresh');
             await this.platformDiscoverer.refresh();
+        }
+        else {
+            this.log.warn('[platform]<discoverDevices>(platformDiscoverer Returned False) | No Action');
         }
         // const discoverDevices = this.platformManager.getAccessories;
         // for (const accessory of discoverDevices) {

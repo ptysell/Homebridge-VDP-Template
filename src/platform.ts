@@ -45,8 +45,10 @@ export class platform implements DynamicPlatformPlugin {
 
 
     if(await this.platformDiscoverer.status()){
-      this.log.warn('[platform]<discoverDevices>(platformDiscoverer Returned False) | Refresh');
+      this.log.warn('[platform]<discoverDevices>(platformDiscoverer Returned True) | Refresh');
       await this.platformDiscoverer.refresh();
+    } else {
+      this.log.warn('[platform]<discoverDevices>(platformDiscoverer Returned False) | No Action');
     }
 
 

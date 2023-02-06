@@ -95,6 +95,8 @@ export class homebridgeConnector extends platformConnector {
       }
     }
 
+    this.log.info('cachedPlatformData JSON: ', JSON.stringify(this.cachedPlatformData));
+
     fs.writeFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(this.cachedConfigurationData));
     this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
     this.cachedConfigurationFile = fs.readFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
