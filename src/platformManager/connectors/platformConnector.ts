@@ -16,7 +16,7 @@ export abstract class platformConnector {
   ) {
   }
 
-  protected abstract initialize(): Promise<void>;
+  //protected abstract initialize(): Promise<void>;
   public abstract status(): Promise<boolean | void>;
   public abstract refresh(): Promise<void>;
   public abstract get(): Promise<IPlatformAccessory[]>;

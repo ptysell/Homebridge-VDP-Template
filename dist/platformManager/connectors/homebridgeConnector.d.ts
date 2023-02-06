@@ -11,6 +11,7 @@ export declare class homebridgeConnector extends platformConnector {
     private cachedConfigurationFile;
     private cachedConfigurationData;
     private cachedPlatformIndex;
+    private cachedPlatformFile;
     private cachedPlatformData;
     constructor(log: Logger, config: PlatformConfig, api: API);
     protected initialize(): Promise<void>;

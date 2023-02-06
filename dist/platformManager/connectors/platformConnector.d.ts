@@ -8,7 +8,6 @@ export declare abstract class platformConnector {
     abstract name: string;
     protected abstract deviceList: IPlatformAccessory[];
     constructor(log: Logger, config: PlatformConfig, api: API, resourcePath: string);
-    protected abstract initialize(): Promise<void>;
     abstract status(): Promise<boolean | void>;
     abstract refresh(): Promise<void>;
     abstract get(): Promise<IPlatformAccessory[]>;

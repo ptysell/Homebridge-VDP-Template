@@ -18,22 +18,28 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
         this.cachedConfigurationTimeStamp = 0;
         this.cachedConfigurationFile = '';
         this.cachedPlatformIndex = -1;
+        this.cachedPlatformFile = '';
         this.cachedConfigurationTimeStamp = fs_1.default.statSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
         this.cachedConfigurationFile = fs_1.default.readFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
         this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);
         this.log.info('Finding Platform.....');
-        for (let index = 0; index < this.cachedConfigurationData.platforms.length; index++) {
-            if (this.cachedConfigurationData.platforms[index].platform === platformSettings_1.PLATFORM_NAME) {
-                this.cachedPlatformIndex = index;
+        for (const platform of this.cachedConfigurationData.platforms) {
+            if (platform.name === platformSettings_1.PLATFORM_NAME) {
+                this.log.info('Platform Found: ' + platform.name);
+                this.cachedPlatformFile = JSON.stringify(platform);
+                break;
             }
         }
-        if (this.cachedPlatformIndex === -1) {
-            throw new Error('[homebridgeConnector]<constructor> PLATFORM_NAME does not exist in config.json');
-        }
-        this.log.info('Platform Found');
-        this.log.info('Loading Platform.....');
-        this.cachedPlatformData = JSON.parse(JSON.stringify(this.cachedConfigurationData.platforms[this.cachedPlatformIndex]));
-        this.log.info('Loading Accessories.....');
+        this.cachedPlatformData = JSON.parse(this.cachedPlatformFile);
+        // for (let index = 0; index < this.cachedConfigurationData.platforms.length; index++) {
+        //   if (this.cachedConfigurationData.platforms[index].platform === PLATFORM_NAME) {
+        //     this.cachedPlatformIndex = index;
+        //   }
+        // }
+        // if (this.cachedPlatformIndex === -1){
+        //   throw new Error('[homebridgeConnector]<constructor> PLATFORM_NAME does not exist in config.json');
+        // }
+        // this.cachedPlatformData = JSON.parse(JSON.stringify(this.cachedConfigurationData.platforms[this.cachedPlatformIndex]));
         for (const accessory of this.cachedPlatformData.accessories) {
             this.log.info('Loading Accessory: ' + accessory.name + ' with UUID ' + accessory.uuid);
             if (accessory.uuid === 'N/A') {
@@ -42,6 +48,11 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
             }
         }
         this.log.info('Updating Config.....');
+        for (let platform of this.cachedConfigurationData.platforms) {
+            if (platform.name === platformSettings_1.PLATFORM_NAME) {
+                platform = this.cachedPlatformData;
+            }
+        }
         this.cachedConfigurationData.platforms[this.cachedPlatformIndex] = this.cachedPlatformData;
         fs_1.default.writeFileSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(this.cachedConfigurationData));
         this.cachedConfigurationTimeStamp = fs_1.default.statSync(platformSettings_1.HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
