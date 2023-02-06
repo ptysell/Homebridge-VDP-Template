@@ -1,5 +1,6 @@
 import { API, Logger, PlatformConfig, PlatformAccessory } from 'homebridge';
 
+
 export abstract class platformConnector {
 
   public abstract name: string;

@@ -37,7 +37,19 @@ export interface platformConfiguration {
 
 }
 
+export declare type PluginConfig = Record<string, any>;
 
+export interface PluginSchema extends Record<string, unknown> {
+    pluginAlias: string;
+    pluginType: string;
+    singular?: boolean;
+    customUi?: boolean;
+    headerDisplay?: string;
+    footerDisplay?: string;
+    schema?: Record<string, any>;
+    layout?: Record<string, any>[];
+    form?: Record<string, any>[];
+  }
 
 
 

@@ -1,6 +1,6 @@
 import { API, Logger, PlatformConfig, PlatformAccessory } from 'homebridge';
 import { HOMEBRIDGE_CONFIGURATION_FILE_PATH, PLATFORM_NAME} from '../../platformSettings';
-import { homebridgeConfiguration, platformConfiguration } from '../../platformInterfaces/platformInterfaces';
+import { homebridgeConfiguration, platformConfiguration, PluginConfig, PluginSchema } from '../../platformInterfaces/platformInterfaces';
 
 import fs from 'fs';
 import { platformConnector } from './platformConnector';
@@ -17,6 +17,11 @@ export class homebridgeConnector extends platformConnector {
 
   private cachedPlatformIndex = -1;
 
+  public mockPluginSchema: PluginSchema = {
+    pluginAlias: 'VDP Template',
+    pluginType: 'platform',
+  };
+
   constructor(
     public readonly log: Logger,
     public readonly config: PlatformConfig,
@@ -28,8 +33,11 @@ export class homebridgeConnector extends platformConnector {
     this.cachedConfigurationFile = fs.readFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
     this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);
 
+    this.log.error('Homebridge Config Path', process.env.HOMEBRIDGE_CONFIG_PATH);
+    const testVar: PluginConfig = JSON.parse(this.cachedConfigurationFile);
+    this.log.warn('Test Var:', testVar);
+
     for (let index = 0; index < this.cachedConfigurationData.platforms.length; index++) {
-      this.log.warn('Platform Name:', this.cachedConfigurationData.platforms[index].name);
       if (this.cachedConfigurationData.platforms[index].platform === PLATFORM_NAME) {
         this.cachedPlatformIndex = index;
       }
@@ -47,7 +55,6 @@ export class homebridgeConnector extends platformConnector {
     }
 
     fs.writeFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(this.cachedConfigurationData));
-    this.log.warn('JSON:', JSON.stringify(this.cachedConfigurationData));
     this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
     this.cachedConfigurationFile = fs.readFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
     this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);
@@ -93,7 +100,6 @@ export class homebridgeConnector extends platformConnector {
     this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);
 
     for (let index = 0; index < this.cachedConfigurationData.platforms.length; index++) {
-      this.log.warn('Platform Name:', this.cachedConfigurationData.platforms[index].name);
       if (this.cachedConfigurationData.platforms[index].platform === PLATFORM_NAME) {
         this.cachedPlatformIndex = index;
       }
@@ -111,7 +117,6 @@ export class homebridgeConnector extends platformConnector {
     }
 
     fs.writeFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(this.cachedConfigurationData));
-    this.log.warn('JSON:', JSON.stringify(this.cachedConfigurationData));
     this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
     this.cachedConfigurationFile = fs.readFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
     this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);
