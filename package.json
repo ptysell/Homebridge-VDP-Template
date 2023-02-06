@@ -27,7 +27,6 @@
     "homebridge-plugin"
   ],
   "dependencies": {
-    "@homebridge/plugin-ui-utils": "github:homebridge/plugin-ui-utils",
     "@json-editor/json-editor": "^2.9.0-beta.1",
     "node": "^19.6.0"
   },

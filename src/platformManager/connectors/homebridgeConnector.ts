@@ -1,26 +1,23 @@
 import { API, Logger, PlatformConfig, PlatformAccessory } from 'homebridge';
 import { HOMEBRIDGE_CONFIGURATION_FILE_PATH, PLATFORM_NAME} from '../../platformSettings';
-import { homebridgeConfiguration, platformConfiguration, PluginConfig, PluginSchema } from '../../platformInterfaces/platformInterfaces';
+import { homebridgeConfiguration, platform, platformAccessory } from '../../platformInterfaces/platformInterfaces';
 
 import fs from 'fs';
 import { platformConnector } from './platformConnector';
 //import { platformAccessory } from '../../platformAccessory';
 
 export class homebridgeConnector extends platformConnector {
+  protected deviceList: platformAccessory[] = [];
 
   public name = 'homebridgeConnector';
-  protected deviceList: PlatformAccessory[] = [];
+  protected devplatformAccessories: platformAccessory[] = [];
 
   private cachedConfigurationTimeStamp = 0;
   private cachedConfigurationFile = '';
   private cachedConfigurationData: homebridgeConfiguration;
-
   private cachedPlatformIndex = -1;
 
-  public mockPluginSchema: PluginSchema = {
-    pluginAlias: 'VDP Template',
-    pluginType: 'platform',
-  };
+  //private cachedPlatformData: platform;
 
   constructor(
     public readonly log: Logger,
@@ -33,10 +30,7 @@ export class homebridgeConnector extends platformConnector {
     this.cachedConfigurationFile = fs.readFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, 'utf-8');
     this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);
 
-    this.log.error('Homebridge Config Path', process.env.HOMEBRIDGE_CONFIG_PATH);
-    const testVar: PluginConfig = JSON.parse(this.cachedConfigurationFile);
-    this.log.warn('Test Var:', testVar);
-
+    this.log.info('Finding Platform.....');
     for (let index = 0; index < this.cachedConfigurationData.platforms.length; index++) {
       if (this.cachedConfigurationData.platforms[index].platform === PLATFORM_NAME) {
         this.cachedPlatformIndex = index;
@@ -47,12 +41,25 @@ export class homebridgeConnector extends platformConnector {
       throw new Error('[homebridgeConnector]<constructor> PLATFORM_NAME does not exist in config.json');
     }
 
-    for (let index = 0; index < this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories.length; index++){
-      if (this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].uuid === 'N/A') {
-        this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].uuid =
-        this.api.hap.uuid.generate(this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].name + Math.random);
-      }
-    }
+    this.log.info('Platform Found');
+    this.log.info('Loading Platform.....');
+    this.log.info('JSON Platform.....', JSON.stringify(this.cachedConfigurationData.platforms[this.cachedPlatformIndex]));
+
+
+
+
+
+
+
+
+    // for (let index = 0; index < this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories.length; index++){
+    //   if (this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].uuid === 'N/A') {
+    //     this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].uuid =
+    //     this.api.hap.uuid.generate(this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].name + Math.random);
+    //   }
+    //   // const platformAccessory:platformAccessory = {displayName: acce};
+
+    // }
 
     fs.writeFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(this.cachedConfigurationData));
     this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
@@ -109,12 +116,12 @@ export class homebridgeConnector extends platformConnector {
       throw new Error('[homebridgeConnector]<constructor> PLATFORM_NAME does not exist in config.json');
     }
 
-    for (let index = 0; index < this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories.length; index++){
-      if (this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].uuid === 'N/A') {
-        this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].uuid =
-        this.api.hap.uuid.generate(this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].name + Math.random);
-      }
-    }
+    // for (let index = 0; index < this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories.length; index++){
+    //   if (this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].uuid === 'N/A') {
+    //     this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].uuid =
+    //     this.api.hap.uuid.generate(this.cachedConfigurationData.platforms[this.cachedPlatformIndex].accessories[index].name + Math.random);
+    //   }
+    // }
 
     fs.writeFileSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH, JSON.stringify(this.cachedConfigurationData));
     this.cachedConfigurationTimeStamp = fs.statSync(HOMEBRIDGE_CONFIGURATION_FILE_PATH).ctimeMs;
@@ -122,7 +129,7 @@ export class homebridgeConnector extends platformConnector {
     this.cachedConfigurationData = JSON.parse(this.cachedConfigurationFile);
   }
 
-  public async get(): Promise<PlatformAccessory[]> {
+  public async get(): Promise<platformAccessory[]> {
     this.log.error('[homebridgeConnector]<get> Method not implemented.');
     return this.deviceList;
   }

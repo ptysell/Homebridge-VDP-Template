@@ -1,10 +1,11 @@
 import { API, Logger, PlatformConfig, PlatformAccessory } from 'homebridge';
+import { homebridgeConfiguration, platformAccessory } from '../../platformInterfaces/platformInterfaces';
 
 
 export abstract class platformConnector {
 
   public abstract name: string;
-  protected abstract deviceList: PlatformAccessory[];
+  protected abstract deviceList: platformAccessory[];
   //public abstract resourcePath: string;
 
   constructor(
@@ -18,7 +19,7 @@ export abstract class platformConnector {
   protected abstract initialize(): Promise<void>;
   public abstract status(): Promise<boolean | void>;
   public abstract refresh(): Promise<void>;
-  public abstract get(): Promise<PlatformAccessory[]>;
+  public abstract get(): Promise<platformAccessory[]>;
   public abstract update(): Promise<boolean | void>;
 
 }

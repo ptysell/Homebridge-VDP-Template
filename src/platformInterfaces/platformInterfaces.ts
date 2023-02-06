@@ -1,62 +1,51 @@
 export interface homebridgeConfiguration {
-    bridge: {
-        name: string;
-        username: string;
-        port: string;
-        pin: string;
-        advertiser: string;
-        bind: string[];
-    };
-    accessories: {
-        name: string;
-    }[];
-    platforms: {
-        name: string;
-        platform: string;
-        accessories: {
-            name: string;
-            uuid: string;
-            category: string | void;
-            service: string | void;
-        }[];
-    }[];
-    disabledPlugins: {
-        name: string;
-    };
+    bridge: hombridgeBridge;
+    accessories: hombridgeAccessory [];
+    platforms: hombridgePlatform[];
+    disabledPlugins: string [];
 }
 
-export interface platformConfiguration {
+export interface hombridgeBridge {
+    name: string;
+    username: string;
+    port: string;
+    pin: string;
+    advertiser: string;
+    bind: string[];
+}
+
+export interface hombridgeAccessory {
+    name: string;
+    accessory: string;
+}
+
+export interface hombridgePlatform {
     name: string;
     platform: string;
-    accessories?: {
-        name: string;
-        uuid: string;
-        category: string | void;
-        service: string | void;
-    }[];
-
 }
 
-export declare type PluginConfig = Record<string, any>;
 
-export interface PluginSchema extends Record<string, unknown> {
-    pluginAlias: string;
-    pluginType: string;
-    singular?: boolean;
-    customUi?: boolean;
-    headerDisplay?: string;
-    footerDisplay?: string;
-    schema?: Record<string, any>;
-    layout?: Record<string, any>[];
-    form?: Record<string, any>[];
-  }
 
+
+
+export interface platform extends hombridgePlatform {
+    name: string;
+    platform: string;
+    accessories: platformAccessory [];
+}
 
 
 
 export interface platformAccessory {
     UUID: string;
     displayName: string;
+    accessories: {
+        name: string;
+        uuid: string;
+        category: string | void;
+        service: string | void;
+        services: string[] | void;
+    }[];
 }
 
 export interface lightbulbAccessory extends platformAccessory {
