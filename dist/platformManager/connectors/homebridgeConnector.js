@@ -25,7 +25,7 @@ class homebridgeConnector extends platformConnector_1.platformConnector {
         for (const platform of this.cachedConfigurationData.platforms) {
             this.log.info('Finding Platform.....');
             this.log.info('Platform:', platform.name);
-            if (platform.name === platformSettings_1.PLATFORM_NAME) {
+            if (platform.platform === platformSettings_1.PLATFORM_NAME) {
                 this.log.info('Platform Found: ' + platform.name);
                 this.cachedPlatformFile = JSON.stringify(platform);
             }
