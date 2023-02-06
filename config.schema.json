@@ -33,7 +33,7 @@
                     "type": "string",
                     "default": "Outlet",
                     "oneOf": [
-                      { "title": "Other", "enum": "1", "id": "1" },
+                      { "title": "Other", "enum": "1"},
                       { "title": "Bridge", "enum": "2" },
                       { "title": "Fan", "enum": "3" },
                       { "title": "Garage Door Opener", "enum": "4" },
